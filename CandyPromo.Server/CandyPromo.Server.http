@@ -1,0 +1,6 @@
+@CandyPromo.Server_HostAddress = http://localhost:5105
+
+GET {{CandyPromo.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
