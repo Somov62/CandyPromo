@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace CandyPromo.Data.Contexts;
 
-namespace CandyPromo.Data.Contexts;
-
-public class CandyPromoContext : DbContext
+public class CandyPromoContext(DbContextOptions<CandyPromoContext> options) : DbContext(options)
 {
 }

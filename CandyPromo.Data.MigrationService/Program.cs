@@ -4,9 +4,9 @@ builder.AddServiceDefaults();
 builder.Services.AddHostedService<Worker>();
 
 builder.Services.AddOpenTelemetry()
-    .WithTracing(tracing => tracing.AddSource("Data.MigrrationService"));
+    .WithTracing(tracing => tracing.AddSource(Worker.ActivitySourceName));
 
-builder.AddNpgsqlDbContext<CandyPromoContext>("sqldata");
+builder.AddNpgsqlDbContext<CandyPromoContext>("postgres-data");
 
 var host = builder.Build();
 host.Run();

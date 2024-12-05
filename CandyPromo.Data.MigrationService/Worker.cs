@@ -1,24 +1,43 @@
-namespace CandyPromo.Data.MigrationService
+namespace CandyPromo.Data.MigrationService;
+
+public class Worker(IServiceProvider serviceProvider,
+    IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
 {
-    public class Worker : BackgroundService
+    public const string ActivitySourceName = "data-migration-service";
+    private static readonly ActivitySource s_activitySource = new(ActivitySourceName);
+
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        private readonly ILogger<Worker> _logger;
+        using var activity = s_activitySource.StartActivity("Migrating database", ActivityKind.Client);
 
-        public Worker(ILogger<Worker> logger)
+        try
         {
-            _logger = logger;
+            using var scope = serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<CandyPromoContext>();
+
+            await dbContext.Database.EnsureCreatedAsync(cancellationToken);
+            await dbContext.Database.MigrateAsync(cancellationToken);
+            await SeedDataAsync(dbContext, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            activity?.AddException(ex);
+            throw;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                if (_logger.IsEnabled(LogLevel.Information))
-                {
-                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                }
-                await Task.Delay(1000, stoppingToken);
-            }
-        }
+        hostApplicationLifetime.StopApplication();
+    }
+
+    private static async Task SeedDataAsync(CandyPromoContext dbContext, CancellationToken cancellationToken)
+    {
+        //var strategy = dbContext.Database.CreateExecutionStrategy();
+        //await strategy.ExecuteAsync(async () =>
+        //{
+        //    // Seed the database
+        //    await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+        //    await dbContext.Tickets.AddAsync(firstTicket, cancellationToken);
+        //    await dbContext.SaveChangesAsync(cancellationToken);
+        //    await transaction.CommitAsync(cancellationToken);
+        //});
     }
 }
