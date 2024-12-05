@@ -8,4 +8,6 @@ public class User
     public required string Phone { get; set; }
     public required string Password { get; set; }
     public bool IsAdmin { get; set; }
+
+    public List<Promocode>? Promocodes { get; set; }
 }
