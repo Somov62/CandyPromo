@@ -49,7 +49,7 @@ public static class PromocodeGenerator
 
                 var promocode = new Promocode() 
                 { 
-                    Code = builder.ToString() 
+                    Code = builder.ToString()
                 };
 
                 promocodes.Add(promocode);
