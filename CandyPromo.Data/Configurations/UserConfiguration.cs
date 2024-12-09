@@ -1,7 +1,14 @@
 ﻿namespace CandyPromo.Data.Configurations;
 
+/// <summary>
+/// Конфигурация сущности "Пользователь".
+/// </summary>
 internal class UserConfiguration : IEntityTypeConfiguration<User>
 {
+    /// <summary>
+    /// Конфигурирование сущности "Пользователь".
+    /// </summary>
+    /// <param name="builder"></param>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.HasKey(x => x.Id);

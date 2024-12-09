@@ -1,7 +1,14 @@
 ﻿namespace CandyPromo.Data.Configurations;
 
+/// <summary>
+/// Конфигурация сущности "Промокод".
+/// </summary>
 internal class PromocodeConfiguration : IEntityTypeConfiguration<Promocode>
 {
+    /// <summary>
+    /// Конфигурирование сущности "Промокод".
+    /// </summary>
+    /// <param name="builder"></param>
     public void Configure(EntityTypeBuilder<Promocode> builder)
     {
         builder.HasKey(x => x.Code);
