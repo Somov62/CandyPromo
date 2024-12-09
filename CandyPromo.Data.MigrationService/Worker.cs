@@ -1,5 +1,3 @@
-using CandyPromo.Data.MigrationService.SeedData;
-
 namespace CandyPromo.Data.MigrationService;
 
 public class Worker(IServiceProvider serviceProvider,
@@ -17,7 +15,6 @@ public class Worker(IServiceProvider serviceProvider,
             using var scope = serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<CandyPromoContext>();
 
-            await dbContext.Database.EnsureCreatedAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
             await SeedDataAsync(dbContext, cancellationToken);
         }

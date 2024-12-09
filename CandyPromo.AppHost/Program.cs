@@ -4,11 +4,12 @@ var postgresData = builder.AddPostgres("postgres")
                           .WithPgAdmin()
                           .AddDatabase("postgres-data");
 
-builder.AddProject<Projects.CandyPromo_Data_MigrationService>("data-migration-service")
+var migrationService = builder.AddProject<Projects.CandyPromo_Data_MigrationService>("data-migration-service")
+        .WaitFor(postgresData)
        .WithReference(postgresData);
 
 var api = builder.AddProject<Projects.CandyPromo_Server>("candypromo-server")
-                 .WaitFor(postgresData);
+                 .WaitFor(migrationService);
 
 builder.AddNpmApp("react", "../candypromo.client")
        .WithReference(api)

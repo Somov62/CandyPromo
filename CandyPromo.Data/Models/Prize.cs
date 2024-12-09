@@ -7,6 +7,8 @@ public class Prize
     public string? ImageName { get; set; }
     public string? Descripton { get; set; }
     public PrizeDeliveryStatus Status { get; set; } = PrizeDeliveryStatus.PromotionNotEnded;
+
+    public string? PromocodeId { get; set; }
     public Promocode? Promocode { get; set; }
 }
 

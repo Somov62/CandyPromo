@@ -3,7 +3,10 @@
 public class Promocode
 {
     public required string Code { get; set; }
+
+    public Guid? OwnerId { get; set; }
     public User? Owner { get; set; }
-    public Guid PrizeId { get; set; }
+
+    public Guid? PrizeId { get; set; }
     public Prize? Prize { get; set; }
 }
