@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CandyPromo.Data.MigrationService\CandyPromo.Data.MigrationService.csproj" />
-    <ProjectReference Include="..\CandyPromo.Server\CandyPromo.Server.csproj" />
   </ItemGroup>
 
 </Project>
