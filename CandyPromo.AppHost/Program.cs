@@ -1,7 +1,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 var postgresData = builder.AddPostgres("postgres")
-                          .WithPgWeb()
+                          .WithPgAdmin()
                           .AddDatabase("postgres-data");
 
 builder.AddProject<Projects.CandyPromo_Data_MigrationService>("data-migration-service")
