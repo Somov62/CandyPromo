@@ -1,3 +1,5 @@
+using CandyPromo.Data.MigrationService.SeedData;
+
 namespace CandyPromo.Data.MigrationService;
 
 public class Worker(IServiceProvider serviceProvider,
@@ -30,14 +32,16 @@ public class Worker(IServiceProvider serviceProvider,
 
     private static async Task SeedDataAsync(CandyPromoContext dbContext, CancellationToken cancellationToken)
     {
-        //var strategy = dbContext.Database.CreateExecutionStrategy();
-        //await strategy.ExecuteAsync(async () =>
-        //{
-        //    // Seed the database
-        //    await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
-        //    await dbContext.Tickets.AddAsync(firstTicket, cancellationToken);
-        //    await dbContext.SaveChangesAsync(cancellationToken);
-        //    await transaction.CommitAsync(cancellationToken);
-        //});
+        var strategy = dbContext.Database.CreateExecutionStrategy();
+        await strategy.ExecuteAsync(async () =>
+        {
+            if (!dbContext.Promocodes.Any())
+            {
+                var promocodes = PromocodeGenerator.Generate(200);
+                await dbContext.Promocodes.AddRangeAsync(promocodes, cancellationToken);
+            }
+
+            await dbContext.SaveChangesAsync(cancellationToken);
+        });
     }
 }

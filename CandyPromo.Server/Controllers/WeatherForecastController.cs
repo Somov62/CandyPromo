@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandyPromo.Server.Controllers;
-
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
