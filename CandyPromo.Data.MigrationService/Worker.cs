@@ -3,8 +3,6 @@ namespace CandyPromo.Data.MigrationService;
 /// <summary>
 /// —ервис миграции базы данных.
 /// </summary>
-/// <param name="serviceProvider"></param>
-/// <param name="hostApplicationLifetime"></param>
 public class Worker(IServiceProvider serviceProvider,
     IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
 {
@@ -14,8 +12,6 @@ public class Worker(IServiceProvider serviceProvider,
     /// <summary>
     /// ¬ыполн€ет миграцию базы данных и заполн€ет ее тестовыми данными.
     /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         // —оздание активности дл€ трассировки.
@@ -45,9 +41,6 @@ public class Worker(IServiceProvider serviceProvider,
     /// <summary>
     /// «аполн€ет базу данных тестовыми данными.
     /// </summary>
-    /// <param name="dbContext"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     private static async Task SeedDataAsync(CandyPromoContext dbContext, CancellationToken cancellationToken)
     {
         // —оздание стратегии повторени€ выполнени€.

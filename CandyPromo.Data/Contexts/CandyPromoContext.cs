@@ -3,7 +3,6 @@
 /// <summary>
 /// Контекст базы данных.
 /// </summary>
-/// <param name="options"></param>
 public class CandyPromoContext(DbContextOptions<CandyPromoContext> options) : DbContext(options)
 {
     #region Configuration
@@ -11,7 +10,6 @@ public class CandyPromoContext(DbContextOptions<CandyPromoContext> options) : Db
     /// <summary>
     /// Применение конфигураций к моделям.
     /// </summary>
-    /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());

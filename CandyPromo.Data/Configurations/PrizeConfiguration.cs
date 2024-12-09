@@ -8,7 +8,6 @@ internal class PrizeConfiguration : IEntityTypeConfiguration<Prize>
     /// <summary>
     /// Конфигурирование сущности "Приз".
     /// </summary>
-    /// <param name="builder"></param>
     public void Configure(EntityTypeBuilder<Prize> builder)
     {
         builder.HasKey(x => x.Id);
