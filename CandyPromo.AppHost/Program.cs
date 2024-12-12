@@ -12,6 +12,7 @@ var migrationService = builder.AddProject<Projects.CandyPromo_Data_MigrationServ
 
 // Поднимаем Api
 var api = builder.AddProject<Projects.CandyPromo_Server>("candypromo-server")
+                 .WithReference(postgresData)
                  .WaitFor(migrationService);
 
 // Поднимаем web клиента
