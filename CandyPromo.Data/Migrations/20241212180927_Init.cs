@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CandyPromo.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,8 +51,8 @@ namespace CandyPromo.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    ImageName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    Descripton = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    ImageUrl = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     PromocodeId = table.Column<string>(type: "text", nullable: true)
                 },

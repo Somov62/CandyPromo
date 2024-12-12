@@ -28,11 +28,11 @@ namespace CandyPromo.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Descripton")
+                    b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("ImageUrl")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
