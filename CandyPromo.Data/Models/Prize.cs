@@ -18,12 +18,12 @@ public class Prize
     /// <summary>
     /// Путь к изображению приза.
     /// </summary>
-    public string? ImageName { get; set; }
+    public string? ImageUrl { get; set; }
 
     /// <summary>
     /// Описание приза.
     /// </summary>
-    public string? Descripton { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Статус приза.
