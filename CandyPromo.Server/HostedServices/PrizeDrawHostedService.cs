@@ -14,9 +14,9 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
         logger.LogInformation("Service is starting. Wait Time.");
 
         // Дата розыгрыша призов.
-        var datePrizeDraw = new DateTime(2024, 12, 31, 23, 59, 0);
+        var datePrizeDraw = new DateTime(2024, 12, 16, 21, 59, 0);
 
-        //// Ожидание времени розыгрыша.
+        // Ожидание времени розыгрыша.
         await Task.Delay(datePrizeDraw - DateTime.Now, stoppingToken);
 
         // Получение CandyPromoContext
@@ -24,7 +24,8 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
         var context = scope.ServiceProvider.GetRequiredService<CandyPromoContext>();
 
         // Получение всех зарегистрированных промокодов.
-        var registeredPromoCodes = await context.Promocodes.Where(p => p.OwnerId != null)
+        var registeredPromoCodes = await context.Promocodes.AsNoTracking()
+                                                           .Where(p => p.OwnerId != null)
                                                            .Include(u => u.Owner)
                                                            .ToListAsync(stoppingToken);
 
@@ -35,30 +36,46 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
         }
 
         // Получение всех призов.
-        var prizes = await context.Prizes.ToListAsync(stoppingToken);
+        var prizes = await context.Prizes.AsNoTracking()
+                                         .ToListAsync(stoppingToken);
 
         Random random = new();
 
+        // Список выигрышных призов.
+        List<Prize> prizesWin = [];
+
+        // Список выигрышных промокодов.
+        List<Promocode> promocodesWin = [];
+
         foreach (var prize in prizes)
         {
-            // Получение промокода для приза.
-            var promoCodesWithoutPrize = registeredPromoCodes.AsEnumerable()
-                                                             .Where(x => x.PrizeId == null);
-            if (!promoCodesWithoutPrize.Any())
+            if (registeredPromoCodes.Count == 0)
                 break;
-            var promoCodesWithoutPrizeCount = promoCodesWithoutPrize.Count();
-            Promocode? promo = null;
-            if (promoCodesWithoutPrizeCount > 1)
-                promo = promoCodesWithoutPrize.ElementAt(random.Next(1, promoCodesWithoutPrizeCount));
-            else
-                promo = promoCodesWithoutPrize.First();
-            promo.PrizeId = prize.Id;
+
+            // Получение промокода для приза.
+            var promo = registeredPromoCodes[random.Next(0, registeredPromoCodes.Count)];
+
+            logger.LogInformation($"{promo.Owner!.Name} winnner {prize.Name}");
+
+            // Устанвка свойст приза.
             prize.Status = PrizeDeliveryStatus.WinnerFinding;
             prize.PromocodeId = promo.Code;
-            logger.LogInformation($"{promo.Owner!.Name} winnner {prize.Name}");
+            prizesWin.Add(prize);
+
+            // Установка свойств промокода.
+            promo.PrizeId = prize.Id;
+            promo.Owner = null;
+            promocodesWin.Add(promo);
+
+            // Удаление выигрышного промокода из списка зарегистрированных.
+            registeredPromoCodes.Remove(promo);
         }
 
+        // Сохранение изменений.
+        context.UpdateRange(prizesWin);
+        context.UpdateRange(promocodesWin);
         await context.SaveChangesAsync(stoppingToken);
+
         await StopAsync(stoppingToken);
     }
 
