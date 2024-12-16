@@ -2,6 +2,10 @@
 
 namespace CandyPromo.Server.ServiceCollectionExtensions;
 
+/// <summary>
+/// Расширения для <see cref="IServiceCollection"/>
+/// чтобы добавить в проект swagger с авторизацией.
+/// </summary>
 public static class Swagger
 {
     public static IServiceCollection AddSwagger(this IServiceCollection services)

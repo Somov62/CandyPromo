@@ -13,6 +13,7 @@ public class JwtTokenGenerator(IOptions<JwtOptions> options)
 {
     public string Generate(Guid userId, bool isAdmin)
     {
+        // Информация, содержащаяся в токене.
         Claim[] claims =
         [
             new ("userId", userId.ToString()),

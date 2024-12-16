@@ -8,7 +8,8 @@ namespace CandyPromo.Server.Requests;
 /// </summary>
 public class LoginRequest : IRequest
 {
-    public string Email { get; set; } = string.Empty;
+    public string? Email { get; set; } = string.Empty;
+    public string? Phone { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 
     /// <summary>
@@ -16,12 +17,14 @@ public class LoginRequest : IRequest
     /// </summary>
     public void Validate(ValidationSession session)
     {
-        List<ValidationError> errors = [];
+        Email = session.ValidateString(Email, maxLength: 50, isRequired: false);
+        Password = session.ValidateString(Password, maxLength: 50, isRequired: false);
 
-        Email = session.ValidateString(Email, maxLength: 50);
+        if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Phone))
+            session.Error(nameof(Email) + nameof(Phone), "Укажите почту или телефон");
 
-        if (!new EmailAddressAttribute().IsValid(Email))
-            errors.Add(new(nameof(Email), "Некорректный формат"));
+        if (!string.IsNullOrEmpty(Email) && !new EmailAddressAttribute().IsValid(Email))
+            session.Error(nameof(Email), "Некорректный формат");
 
         Password = session.ValidateString(Password, maxLength: 50);
     }
@@ -33,8 +36,8 @@ public class LoginRequest : IRequest
 public class RegisterUserRequest : IRequest
 {
     public string Name { get; set; } = string.Empty;
-    public string Phone { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
+    public string? Phone { get; set; } = string.Empty;
+    public string? Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 
     /// <summary>

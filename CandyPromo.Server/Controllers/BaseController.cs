@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace CandyPromo.Server.Controllers;
 
+/// <summary>
+/// Базовая реализация контроллера, 
+/// все контроллеры должны наследоваться от этого.
+/// </summary>
 [Authorize]
 [ApiController]
 [Route("[controller]")]

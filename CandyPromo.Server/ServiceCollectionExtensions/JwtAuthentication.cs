@@ -7,7 +7,7 @@ using System.Text;
 namespace CandyPromo.Server.ServiceCollectionExtensions;
 
 /// <summary>
-/// Расширения для <see cref="IServiceCollection"/>
+/// Расширение для <see cref="IServiceCollection"/>
 /// чтобы добавить в проект Jwt аутентификацию одним методом.
 /// </summary>
 public static class JwtAuthentication

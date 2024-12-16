@@ -45,3 +45,8 @@ public sealed class Envelope
     /// </summary>
     public static Envelope Error(IEnumerable<ValidationError> errors) => new(null, errors);
 }
+
+/// <summary>
+/// Класс конверт, в котором сервер кидает пятисотую ошибку.
+/// </summary>
+internal record EnvelopeInternalError(string Error, DateTime TimeGenerated);

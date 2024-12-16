@@ -18,5 +18,8 @@ public class ValidationException : Exception
         Errors = errors;
     }
 
+    /// <summary>
+    /// Ошибки.
+    /// </summary>
     public IEnumerable<ValidationError> Errors { get; }
 }

@@ -1,9 +1,9 @@
-﻿using CandyPromo.Data.Contexts;
-using CandyPromo.Data.Models;
+﻿using CandyPromo.Data.Models;
 using CandyPromo.Server.Auth;
 using CandyPromo.Server.Helpers;
 using CandyPromo.Server.Requests;
 using CandyPromo.Server.Requests.Validation;
+using Microsoft.EntityFrameworkCore;
 
 namespace CandyPromo.Server.Services;
 
@@ -18,14 +18,29 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
     /// </summary>
     public async Task<string> Login(LoginRequest request, CancellationToken cancel)
     {
-        var user = await database.Users.SingleOrDefaultAsync(
-            u => u.Email == email || u.Phone = request.Phone, cancel) ??
-            throw new ArgumentException("Пользователь не найден.");
+        User? user = null;
+        if (!string.IsNullOrEmpty(request.Email))
+        {
+            user = await database.Users.SingleOrDefaultAsync(u =>
+            u.Email != null &&
+            u.Email == request.Email.ToLower(), 
+            cancel);
+        }
 
-        if (!PasswordHasher.Verify(request.Password, user.HashedPassword))
+        if (user == null && !string.IsNullOrEmpty(request.Phone))
+        {
+            user = await database.Users.SingleOrDefaultAsync(u => u.Phone == request.Phone, cancel);
+            if (user == null)
+                throw new ValidationException(new ValidationError(nameof(LoginRequest.Password), "Пользователь не найден."));
+        }
+
+        if (user == null)
+            throw new ValidationException(new ValidationError(nameof(LoginRequest.Email), "Пользователь не найден."));
+
+        if (!PasswordHasher.Verify(request.Password, user.Password))
             throw new ValidationException(new ValidationError(nameof(LoginRequest.Password), "Неправильный пароль."));
 
-        return tokenGenerator.Generate(user.Id, user.Role);
+        return tokenGenerator.Generate(user.Id, user.IsAdmin);
     }
 
     /// <summary>
@@ -38,8 +53,8 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         var user = new User()
         {
             Name = request.Name,
-            Email = request.Email.ToLower(),
-            Phone = request.Phone.ToLower(),
+            Email = request.Email?.ToLower(),
+            Phone = request.Phone?.ToLower(),
             Password = hashedPassword
         };
 

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CandyPromo.Server.Middlewares;
 
@@ -57,8 +56,14 @@ public class RequestValidator(RequestDelegate next)
     private async Task<IRequest?> GetRequestParameterValue(HttpContext context, ParameterInfo requestParameter)
     {
         // Извлечение значения параметра IRequest из запроса
+        context.Request.EnableBuffering();
         var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
+        context.Request.Body.Position = 0;
 
-        return JsonSerializer.Deserialize(requestBody, requestParameter.ParameterType) as IRequest;
+        return JsonSerializer.Deserialize(requestBody, requestParameter.ParameterType, new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true,
+            
+        }) as IRequest;
     }
 }

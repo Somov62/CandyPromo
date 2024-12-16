@@ -1,7 +1,6 @@
 ﻿using CandyPromo.Server.Controllers;
-using CandyPromo.Server.Requests.Validation;
-using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
+using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
 
 namespace CandyPromo.Server.Middlewares;
 
@@ -9,25 +8,25 @@ namespace CandyPromo.Server.Middlewares;
 /// Глобальный обработчик исключений,
 /// который заворачивает все исключения в конверт.
 /// </summary>
-public class GlobalExceptionHandler : IExceptionHandler
+public class GlobalExceptionHandler(RequestDelegate next)
 {
-    public async ValueTask<bool> TryHandleAsync(
-        HttpContext httpContext,
-        Exception exception,
-        CancellationToken cancellationToken)
+    public async Task InvokeAsync(HttpContext context)
     {
-        if (exception is ValidationException validationException)
+        try
         {
-            httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            httpContext.Response.ContentType = "application/json";
-
-            await httpContext.Response.WriteAsJsonAsync(Envelope.Error(validationException.Errors), cancellationToken);
-            return true;
+            await next(context);
         }
-        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        httpContext.Response.ContentType = "application/json";
-
-        await httpContext.Response.WriteAsJsonAsync(exception.Message, cancellationToken);
-        return true;
+        catch (ValidationException validationException)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(Envelope.Error(validationException.Errors));
+        }
+        catch (Exception exception)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(new EnvelopeInternalError(exception.Message, DateTime.Now));
+        }
     }
 }
