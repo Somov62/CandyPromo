@@ -3,17 +3,18 @@
 /// <summary>
 /// Сервис розыгрыша призов.
 /// </summary>
-public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger, IServiceProvider services) : IHostedService
+public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
+                                    IServiceProvider services) : IHostedService
 {
     /// <summary>
     /// Метод запуска сервиса
     /// </summary>
     public async Task StartAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Сервис розыгрыша призов начал работу и ожидает время розыгрыша.");
+        logger.LogInformation("Service is starting. Wait Time.");
 
         // Дата розыгрыша призов.
-        var datePrizeDraw = new DateTime(2024, 12, 12, 23, 7, 0);
+        var datePrizeDraw = new DateTime(2024, 12, 31, 23, 59, 0);
 
         //// Ожидание времени розыгрыша.
         await Task.Delay(datePrizeDraw - DateTime.Now, stoppingToken);
@@ -23,14 +24,13 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger, ISer
         var context = scope.ServiceProvider.GetRequiredService<CandyPromoContext>();
 
         // Получение всех зарегистрированных промокодов.
-        var registeredPromoCodes = await context.Promocodes
-            .Where(p => p.OwnerId != null)
-            .Include(u => u.Owner)
-            .ToListAsync(stoppingToken);
+        var registeredPromoCodes = await context.Promocodes.Where(p => p.OwnerId != null)
+                                                           .Include(u => u.Owner)
+                                                           .ToListAsync(stoppingToken);
 
         if (registeredPromoCodes.Count == 0)
         {
-            logger.LogInformation("Нет промокодов для розыгрыша");
+            logger.LogInformation("No promocodes.");
             return;
         }
 
@@ -42,7 +42,8 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger, ISer
         foreach (var prize in prizes)
         {
             // Получение промокода для приза.
-            var promoCodesWithoutPrize = registeredPromoCodes.AsEnumerable().Where(x => x.PrizeId == null);
+            var promoCodesWithoutPrize = registeredPromoCodes.AsEnumerable()
+                                                             .Where(x => x.PrizeId == null);
             if (!promoCodesWithoutPrize.Any())
                 break;
             var promoCodesWithoutPrizeCount = promoCodesWithoutPrize.Count();
@@ -54,7 +55,7 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger, ISer
             promo.PrizeId = prize.Id;
             prize.Status = PrizeDeliveryStatus.WinnerFinding;
             prize.PromocodeId = promo.Code;
-            logger.LogInformation($"{promo.Owner!.Name} выйграл {prize.Name}");
+            logger.LogInformation($"{promo.Owner!.Name} winnner {prize.Name}");
         }
 
         await context.SaveChangesAsync(stoppingToken);
@@ -66,7 +67,7 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger, ISer
     /// </summary>
     public Task StopAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Сервис розыгрыша призов завершил свою работу.");
+        logger.LogInformation("Service is stopping.");
 
         return Task.CompletedTask;
     }
