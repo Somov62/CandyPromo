@@ -19,6 +19,18 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
         // Ожидание времени розыгрыша.
         await Task.Delay(datePrizeDraw - DateTime.Now, stoppingToken);
 
+        // Розыгрыш призов.
+        await DrawPrizes(stoppingToken);
+
+        // Остановка сервиса.
+        await StopAsync(stoppingToken);
+    }
+
+    /// <summary>
+    /// Метод розыгрыша призов.
+    /// </summary>
+    public async Task DrawPrizes(CancellationToken stoppingToken)
+    {
         // Получение CandyPromoContext
         using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<CandyPromoContext>();
@@ -75,8 +87,6 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
         context.UpdateRange(prizesWin);
         context.UpdateRange(promocodesWin);
         await context.SaveChangesAsync(stoppingToken);
-
-        await StopAsync(stoppingToken);
     }
 
     /// <summary>
