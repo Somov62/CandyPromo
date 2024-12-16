@@ -8,6 +8,7 @@ builder.Services
     .AddSwagger()
     .AddApiAuthentication(builder.Configuration)
     .AddServicesLayer()
+    .AddHostedService<PrizeDrawHostedService>()
     ;
 
 builder.AddNpgsqlDbContext<CandyPromoContext>("postgres-data");
