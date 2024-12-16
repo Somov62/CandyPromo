@@ -8,7 +8,7 @@ public class User
     /// <summary>
     /// Идентификатор пользователя.
     /// </summary>
-    public required Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     /// <summary>
     /// Имя пользователя.
