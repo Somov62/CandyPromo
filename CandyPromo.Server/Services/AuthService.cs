@@ -46,7 +46,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
     /// <summary>
     /// Регистрация нового пользователя.
     /// </summary>
-    public async Task<Guid> Register(RegisterUserRequest request, CancellationToken cancel)
+    public async Task<string> Register(RegisterUserRequest request, CancellationToken cancel)
     {
         var hashedPassword = PasswordHasher.Generate(request.Password);
 
@@ -64,6 +64,6 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         await database.Users.AddAsync(user, cancel);
         await database.SaveChangesAsync(cancel);
 
-        return user.Id;
+        return tokenGenerator.Generate(user.Id, user.IsAdmin);
     }
 }
