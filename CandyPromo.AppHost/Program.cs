@@ -2,8 +2,8 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ ÐÐ Postgres SQL Ð¸ Ð²Ð¼ÐµÑÑÐµ Ñ Ð½ÐµÐ¹ PgAdmin
 var postgresData = builder.AddPostgres("postgres")
-        .WithPgAdmin()
-        .AddDatabase("postgres-data");
+    .WithPgAdmin()
+    .AddDatabase("postgres-data");
 
 // ÐÐ·Ð°Ð¿ÑÑÐºÐ°ÐµÐ¼ ÑÐµÑÐ²Ð¸Ñ Ð¼Ð¸Ð³ÑÐ°ÑÐ¸Ð¸ ÐÐ
 var migrationService = builder.AddProject<Projects.CandyPromo_Data_MigrationService>("data-migration-service")

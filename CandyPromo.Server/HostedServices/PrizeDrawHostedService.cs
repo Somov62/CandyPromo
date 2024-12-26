@@ -17,10 +17,9 @@ public class PrizeDrawHostedService(
         logger.LogInformation("Service is starting. Wait Time.");
 
         // Дата розыгрыша призов.
-        var datePrizeDraw = new DateTime(2024, 12, 26, 21, 12, 0);
+        var datePrizeDraw = new DateTime(2025, 01, 26, 21, 12, 0);
 
-        _timer = new Timer(DrawPrizes, null, TimeSpan.Zero,
-            datePrizeDraw - DateTime.Now);
+        _timer = new Timer(DrawPrizes, null, datePrizeDraw - DateTime.Now, TimeSpan.FromDays(0));
 
         return Task.CompletedTask;
     }
