@@ -72,7 +72,7 @@ public class Worker(IServiceProvider serviceProvider,
                     Id = Guid.Parse("efdd8d68-614b-4a66-b7be-24fe007a5775"),
                     Name = "admin1",
                     Email = "admin1@mail.ru",
-                    Password = "admin1",
+                    Password = "$2a$11$XZrPxRdUlyGMsFtc3MJl1ON8YRvEDCij9YzhVWLjvAtYdBbMTbJ6a",
                     IsAdmin = true,
                     Phone = "79999999999"
                 },
@@ -81,7 +81,7 @@ public class Worker(IServiceProvider serviceProvider,
                     Id = Guid.Parse("01bd4d5b-3b1e-47b0-871e-3d47f23c4b51"),
                     Name = "admin2",
                     Email = "admin2@mail.ru",
-                    Password = "admin2",
+                    Password = "$2a$11$ga/ISIwFkZFIf5HTz6NORu9P1AiCXG1m.KD6sA6vYhvXzLR2R4zCO",
                     IsAdmin = true,
                     Phone = "79999999999"
                 }

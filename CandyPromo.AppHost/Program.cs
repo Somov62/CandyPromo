@@ -5,7 +5,7 @@ var postgresData = builder.AddPostgres("postgres")
                           .WithPgAdmin()
                           .AddDatabase("postgres-data");
 
-// Пзапускаем сервис миграции БД
+// Перезапускаем сервис миграции БД
 var migrationService = builder.AddProject<Projects.CandyPromo_Data_MigrationService>("data-migration-service")
         .WaitFor(postgresData)
        .WithReference(postgresData);

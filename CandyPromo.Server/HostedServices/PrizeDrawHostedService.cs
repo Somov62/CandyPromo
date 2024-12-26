@@ -14,7 +14,7 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
         logger.LogInformation("Service is starting. Wait Time.");
 
         // Дата розыгрыша призов.
-        var datePrizeDraw = new DateTime(2024, 12, 16, 21, 59, 0);
+        var datePrizeDraw = new DateTime(2025, 01, 16, 21, 59, 0);
 
         // Ожидание времени розыгрыша.
         await Task.Delay(datePrizeDraw - DateTime.Now, stoppingToken);
@@ -67,9 +67,9 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
             // Получение промокода для приза.
             var promo = registeredPromoCodes[random.Next(0, registeredPromoCodes.Count)];
 
-            logger.LogInformation($"{promo.Owner!.Name} winnner {prize.Name}");
+            logger.LogInformation($"{promo.Owner!.Name} winner {prize.Name}");
 
-            // Устанвка свойст приза.
+            // Установка свойств приза.
             prize.Status = PrizeDeliveryStatus.WinnerFinding;
             prize.PromocodeId = promo.Code;
             prizesWin.Add(prize);
