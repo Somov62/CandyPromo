@@ -16,11 +16,11 @@ var api = builder.AddProject<Projects.CandyPromo_Server>("candypromo-server")
     .WaitFor(migrationService);
 
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ web ÐºÐ»Ð¸ÐµÐ½ÑÐ°
-builder.AddNpmApp("react", "../candypromo.client")
+builder.AddNpmApp("react", "../candypromo.client", scriptName: "dev")
     .WithReference(api)
     .WaitFor(api)
     .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
-    .WithHttpEndpoint(env: "PORT")
+    .WithHttpsEndpoint(env: "PORT", targetPort: 7237, isProxied: false)
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
 
