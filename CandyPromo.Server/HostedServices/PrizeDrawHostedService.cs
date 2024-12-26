@@ -3,43 +3,42 @@
 /// <summary>
 /// Сервис розыгрыша призов.
 /// </summary>
-public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
-                                    IServiceProvider services) : IHostedService
+public class PrizeDrawHostedService(
+    ILogger<PrizeDrawHostedService> logger,
+    IServiceProvider services) : IHostedService, IDisposable
 {
+    private Timer? _timer = null;
+
     /// <summary>
     /// Метод запуска сервиса
     /// </summary>
-    public async Task StartAsync(CancellationToken stoppingToken)
+    public Task StartAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Service is starting. Wait Time.");
 
         // Дата розыгрыша призов.
-        var datePrizeDraw = new DateTime(2024, 12, 16, 21, 59, 0);
+        var datePrizeDraw = new DateTime(2024, 12, 26, 20, 55, 0);
 
-        // Ожидание времени розыгрыша.
-        await Task.Delay(datePrizeDraw - DateTime.Now, stoppingToken);
+        _timer = new Timer(DrawPrizes, null, TimeSpan.Zero,
+            datePrizeDraw - DateTime.Now);
 
-        // Розыгрыш призов.
-        await DrawPrizes(stoppingToken);
-
-        // Остановка сервиса.
-        await StopAsync(stoppingToken);
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Метод розыгрыша призов.
     /// </summary>
-    public async Task DrawPrizes(CancellationToken stoppingToken)
+    private void DrawPrizes(object? state)
     {
         // Получение CandyPromoContext
         using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<CandyPromoContext>();
 
         // Получение всех зарегистрированных промокодов.
-        var registeredPromoCodes = await context.Promocodes.AsNoTracking()
-                                                           .Where(p => p.OwnerId != null)
-                                                           .Include(u => u.Owner)
-                                                           .ToListAsync(stoppingToken);
+        var registeredPromoCodes = context.Promocodes.AsNoTracking()
+            .Where(p => p.OwnerId != null)
+            .Include(u => u.Owner)
+            .ToList();
 
         if (registeredPromoCodes.Count == 0)
         {
@@ -48,8 +47,8 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
         }
 
         // Получение всех призов.
-        var prizes = await context.Prizes.AsNoTracking()
-                                         .ToListAsync(stoppingToken);
+        var prizes = context.Prizes.AsNoTracking()
+            .ToList();
 
         Random random = new();
 
@@ -86,7 +85,7 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
         // Сохранение изменений.
         context.UpdateRange(prizesWin);
         context.UpdateRange(promocodesWin);
-        await context.SaveChangesAsync(stoppingToken);
+        context.SaveChanges();
     }
 
     /// <summary>
@@ -95,7 +94,12 @@ public class PrizeDrawHostedService(ILogger<PrizeDrawHostedService> logger,
     public Task StopAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Service is stopping.");
-
+        _timer?.Change(Timeout.Infinite, 0);
         return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
     }
 }
