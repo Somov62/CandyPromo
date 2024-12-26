@@ -66,9 +66,9 @@ public class PrizeDrawHostedService(
             // Получение промокода для приза.
             var promo = registeredPromoCodes[random.Next(0, registeredPromoCodes.Count)];
 
-            logger.LogInformation($"{promo.Owner!.Name} winnner {prize.Name}");
+            logger.LogInformation($"{promo.Owner!.Name} winner {prize.Name}");
 
-            // Устанвка свойст приза.
+            // Установка свойств приза.
             prize.Status = PrizeDeliveryStatus.WinnerFinding;
             prize.PromocodeId = promo.Code;
             prizesWin.Add(prize);
