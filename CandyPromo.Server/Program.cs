@@ -6,8 +6,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHostedService<PrizeDrawHostedService>();
 builder.AddNpgsqlDbContext<CandyPromoContext>("postgres-data");
+builder.Services.AddHostedService<PrizeDrawHostedService>();
 
 var app = builder.Build();
 

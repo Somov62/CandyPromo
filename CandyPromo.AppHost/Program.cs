@@ -1,27 +1,27 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-// Поднимаем БД Postgres SQL и вместе с ней PgAdmin
+// РџРѕРґРЅРёРјР°РµРј Р‘Р” Postgres SQL Рё РІРјРµСЃС‚Рµ СЃ РЅРµР№ PgAdmin
 var postgresData = builder.AddPostgres("postgres")
-                          .WithPgAdmin()
-                          .AddDatabase("postgres-data");
+        .WithPgAdmin()
+        .AddDatabase("postgres-data");
 
-// Пзапускаем сервис миграции БД
+// РџР·Р°РїСѓСЃРєР°РµРј СЃРµСЂРІРёСЃ РјРёРіСЂР°С†РёРё Р‘Р”
 var migrationService = builder.AddProject<Projects.CandyPromo_Data_MigrationService>("data-migration-service")
-        .WaitFor(postgresData)
-       .WithReference(postgresData);
+    .WaitFor(postgresData)
+    .WithReference(postgresData);
 
-// Поднимаем Api
+// РџРѕРґРЅРёРјР°РµРј Api
 var api = builder.AddProject<Projects.CandyPromo_Server>("candypromo-server")
-                 .WithReference(postgresData)
-                 .WaitFor(migrationService);
+    .WithReference(postgresData)
+    .WaitFor(migrationService);
 
-// Поднимаем web клиента
+// РџРѕРґРЅРёРјР°РµРј web РєР»РёРµРЅС‚Р°
 builder.AddNpmApp("react", "../candypromo.client")
-       .WithReference(api)
-       .WaitFor(api)
-       .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
-       .WithHttpEndpoint(env: "PORT")
-       .WithExternalHttpEndpoints()
-       .PublishAsDockerFile();
+    .WithReference(api)
+    .WaitFor(api)
+    .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
+    .WithHttpEndpoint(env: "PORT")
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
 
 builder.Build().Run();
