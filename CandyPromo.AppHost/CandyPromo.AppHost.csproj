@@ -1,6 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+  <Sdk Name="Aspire.AppHost.Sdk"
+       Version="9.0.0" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -12,10 +13,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.0.0" />
-    <PackageReference Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions" Version="9.0.0" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.12.9">
+    <PackageReference Include="Aspire.Hosting.AppHost"
+                      Version="9.0.0" />
+    <PackageReference Include="Aspire.Hosting.NodeJs"
+                      Version="9.0.0" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL"
+                      Version="9.0.0" />
+    <PackageReference Include="Roslynator.Analyzers"
+                      Version="4.12.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -25,5 +30,21 @@
     <ProjectReference Include="..\CandyPromo.Data.MigrationService\CandyPromo.Data.MigrationService.csproj" />
     <ProjectReference Include="..\CandyPromo.Server\CandyPromo.Server.csproj" />
   </ItemGroup>
+
+  <Target Name="RestoreNpm"
+          BeforeTargets="Build"
+          Condition=" '$(DesignTimeBuild)' != 'true' ">
+    <ItemGroup>
+      <PackageJsons Include="..\*\package.json" />
+    </ItemGroup>
+
+    <!-- Install npm packages if node_modules is missing -->
+    <Message Importance="Normal"
+             Text="Installing npm packages for %(PackageJsons.RelativeDir)"
+             Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
+    <Exec Command="npm install"
+          WorkingDirectory="%(PackageJsons.RootDir)%(PackageJsons.Directory)"
+          Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
+  </Target>
 
 </Project>

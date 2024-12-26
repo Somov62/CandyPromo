@@ -1,27 +1,27 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-// Поднимаем БД Postgres SQL и вместе с ней PgAdmin
+// ГђВџГђВѕГђВґГђВЅГђВёГђВјГђВ°ГђВµГђВј ГђВ‘ГђВ” Postgres SQL ГђВё ГђВІГђВјГђВµГ‘ВЃГ‘В‚ГђВµ Г‘ВЃ ГђВЅГђВµГђВ№ PgAdmin
 var postgresData = builder.AddPostgres("postgres")
-                          .WithPgAdmin()
-                          .AddDatabase("postgres-data");
+    .WithPgAdmin()
+    .AddDatabase("postgres-data");
 
-// Перезапускаем сервис миграции БД
+// ГђВџГђВ·ГђВ°ГђВїГ‘ВѓГ‘ВЃГђВєГђВ°ГђВµГђВј Г‘ВЃГђВµГ‘ВЂГђВІГђВёГ‘ВЃ ГђВјГђВёГђВіГ‘ВЂГђВ°Г‘В†ГђВёГђВё ГђВ‘ГђВ”
 var migrationService = builder.AddProject<Projects.CandyPromo_Data_MigrationService>("data-migration-service")
-        .WaitFor(postgresData)
-       .WithReference(postgresData);
+    .WaitFor(postgresData)
+    .WithReference(postgresData);
 
-// Поднимаем Api
+// ГђВџГђВѕГђВґГђВЅГђВёГђВјГђВ°ГђВµГђВј Api
 var api = builder.AddProject<Projects.CandyPromo_Server>("candypromo-server")
-                 .WithReference(postgresData)
-                 .WaitFor(migrationService);
+    .WithReference(postgresData)
+    .WaitFor(migrationService);
 
-// Поднимаем web клиента
+// ГђВџГђВѕГђВґГђВЅГђВёГђВјГђВ°ГђВµГђВј web ГђВєГђВ»ГђВёГђВµГђВЅГ‘В‚ГђВ°
 builder.AddNpmApp("react", "../candypromo.client")
-       .WithReference(api)
-       .WaitFor(api)
-       .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
-       .WithHttpEndpoint(env: "PORT")
-       .WithExternalHttpEndpoints()
-       .PublishAsDockerFile();
+    .WithReference(api)
+    .WaitFor(api)
+    .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
+    .WithHttpEndpoint(env: "PORT")
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
 
 builder.Build().Run();

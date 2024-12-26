@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CandyPromo.Data.Migrations
 {
     [DbContext(typeof(CandyPromoContext))]
-    [Migration("20241212180927_Init")]
-    partial class Init
+    [Migration("20241226175105_InitDatabase")]
+    partial class InitDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

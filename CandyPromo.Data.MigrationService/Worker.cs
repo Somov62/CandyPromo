@@ -1,7 +1,7 @@
 namespace CandyPromo.Data.MigrationService;
 
 /// <summary>
-/// Сервис миграции базы данных.
+/// РЎРµСЂРІРёСЃ РјРёРіСЂР°С†РёРё Р±Р°Р·С‹ РґР°РЅРЅС‹С….
 /// </summary>
 public class Worker(IServiceProvider serviceProvider,
     IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
@@ -10,23 +10,23 @@ public class Worker(IServiceProvider serviceProvider,
     private static readonly ActivitySource s_activitySource = new(ActivitySourceName);
 
     /// <summary>
-    /// Выполняет миграцию базы данных и заполняет ее тестовыми данными.
+    /// Р’С‹РїРѕР»РЅСЏРµС‚ РјРёРіСЂР°С†РёСЋ Р±Р°Р·С‹ РґР°РЅРЅС‹С… Рё Р·Р°РїРѕР»РЅСЏРµС‚ РµРµ С‚РµСЃС‚РѕРІС‹РјРё РґР°РЅРЅС‹РјРё.
     /// </summary>
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        // Создание активности для трассировки.
+        // РЎРѕР·РґР°РЅРёРµ Р°РєС‚РёРІРЅРѕСЃС‚Рё РґР»СЏ С‚СЂР°СЃСЃРёСЂРѕРІРєРё.
         using var activity = s_activitySource.StartActivity("Migrating database", ActivityKind.Client);
 
         try
         {
-            // Создание области видимости для сервис-провайдера.
+            // РЎРѕР·РґР°РЅРёРµ РѕР±Р»Р°СЃС‚Рё РІРёРґРёРјРѕСЃС‚Рё РґР»СЏ СЃРµСЂРІРёСЃ-РїСЂРѕРІР°Р№РґРµСЂР°.
             using var scope = serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<CandyPromoContext>();
+            
+            // РџСЂРёРјРµРЅРµРЅРёРµ РјРёРіСЂР°С†РёР№ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С….
+            await dbContext.Database.EnsureCreatedAsync(cancellationToken);
 
-            // Применение миграций к базе данных.
-            await dbContext.Database.MigrateAsync(cancellationToken);
-
-            // Заполнение базы данных тестовыми данными.
+            // Р—Р°РїРѕР»РЅРµРЅРёРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С… С‚РµСЃС‚РѕРІС‹РјРё РґР°РЅРЅС‹РјРё.
             await SeedDataAsync(dbContext, cancellationToken);
         }
         catch (Exception ex)
@@ -39,32 +39,32 @@ public class Worker(IServiceProvider serviceProvider,
     }
 
     /// <summary>
-    /// Заполняет базу данных тестовыми данными.
+    /// Р—Р°РїРѕР»РЅСЏРµС‚ Р±Р°Р·Сѓ РґР°РЅРЅС‹С… С‚РµСЃС‚РѕРІС‹РјРё РґР°РЅРЅС‹РјРё.
     /// </summary>
     private static async Task SeedDataAsync(CandyPromoContext dbContext, CancellationToken cancellationToken)
     {
-        // Создание стратегии повторения выполнения.
+        // РЎРѕР·РґР°РЅРёРµ СЃС‚СЂР°С‚РµРіРёРё РїРѕРІС‚РѕСЂРµРЅРёСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ.
         var strategy = dbContext.Database.CreateExecutionStrategy();
 
-        // Выполнение операций с базой данных.
+        // Р’С‹РїРѕР»РЅРµРЅРёРµ РѕРїРµСЂР°С†РёР№ СЃ Р±Р°Р·РѕР№ РґР°РЅРЅС‹С….
         await strategy.ExecuteAsync(async () =>
         {
-            #region Заполнение промокодов
+            #region Р—Р°РїРѕР»РЅРµРЅРёРµ РїСЂРѕРјРѕРєРѕРґРѕРІ
 
             IEnumerable<Promocode> promocodes = Enumerable.Empty<Promocode>();
 
             if (!dbContext.Promocodes.Any())
             {
-                // Генерация промокодов.
+                // Р“РµРЅРµСЂР°С†РёСЏ РїСЂРѕРјРѕРєРѕРґРѕРІ.
                 promocodes = PromocodeGenerator.Generate(200);
 
-                // Добавление промокодов в базу данных.
+                // Р”РѕР±Р°РІР»РµРЅРёРµ РїСЂРѕРјРѕРєРѕРґРѕРІ РІ Р±Р°Р·Сѓ РґР°РЅРЅС‹С….
                 await dbContext.Promocodes.AddRangeAsync(promocodes, cancellationToken);
             }
 
             #endregion
 
-            #region Заполнение пользователей
+            #region Р—Р°РїРѕР»РЅРµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
 
             var users = new List<User>() {
                 new()
@@ -91,77 +91,77 @@ public class Worker(IServiceProvider serviceProvider,
 
             #endregion
 
-            #region Заполнение призов
+            #region Р—Р°РїРѕР»РЅРµРЅРёРµ РїСЂРёР·РѕРІ
 
             var prizes = new List<Prize>() {
                     new()
                     {
                         Id = Guid.Parse("5fbe708a-1533-402b-8fdc-83c12c547bb0"),
-                        Name = "Телевизор Xiaomi",
-                        Description = "Диагональ 54",
+                        Name = "РўРµР»РµРІРёР·РѕСЂ Xiaomi",
+                        Description = "Р”РёР°РіРѕРЅР°Р»СЊ 54",
                         ImageUrl = "https://example.com/image1.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("16281fea-783a-4580-ab84-1be7a8c0e46b"),
-                        Name = "Телефон Huawei",
-                        Description = "5G технологии",
+                        Name = "РўРµР»РµС„РѕРЅ Huawei",
+                        Description = "5G С‚РµС…РЅРѕР»РѕРіРёРё",
                         ImageUrl = "https://example.com/image2.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("f9a8f70d-7e13-429b-b964-333a47c82426"),
-                        Name = "Кофеварка",
-                        Description = "Быстрое приготовление вкусного кофе",
+                        Name = "РљРѕС„РµРІР°СЂРєР°",
+                        Description = "Р‘С‹СЃС‚СЂРѕРµ РїСЂРёРіРѕС‚РѕРІР»РµРЅРёРµ РІРєСѓСЃРЅРѕРіРѕ РєРѕС„Рµ",
                         ImageUrl = "https://example.com/image3.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("b3c8dcf0-11d9-4c13-b695-04089649f70f"),
-                        Name = "Пылесос Dyson",
-                        Description = "Мощный и тихий",
+                        Name = "РџС‹Р»РµСЃРѕСЃ Dyson",
+                        Description = "РњРѕС‰РЅС‹Р№ Рё С‚РёС…РёР№",
                         ImageUrl = "https://example.com/image4.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("33a1790a-ec92-4ab1-8f1c-222598b0b412"),
-                        Name = "Телефон Huawei Nova 11",
-                        Description = "128 памяти и мега камера на 100 мп",
+                        Name = "РўРµР»РµС„РѕРЅ Huawei Nova 11",
+                        Description = "128 РїР°РјСЏС‚Рё Рё РјРµРіР° РєР°РјРµСЂР° РЅР° 100 РјРї",
                         ImageUrl = "https://example.com/image4.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("117710cc-73ee-488b-ac36-b707b51d9118"),
-                        Name = "Робот пылесос Xiaomi",
-                        Description = "Сосёт сам не в себя",
+                        Name = "Р РѕР±РѕС‚ РїС‹Р»РµСЃРѕСЃ Xiaomi",
+                        Description = "РЎРѕСЃС‘С‚ СЃР°Рј РЅРµ РІ СЃРµР±СЏ",
                         ImageUrl = "https://example.com/image4.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("94efc89d-50a1-4721-ad36-e6507b6314ee"),
-                        Name = "Утюг Tefal",
-                        Description = "С отпаривателем",
+                        Name = "РЈС‚СЋРі Tefal",
+                        Description = "РЎ РѕС‚РїР°СЂРёРІР°С‚РµР»РµРј",
                         ImageUrl = "https://example.com/image4.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("9cbdcbd8-5a9d-4e44-bb62-21453e81515d"),
-                        Name = "Машина Haval H3",
-                        Description = "Диски 25 дюймов и климат контроль",
+                        Name = "РњР°С€РёРЅР° Haval H3",
+                        Description = "Р”РёСЃРєРё 25 РґСЋР№РјРѕРІ Рё РєР»РёРјР°С‚ РєРѕРЅС‚СЂРѕР»СЊ",
                         ImageUrl = "https://example.com/image4.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("c892eab4-01db-447f-ab08-fe7fba76511c"),
-                        Name = "Квартира в Парусах",
-                        Description = "100 квадратов и прекрасный вид на реку",
+                        Name = "РљРІР°СЂС‚РёСЂР° РІ РџР°СЂСѓСЃР°С…",
+                        Description = "100 РєРІР°РґСЂР°С‚РѕРІ Рё РїСЂРµРєСЂР°СЃРЅС‹Р№ РІРёРґ РЅР° СЂРµРєСѓ",
                         ImageUrl = "https://example.com/image4.jpg"
                     },
                     new()
                     {
                         Id = Guid.Parse("43239b85-f3a1-4c9b-ac9d-154dd5d942e4"),
-                        Name = "Игровой ПК",
-                        Description = "RTX 4090 и GTA VI",
+                        Name = "РРіСЂРѕРІРѕР№ РџРљ",
+                        Description = "RTX 4090 Рё GTA VI",
                         ImageUrl = "https://example.com/image4.jpg"
                     },
                 };
@@ -170,7 +170,7 @@ public class Worker(IServiceProvider serviceProvider,
 
             #endregion
 
-            // Сохранение изменений в базе данных.
+            // РЎРѕС…СЂР°РЅРµРЅРёРµ РёР·РјРµРЅРµРЅРёР№ РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С….
             await dbContext.SaveChangesAsync(cancellationToken);
         });
     }

@@ -4,14 +4,12 @@ using CandyPromo.Server.ServiceCollectionExtensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.AddNpgsqlDbContext<CandyPromoContext>("postgres-data");
 builder.Services
     .AddSwagger()
     .AddApiAuthentication(builder.Configuration)
     .AddServicesLayer()
-    .AddHostedService<PrizeDrawHostedService>()
-    ;
-
-builder.AddNpgsqlDbContext<CandyPromoContext>("postgres-data");
+    .AddHostedService<PrizeDrawHostedService>();
 
 var app = builder.Build();
 
