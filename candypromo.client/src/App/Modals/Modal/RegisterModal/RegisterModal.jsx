@@ -1,39 +1,50 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import './RegisterModal.css';
 import Modal from '../Modal';
 
+/*
+    Компонент - модальное окно регистрации
+    Входные параметры:
+    - isModalOpen, setIsModalOpen - хук useState(true | false) на отображение модалки.
+*/
+
 function RegisterModal({ isModalOpen, setIsModalOpen }) {
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     return (
         <Modal
             canForceClose={true}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
+            header='Регистрация'
         >
             <div>
-                <label>Регистрация</label>
-
-                <label>Имя</label>
-                <input
-                    type='text'
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
+                <label>Имя
+                    <input
+                        type='text'
+                        value={name}
+                        placeholder='Введите имя'
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </label>
 
                 <label>Почта</label>
-                <input
-                    type='text'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                    <input
+                        type='text'
+                        value={email}
+                        placeholder='Введите email'
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
                 <label>Пароль</label>
-                <input
-                    type='text'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                    <input
+                        type='text'
+                        value={password}
+                        placeholder='Придумайте пароль'
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
                 <button onClick={register}>Зарегистрироваться</button>
             </div>
         </Modal>
@@ -52,6 +63,9 @@ function RegisterModal({ isModalOpen, setIsModalOpen }) {
         if (response.ok) {
             const data = await response.json();
             console.log(data);
+        }
+        else {
+            setIsModalOpen(false);
         }
     }
 }
