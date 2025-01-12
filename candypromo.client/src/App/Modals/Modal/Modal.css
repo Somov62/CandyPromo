@@ -37,6 +37,7 @@
 .close-btn {
     color: var(--dark-color);
     cursor: pointer;
+    margin-left: 10px;
 }
 
 .close-btn:hover {

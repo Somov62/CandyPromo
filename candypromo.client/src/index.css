@@ -14,3 +14,27 @@
 body {
   margin: 0;
 }
+
+input[type=text]:focus{
+  outline: 1px solid var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+input[type=text] {
+  border: solid 1px var(--dark-color);
+  background-color: var(--light-color);
+  border-radius: 4px;
+  line-height: 1.7;
+  padding: 0 5px;
+}
+
+::selection
+{
+  background: var(--primary-color);
+  color: var(--dark-color);
+  text-shadow: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}

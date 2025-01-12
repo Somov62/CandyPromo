@@ -18,7 +18,7 @@ function Modal({isModalOpen, setIsModalOpen, canForceClose, header, children}) {
         <div className='modal-shadow' onClick={(e) => forceClose(e.target)}>
             <div className='modal-container'>
                 <div className="modal-header">
-                    <label>{header}</label>
+                    <h3>{header}</h3>
                     <Icon className='close-btn'
                           path={mdiClose}
                           size={1}
