@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './RegisterModal.css';
-import Modal from '../Modal';
-
+import {Dialog} from "primereact/dialog";
+import {InputText} from "primereact/inputtext";
 /*
     Компонент - модальное окно регистрации
     Входные параметры:
@@ -12,42 +12,21 @@ function RegisterModal({ isModalOpen, setIsModalOpen }) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
 
     return (
-        <Modal
-            canForceClose={true}
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            header='Регистрация'
-        >
-            <div>
-                <label>Имя
-                    <input
-                        type='text'
-                        value={name}
-                        placeholder='Введите имя'
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </label>
-
-                <label>Почта</label>
-                    <input
-                        type='text'
-                        value={email}
-                        placeholder='Введите email'
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                <label>Пароль</label>
-                    <input
-                        type='text'
-                        value={password}
-                        placeholder='Придумайте пароль'
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                <button onClick={register}>Зарегистрироваться</button>
-            </div>
-        </Modal>
+        <Dialog header="Регистрация" visible={isModalOpen} style={{width: '50vw'}} onHide={() => {
+            if (!isModalOpen) return;
+            setIsModalOpen(false)}}>
+                <div className="flex flex-column gap-2">
+                    <label htmlFor="username">Username</label>
+                    <InputText id="username" aria-describedby="username-help"/>
+                    <small id="username-help">
+                        Enter your username to reset your password.
+                    </small>
+                </div>
+        </Dialog>
     );
 
     async function register() {
@@ -55,7 +34,7 @@ function RegisterModal({ isModalOpen, setIsModalOpen }) {
             // Метод, если не указывать, будет использоваться GET
             method: 'POST',
             // Заголовок запроса
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             // Данные
             body: JSON.stringify({name, email, password}),
         });
