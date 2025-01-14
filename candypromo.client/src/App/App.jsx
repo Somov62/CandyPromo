@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import RegisterModal from './Modals/Modal/RegisterModal/RegisterModal';
+import {Button} from "primereact/button";
 
 function App() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,13 +11,14 @@ function App() {
     }
 
     return (
-        <div>
-            <button onClick={openModal}>Открыть модалку</button>
-            <RegisterModal
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-            />
-        </div>
+            <div>
+                <Button onClick={openModal}>Открыть модалку</Button>
+                <RegisterModal
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                />
+
+            </div>
     );
 }
 
