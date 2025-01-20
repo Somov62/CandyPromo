@@ -9,10 +9,18 @@ builder.Services
     .AddSwagger()
     .AddApiAuthentication(builder.Configuration)
     .AddServicesLayer()
-    .AddHostedService<PrizeDrawHostedService>();
+    .AddHostedService<PrizeDrawHostedService>()
+    .AddCors(options =>
+    {
+        options.AddPolicy(name: "Test",
+                          policy =>
+                          {
+                              policy.WithOrigins("https://localhost:7200");
+                          });
+    });
 
 var app = builder.Build();
-
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:7200"));
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

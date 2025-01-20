@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './RegisterModal.css';
 import {Dialog} from "primereact/dialog";
 import {InputText} from "primereact/inputtext";
+
 /*
     Компонент - модальное окно регистрации
     Входные параметры:
@@ -30,6 +31,7 @@ function RegisterModal({ isModalOpen, setIsModalOpen }) {
     );
 
     async function register() {
+
         const response = await fetch('http://localhost:5249/auth/register', {
             // Метод, если не указывать, будет использоваться GET
             method: 'POST',

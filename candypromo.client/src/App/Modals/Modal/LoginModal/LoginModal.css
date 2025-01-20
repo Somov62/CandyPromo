@@ -1,0 +1,10 @@
+.login-button {
+    margin: 5px 0;
+    display: flex;
+    width: 100%;
+}
+
+input {
+    margin-bottom: 5px;
+    width: 100%;
+}
