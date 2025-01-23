@@ -12,9 +12,3 @@ export async function login(email, password) {
       console.log(response.response.data.errors[0]);
     });
 }
-
-// function login() {
-//   alert("hello");
-// }
-// export default login;
-// function register() {}
