@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Sdk Name="Aspire.AppHost.Sdk"
-       Version="9.0.0" />
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,6 +9,7 @@
     <Nullable>enable</Nullable>
     <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>c82ae641-ad44-43c7-b66f-7a6579826fee</UserSecretsId>
+    <Configurations>Debug;Release;Backend</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,8 +19,7 @@
                       Version="9.0.0" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL"
                       Version="9.0.0" />
-    <PackageReference Include="Roslynator.Analyzers"
-                      Version="4.12.9">
+    <PackageReference Include="Roslynator.Analyzers" Version="4.12.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -31,20 +30,14 @@
     <ProjectReference Include="..\CandyPromo.Server\CandyPromo.Server.csproj" />
   </ItemGroup>
 
-  <Target Name="RestoreNpm"
-          BeforeTargets="Build"
-          Condition=" '$(DesignTimeBuild)' != 'true' ">
+  <Target Name="RestoreNpm" BeforeTargets="Build" Condition=" '$(DesignTimeBuild)' != 'true' ">
     <ItemGroup>
       <PackageJsons Include="..\*\package.json" />
     </ItemGroup>
 
     <!-- Install npm packages if node_modules is missing -->
-    <Message Importance="Normal"
-             Text="Installing npm packages for %(PackageJsons.RelativeDir)"
-             Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
-    <Exec Command="npm install"
-          WorkingDirectory="%(PackageJsons.RootDir)%(PackageJsons.Directory)"
-          Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
+    <Message Importance="Normal" Text="Installing npm packages for %(PackageJsons.RelativeDir)" Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
+    <Exec Command="npm install" WorkingDirectory="%(PackageJsons.RootDir)%(PackageJsons.Directory)" Condition="!Exists('%(PackageJsons.RootDir)%(PackageJsons.Directory)/node_modules')" />
   </Target>
 
 </Project>

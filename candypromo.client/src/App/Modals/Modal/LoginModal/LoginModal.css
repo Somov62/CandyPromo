@@ -1,0 +1,19 @@
+.login-button {
+    margin: 5px 0;
+    display: flex;
+    width: 100%;
+}
+
+input {
+    width: 100%;
+}
+
+.error-help{
+    color: red;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.link-button{
+    width: 100%;
+}

@@ -12,9 +12,11 @@ var migrationService = builder.AddProject<Projects.CandyPromo_Data_MigrationServ
 
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ Api
 var api = builder
-    .AddProject<Projects.CandyPromo_Server>("candypromo-server", launchProfileName: "http")
+    .AddProject<Projects.CandyPromo_Server>("candypromo-server")
     .WithReference(postgresData)
     .WaitFor(migrationService);
+
+#if !BACKEND
 
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ web ÐºÐ»Ð¸ÐµÐ½ÑÐ°
 builder.
@@ -22,8 +24,9 @@ builder.
     .WithReference(api)
     .WaitFor(api)
     .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
-    .WithHttpEndpoint(env: "PORT", targetPort: 7237)
+    .WithHttpsEndpoint(port: 7200, targetPort: 7237, env: "PORT")
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
+#endif
 
 builder.Build().Run();

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CandyPromo.Server.Requests.Validation;
 
@@ -16,6 +17,11 @@ public class ValidationException : Exception
     public ValidationException(IEnumerable<ValidationError> errors)
     {
         Errors = errors;
+    }
+
+    public ValidationException(string reason, params string[] propertyNames)
+    {
+        Errors = [new(reason, propertyNames)];
     }
 
     /// <summary>

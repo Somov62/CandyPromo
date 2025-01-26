@@ -119,6 +119,7 @@ function RegisterModal({isModalOpen, setIsModalOpen}) {
             document.getElementById('phone-help').innerText = '';
         } else if (selectedTabId === 1) {
             document.getElementById('email-help').innerText = '';
+
         }
         document.getElementById('password-help').innerText = '';
 

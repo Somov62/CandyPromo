@@ -6,24 +6,25 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>e5fcee2d-bbd0-4a18-9cd8-67068aae9812</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<Configurations>Debug;Release;Backend</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.1" />
 		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.SpaProxy">
-			<Version>9.*-*</Version>
+			<Version>9.0.1</Version>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
-		<PackageReference Include="Roslynator.Analyzers" Version="4.12.9">
+		<PackageReference Include="Roslynator.Analyzers" Version="4.12.10">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

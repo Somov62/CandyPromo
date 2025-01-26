@@ -1,17 +1,29 @@
 import {useState} from 'react';
 import './App.css';
 import RegisterModal from './Modals/Modal/RegisterModal/RegisterModal';
+import LoginModal from './Modals/Modal/LoginModal/LoginModal';
 import {Button} from "primereact/button";
 
 function App() {
-    const [isRegModalOpen, setIsRegModalOpen] = useState(false);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
     return (
         <div>
-            <Button onClick={() => setIsRegModalOpen(true)}>Открыть модалку</Button>
-            <RegisterModal
-                isModalOpen={isRegModalOpen}
-                setIsModalOpen={setIsRegModalOpen}/>
+            <div>
+                <Button onClick={setIsLoginModalOpen(true)}>Открыть модалку логина</Button>
+                <LoginModal
+                    isModalOpen={isLoginModalOpen}
+                    setIsModalOpen={setIsLoginModalOpen}
+                />
+            </div>
+            <div>
+                <Button onClick={setIsRegisterModalOpen(true)}>Открыть модалку регистрации</Button>
+                <RegisterModal
+                    isModalOpen={isRegisterModalOpen}
+                    setIsModalOpen={setIsRegisterModalOpen}
+                />
+            </div>
         </div>
     );
 }
