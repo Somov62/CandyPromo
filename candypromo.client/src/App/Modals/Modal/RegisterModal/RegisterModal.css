@@ -5,3 +5,41 @@
 .register-button {
     margin-top: 10px;
 }
+.margin {
+    margin-top: 20px;
+}
+
+.p-dialog-header {
+    padding-bottom: 0;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.inputs button {
+    margin-top: 5px;
+}
+
+.link-btn {
+    padding: 2px 5px;
+    font-weight: 300;
+    justify-self: center;
+}
+
+.p-password {
+    display: block;
+}
+.p-password input {
+    width: 100%;
+}
+
+.error-help {
+    min-height: 15px;
+    color: red;
+    margin: 0 2%;
+    font-size: 14px;
+    line-height: 35px;
+}

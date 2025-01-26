@@ -1,8 +1,8 @@
 import {useState} from 'react';
 import './App.css';
 import RegisterModal from './Modals/Modal/RegisterModal/RegisterModal';
-import {Button} from "primereact/button";
 import LoginModal from './Modals/Modal/LoginModal/LoginModal';
+import {Button} from "primereact/button";
 
 function App() {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
