@@ -20,11 +20,16 @@ public class LoginRequest : IRequest
         Email = session.ValidateString(Email, maxLength: 50, isRequired: false);
         Password = session.ValidateString(Password, maxLength: 50, isRequired: false);
 
+        Phone = Phone?.Replace("-", "");
+        Phone = Phone?.Replace("(", "");
+        Phone = Phone?.Replace(")", "");
+        Phone = Phone?.Replace("+", "");
+
         if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Phone))
-            session.Error(nameof(Email) + nameof(Phone), "Укажите почту или телефон");
+            session.Error("Укажите почту или телефон", nameof(Email), nameof(Phone));
 
         if (!string.IsNullOrEmpty(Email) && !new EmailAddressAttribute().IsValid(Email))
-            session.Error(nameof(Email), "Некорректный формат");
+            session.Error("Некорректный формат", nameof(Email));
 
         Password = session.ValidateString(Password, maxLength: 50);
     }
@@ -47,13 +52,22 @@ public class RegisterUserRequest : IRequest
     {
         Name = session.ValidateString(Name, maxLength: 30);
         Email = session.ValidateString(Email, maxLength: 50, isRequired: false);
+        if (Email?.Length == 0)
+            Email = null;
+
+        Phone = Phone?.Replace("-", "");
+        Phone = Phone?.Replace("(", "");
+        Phone = Phone?.Replace(")", "");
+        Phone = Phone?.Replace("+", "");
         Phone = session.ValidateString(Phone, maxLength: 50, isRequired: false);
+        if (Phone?.Length == 0)
+            Phone = null;
 
-        if (string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Phone))
-            session.Error(nameof(Email) + nameof(Phone), "Укажите почту или телефон");
+        if (Email == null && Phone == null)
+            session.Error("Укажите почту или телефон", nameof(Email), nameof(Phone));
 
-        if (!string.IsNullOrEmpty(Email) && !new EmailAddressAttribute().IsValid(Email))
-            session.Error(nameof(Email), "Некорректный адрес электронной почты");
+        if (Email != null && !new EmailAddressAttribute().IsValid(Email))
+            session.Error("Некорректный адрес электронной почты", nameof(Email));
 
         Password = session.ValidateString(Password, maxLength: 50);
     }

@@ -10,11 +10,14 @@ builder.Services
     .AddCors(options =>
     {
         options.AddPolicy(name: "Test",
-            policy => policy.WithOrigins("https://localhost:7200"));
+            policy => policy.WithOrigins("https://localhost:7237"));
     });
 
 var app = builder.Build();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:7200"));
+app.UseCors(x =>
+    x.AllowAnyHeader()
+    .AllowAnyMethod()
+    .WithOrigins("https://localhost:7237"));
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

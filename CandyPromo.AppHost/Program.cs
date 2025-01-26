@@ -16,6 +16,8 @@ var api = builder
     .WithReference(postgresData)
     .WaitFor(migrationService);
 
+#if !BACKEND
+
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ web ÐºÐ»Ð¸ÐµÐ½ÑÐ°
 builder.
     AddNpmApp("react", "../candypromo.client", scriptName: "dev")
@@ -25,5 +27,6 @@ builder.
     .WithHttpsEndpoint(port: 7200, targetPort: 7237, env: "PORT")
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
+#endif
 
 builder.Build().Run();
