@@ -1,9 +1,7 @@
-﻿using CandyPromo.Data.Models;
-using CandyPromo.Server.Auth;
+﻿using CandyPromo.Server.Auth;
 using CandyPromo.Server.Helpers;
 using CandyPromo.Server.Requests;
 using CandyPromo.Server.Requests.Validation;
-using Microsoft.EntityFrameworkCore;
 
 namespace CandyPromo.Server.Services;
 
@@ -23,7 +21,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         {
             user = await database.Users.SingleOrDefaultAsync(u =>
             u.Email != null &&
-            u.Email == request.Email.ToLower(), 
+            u.Email.Equals(request.Email, StringComparison.CurrentCultureIgnoreCase),
             cancel);
         }
 
@@ -31,14 +29,14 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         {
             user = await database.Users.SingleOrDefaultAsync(u => u.Phone == request.Phone, cancel);
             if (user == null)
-                throw new ValidationException(new ValidationError(nameof(LoginRequest.Password), "Пользователь не найден."));
+                throw new ValidationException("Пользователь не найден.", nameof(LoginRequest.Password));
         }
 
         if (user == null)
-            throw new ValidationException(new ValidationError(nameof(LoginRequest.Email), "Пользователь не найден."));
+            throw new ValidationException("Пользователь не найден.", nameof(LoginRequest.Email));
 
         if (!PasswordHasher.Verify(request.Password, user.Password))
-            throw new ValidationException(new ValidationError(nameof(LoginRequest.Password), "Неправильный пароль."));
+            throw new ValidationException("Неправильный пароль.", nameof(LoginRequest.Password));
 
         return tokenGenerator.Generate(user.Id, user.IsAdmin);
     }
@@ -46,6 +44,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
     /// <summary>
     /// Регистрация нового пользователя.
     /// </summary>
+    /// <exception cref="ValidationException"></exception>
     public async Task<string> Register(RegisterUserRequest request, CancellationToken cancel)
     {
         var hashedPassword = PasswordHasher.Generate(request.Password);
@@ -58,8 +57,13 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
             Password = hashedPassword
         };
 
-        if (await database.Users.AnyAsync(u => u.Email == user.Email || u.Phone == user.Phone, cancel))
-            throw new ArgumentException("Пользователь с такими данными уже зарегистрирован.");
+        if (await database.Users.AnyAsync(u =>
+            (user.Email != null && u.Email == user.Email) ||
+            (user.Phone != null && u.Phone == user.Phone),
+            cancel))
+        {
+            throw new ValidationException("Пользователь с такими данными уже зарегистрирован.", "");
+        }
 
         await database.Users.AddAsync(user, cancel);
         await database.SaveChangesAsync(cancel);

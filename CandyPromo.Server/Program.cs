@@ -13,6 +13,11 @@ builder.Services
 
 var app = builder.Build();
 
+app.UseCors(x =>
+    x.AllowAnyHeader()
+    .AllowAnyMethod()
+    .WithOrigins("https://localhost:7237"));
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

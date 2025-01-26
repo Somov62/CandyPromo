@@ -12,9 +12,11 @@ var migrationService = builder.AddProject<Projects.CandyPromo_Data_MigrationServ
 
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ Api
 var api = builder
-    .AddProject<Projects.CandyPromo_Server>("candypromo-server", launchProfileName: "http")
+    .AddProject<Projects.CandyPromo_Server>("candypromo-server", launchProfileName: "https")
     .WithReference(postgresData)
     .WaitFor(migrationService);
+
+#if !BACKEND
 
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ web ÐºÐ»Ð¸ÐµÐ½ÑÐ°
 builder.
@@ -25,5 +27,6 @@ builder.
     .WithHttpEndpoint(env: "PORT", targetPort: 7237)
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
+#endif
 
 builder.Build().Run();

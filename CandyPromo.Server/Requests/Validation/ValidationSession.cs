@@ -15,8 +15,8 @@ public class ValidationSession
     /// <summary>
     /// Добавляет ошибку в список ошибок данной сессии.
     /// </summary>
-    public void Error(string propertyName, string reason) =>
-        Errors.Add(new(propertyName, reason));
+    public void Error(string reason, params string[] propertyNames) =>
+        Errors.Add(new(reason, propertyNames));
 
     /// <summary>
     /// Проверяет строку на пустоту и максимальную длину.
@@ -36,10 +36,10 @@ public class ValidationSession
         content = content?.Trim()!;
 
         if (isRequired && string.IsNullOrEmpty(content))
-            Errors.Add(new(fieldName, "Поле не заполнено"));
+            Errors.Add(new("Поле не заполнено", fieldName));
 
         if (maxLength is not null && content?.Length > maxLength)
-            Errors.Add(new(fieldName, $"Превышена максимальная длина поля ({maxLength})"));
+            Errors.Add(new($"Превышена максимальная длина поля ({maxLength})", fieldName));
 
         return content!;
     }
