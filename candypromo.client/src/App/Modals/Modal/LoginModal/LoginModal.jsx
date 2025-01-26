@@ -40,7 +40,7 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
                 onChange={(e) => setUserLogin(e.target.value)}
                 disabled={isLoading}
             />
-            <small className="error-help">{userLoginError}</small>
+            <label className="error-help">{userLoginError}</label>
         </div>
         <div className="flex flex-column gap-2">
             <label htmlFor="password">Пароль</label>
@@ -52,7 +52,7 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
                 feedback={false}
                 disabled={isLoading}
             />
-            <small className="error-help">{userPasswordError}</small>
+            <label className="error-help">{userPasswordError}</label>
         </div>
         <Button
             className="login-button"
