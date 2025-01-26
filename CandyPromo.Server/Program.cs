@@ -1,6 +1,3 @@
-using CandyPromo.Server.Middlewares;
-using CandyPromo.Server.ServiceCollectionExtensions;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -9,14 +6,11 @@ builder.Services
     .AddSwagger()
     .AddApiAuthentication(builder.Configuration)
     .AddServicesLayer()
-    .AddHostedService<PrizeDrawHostedService>()
+    .AddHostedService<PrizeDrawHostedService>(services => new PrizeDrawHostedService(new DateTime(2025,8,5), services))
     .AddCors(options =>
     {
         options.AddPolicy(name: "Test",
-                          policy =>
-                          {
-                              policy.WithOrigins("https://localhost:7200");
-                          });
+            policy => policy.WithOrigins("https://localhost:7200"));
     });
 
 var app = builder.Build();

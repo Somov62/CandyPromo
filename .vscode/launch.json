@@ -17,9 +17,9 @@
       "projectPath": "${workspaceFolder}/CandyPromo.AppHost/CandyPromo.AppHost.csproj"
     },
     {
-      //"preLaunchTask": "npm: dev - candypromo.client",
+      "preLaunchTask": "npm: dev - candypromo.client",
       "type": "msedge",
-      "request": "launch",
+      "request": "attach",
       "name": "CandyPromo Client",
       "url": "https://localhost:7237",
       "webRoot": "${workspaceFolder}/candypromo.client/src"

@@ -1,62 +1,86 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import './LoginModal.css';
 import {Dialog} from "primereact/dialog";
 import {InputText} from "primereact/inputtext";
-import { Password } from 'primereact/password';
-import { Button } from 'primereact/button';
-import {login} from "../../../../API/auth";
+import {Password} from 'primereact/password';
+import {Button} from 'primereact/button';
+import axios from "axios";
+
 /*
     Компонент - модальное окно входа
     Входные параметры:
     - isModalOpen, setIsModalOpen - хук useState(true | false) на отображение модалки.
 */
 
-function LoginModal({ isModalOpen, setIsModalOpen }) {
+function LoginModal({isModalOpen, setIsModalOpen}) {
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [userlogin, setUserLogin] = useState();
-    const [password, setPassword] = useState();
+    const [userLogin, setUserLogin] = useState('');
+    const [userPassword, setUserPassword] = useState('');
 
-    return (
-      <Dialog
+    const [userLoginError, setUserLoginError] = useState('');
+    const [userPasswordError, setUserPasswordError] = useState('');
+
+    return (<Dialog
         className="login-modal"
         header="Вход"
         visible={isModalOpen}
-        style={{ width: "40%" }}
+        style={{width: "40%"}}
         onHide={() => {
-          if (!isModalOpen) return;
-          setIsModalOpen(false);
+            if (!isModalOpen) return;
+            setIsModalOpen(false);
         }}
-      >
+    >
         <div className="flex flex-column gap-2">
-          <label htmlFor="username">Логин</label>
-          <InputText
-            id="username"
-            aria-describedby="username-help"
-            value={userlogin}
-            onChange={(e) => setUserLogin(e.target.value)}
-          />
-          {/* <small id="username-help">
-            Enter your username to reset your password.
-          </small> */}
+            <label htmlFor="username">Логин</label>
+            <InputText
+                id="username"
+                aria-describedby="username-help"
+                value={userLogin}
+                onChange={(e) => setUserLogin(e.target.value)}
+                disabled={isLoading}
+            />
+            <small className="error-help">{userLoginError}</small>
         </div>
         <div className="flex flex-column gap-2">
-          <label htmlFor="password">Пароль</label>
-          <Password
-            id="password"
-            aria-describedby="password-help"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            feedback={false}
-          />
-          {/* <small id="password-help">Введите пароль</small> */}
+            <label htmlFor="password">Пароль</label>
+            <Password
+                id="password"
+                aria-describedby="password-help"
+                value={userPassword}
+                onChange={(e) => setUserPassword(e.target.value)}
+                feedback={false}
+                disabled={isLoading}
+            />
+            <small className="error-help">{userPasswordError}</small>
         </div>
         <Button
-          className="login-button"
-          label="Войти"
-          onClick={() => login(userlogin, password)}
+            className="login-button"
+            label="Войти"
+            loading={isLoading}
+            onClick={() => login()}
         />
-      </Dialog>
-    );
+        <Button className="link-button" label="Создать аккаунт" link/>
+    </Dialog>);
+
+    async function login() {
+        setIsLoading(true);
+        await axios
+            .post(`/api/auth/login`, {userLogin, userPassword})
+            .then((response) => {
+                const token = response.data;
+                localStorage.setItem("token", token);
+                console.log(response.data);
+                setIsModalOpen(false);
+            }).catch((response) => {
+                console.log(response.response.data.errors[0]);
+                response.response.data.errors.forEach(function (error) {
+                    if (error.propertyName === 'EmailPhone') setUserLoginError(error.reason);
+                    if (error.propertyName === 'Password') setUserPasswordError(error.reason);
+                });
+            });
+        setIsLoading(false);
+    }
 }
 
 export default LoginModal;
