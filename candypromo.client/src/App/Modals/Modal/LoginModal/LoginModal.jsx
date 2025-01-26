@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './LoginModal.css';
 import {Dialog} from "primereact/dialog";
 import {InputText} from "primereact/inputtext";
@@ -20,7 +20,14 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
 
     const [userLoginError, setUserLoginError] = useState('');
     const [userPasswordError, setUserPasswordError] = useState('');
-
+    
+    useEffect(() => {
+        if(isLoading){
+            setUserLoginError('');
+            setUserPasswordError('');
+        }
+    }, [isLoading]);
+    
     return (<Dialog
         className="login-modal"
         header="Вход"
@@ -37,7 +44,10 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
                 id="username"
                 aria-describedby="username-help"
                 value={userLogin}
-                onChange={(e) => setUserLogin(e.target.value)}
+                onChange={(e) => {
+                    setUserLogin(e.target.value);
+                    setUserLoginError('')
+                }}
                 disabled={isLoading}
             />
             <label className="error-help">{userLoginError}</label>
@@ -48,7 +58,10 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
                 id="password"
                 aria-describedby="password-help"
                 value={userPassword}
-                onChange={(e) => setUserPassword(e.target.value)}
+                onChange={(e) => {
+                    setUserPassword(e.target.value);
+                    setUserPasswordError('')
+                }}
                 feedback={false}
                 disabled={isLoading}
             />
