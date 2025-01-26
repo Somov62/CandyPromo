@@ -4,22 +4,26 @@
 /// Сервис розыгрыша призов.
 /// </summary>
 public class PrizeDrawHostedService(
-    ILogger<PrizeDrawHostedService> logger,
+    DateTime prizeDate,
     IServiceProvider services) : IHostedService, IDisposable
 {
     private Timer? _timer = null;
+    private readonly ILogger<PrizeDrawHostedService> _logger = services.GetRequiredService<ILogger<PrizeDrawHostedService>>();
 
     /// <summary>
     /// Метод запуска сервиса
     /// </summary>
     public Task StartAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Service is starting. Wait Time.");
+        _logger.LogInformation("Service is starting. Wait Time.");
 
-        // Дата розыгрыша призов.
-        var datePrizeDraw = new DateTime(2025, 02, 26, 21, 12, 0);
+        if (prizeDate - DateTime.Now < TimeSpan.Zero || (uint)(prizeDate - DateTime.Now).TotalMilliseconds > 4294967293)
+        {
+            _logger.LogError("Error date");
+            return Task.CompletedTask;
+        }
 
-        _timer = new Timer(DrawPrizes, null, datePrizeDraw - DateTime.Now, TimeSpan.FromDays(0));
+        _timer = new Timer(DrawPrizes, null, prizeDate - DateTime.Now, TimeSpan.FromDays(0));
 
         return Task.CompletedTask;
     }
@@ -41,7 +45,7 @@ public class PrizeDrawHostedService(
 
         if (registeredPromoCodes.Count == 0)
         {
-            logger.LogInformation("No promocodes.");
+            _logger.LogInformation("No promocodes.");
             return;
         }
 
@@ -65,7 +69,7 @@ public class PrizeDrawHostedService(
             // Получение промокода для приза.
             var promo = registeredPromoCodes[random.Next(0, registeredPromoCodes.Count)];
 
-            logger.LogInformation($"{promo.Owner!.Name} winner {prize.Name}");
+            _logger.LogInformation($"{promo.Owner!.Name} winner {prize.Name}");
 
             // Установка свойств приза.
             prize.Status = PrizeDeliveryStatus.WinnerFinding;
@@ -92,7 +96,7 @@ public class PrizeDrawHostedService(
     /// </summary>
     public Task StopAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Service is stopping.");
+        _logger.LogInformation("Service is stopping.");
         _timer?.Change(Timeout.Infinite, 0);
         return Task.CompletedTask;
     }
