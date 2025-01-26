@@ -47,9 +47,11 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
-                target,
-                secure: false
+            '^/api': {
+                target: 'https://localhost:7100',
+                changeOrigin: true,
+                secure: false,
+                rewrite: path => path.replace('api', '')
             }
         },
         port: 7237,
