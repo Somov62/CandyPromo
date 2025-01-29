@@ -21,7 +21,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         {
             user = await database.Users.SingleOrDefaultAsync(u =>
             u.Email != null &&
-            u.Email.Equals(request.Email, StringComparison.CurrentCultureIgnoreCase),
+            u.Email.ToLower() == request.Email,
             cancel);
         }
 
@@ -62,7 +62,13 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
             (user.Phone != null && u.Phone == user.Phone),
             cancel))
         {
-            throw new ValidationException("Пользователь с такими данными уже зарегистрирован.", "");
+            if (user.Email != null && user.Phone == null)
+                throw new ValidationException("Email уже зарегистрирован", nameof(user.Email));
+
+            if (user.Phone != null && user.Email == null)
+                throw new ValidationException("Телефон уже зарегистрирован", nameof(user.Phone));
+
+            throw new ValidationException("Пользователь с такими данными уже зарегистрирован", nameof(user.Phone), nameof(user.Phone));
         }
 
         await database.Users.AddAsync(user, cancel);
