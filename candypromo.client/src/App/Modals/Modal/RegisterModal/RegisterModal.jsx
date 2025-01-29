@@ -1,4 +1,4 @@
-import React, { useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './RegisterModal.css';
 import {Dialog} from "primereact/dialog";
 import {InputText} from "primereact/inputtext";
@@ -12,10 +12,10 @@ import axios from "axios";
 /*
     Компонент - модальное окно регистрации
     Входные параметры:
-    - isModalOpen, setIsModalOpen - хук useState(true | false) на отображение модалки.
+    - openState - хук useState(true | false) на отображение модалки.
 */
 
-function RegisterModal({isModalOpen, setIsModalOpen}) {
+function RegisterModal({openState, navigateToLoginPage}) {
 
     const [selectedTabId, setSelectedTabId] = useState(0);
     const [name, setName] = useState('');
@@ -32,23 +32,25 @@ function RegisterModal({isModalOpen, setIsModalOpen}) {
                 position="top-center"/>
             <Dialog
                 header="Регистрация"
-                visible={isModalOpen}
+                visible={openState.value}
                 style={{width: '50vw'}}
                 onHide={() => {
-                    if (!isModalOpen) return;
-                    setIsModalOpen(false)
+                    if (!openState.value) return;
+                    openState.set(false)
                 }}>
 
                 <div className="inputs">
                     <TabMenu
                         className="TabMenu mb-3"
                         model={[{label: 'Телефон'}, {label: 'Электронная почта'}]}
+                        disabled={loading}
                         activeIndex={selectedTabId}
                         onTabChange={(e) => setSelectedTabId(e.index)}/>
 
                     <InputText
                         type="name"
                         area-describedby="name-help"
+                        disabled={loading}
                         value={name}
                         onChange={(e) => {
                             setName(e.target.value);
@@ -62,31 +64,34 @@ function RegisterModal({isModalOpen, setIsModalOpen}) {
                     {selectedTabId === 0 ? ([
                         <InputMask
                             value={phone}
+                            disabled={loading}
                             onChange={(e) => {
                                 setPhone(e.target.value);
                                 document.getElementById('phone-help').innerText = '';
                             }}
                             placeholder="Введите телефон"
                             mask="+7-(999)-999-99-99"/>,
-                        <div className="error-help" >
+                        <div className="error-help">
                             <label id="phone-help"/>
                         </div>
 
                     ]) : ([
-                            <InputText
-                                placeholder="Введите email"
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                id="email"/>,
-                            <div className="error-help">
-                                <label id="email-help"/>
-                            </div>
+                        <InputText
+                            placeholder="Введите email"
+                            disabled={loading}
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            id="email"/>,
+                        <div className="error-help">
+                            <label id="email-help"/>
+                        </div>
                     ])}
 
                     <Password
                         inputId="password"
                         value={password}
+                        disabled={loading}
                         onChange={(e) => setPassword(e.target.value)}
                         feedback={false}
                         placeholder="Придумайте пароль"
@@ -103,7 +108,9 @@ function RegisterModal({isModalOpen, setIsModalOpen}) {
 
                     <Button
                         label="У меня уже есть аккаунт"
+                        disabled={loading}
                         link
+                        onClick={navigateToLoginPage}
                         className="link-btn mt-3"/>
                 </div>
 
@@ -119,7 +126,6 @@ function RegisterModal({isModalOpen, setIsModalOpen}) {
             document.getElementById('phone-help').innerText = '';
         } else if (selectedTabId === 1) {
             document.getElementById('email-help').innerText = '';
-
         }
         document.getElementById('password-help').innerText = '';
 
@@ -133,11 +139,11 @@ function RegisterModal({isModalOpen, setIsModalOpen}) {
                     summary: 'Добро пожаловать',
                     detail: 'Регистрация завершена успешно!'
                 });
-                setIsModalOpen(false);
+                openState.set(false);
             })
             .catch((error) => {
                 console.log(error);
-                let detail = ''
+                let detail
                 if (error.status === 400) {
                     error.response.data.errors.forEach(e => {
                         e.propertyNames.forEach(pn => {
