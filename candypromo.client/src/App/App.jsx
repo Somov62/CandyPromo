@@ -11,21 +11,31 @@ function App() {
     return (
         <div>
             <div>
-                <Button onClick={setIsLoginModalOpen(true)}>Открыть модалку логина</Button>
+                <Button onClick={() => setIsLoginModalOpen(true)}>Открыть модалку логина</Button>
                 <LoginModal
-                    isModalOpen={isLoginModalOpen}
-                    setIsModalOpen={setIsLoginModalOpen}
+                    openState={{value: isLoginModalOpen, set: setIsLoginModalOpen }}
+                    navigateToRegisterPage={navigateToRegisterPage}
                 />
             </div>
             <div>
-                <Button onClick={setIsRegisterModalOpen(true)}>Открыть модалку регистрации</Button>
+                <Button onClick={() => setIsRegisterModalOpen(true)}>Открыть модалку регистрации</Button>
                 <RegisterModal
-                    isModalOpen={isRegisterModalOpen}
-                    setIsModalOpen={setIsRegisterModalOpen}
+                    openState={{value: isRegisterModalOpen, set: setIsRegisterModalOpen }}
+                    navigateToLoginPage={navigateToLoginPage}
                 />
             </div>
         </div>
     );
+
+    function navigateToLoginPage() {
+        setIsRegisterModalOpen(false);
+        setIsLoginModalOpen(true);
+    }
+
+    function navigateToRegisterPage() {
+        setIsLoginModalOpen(false);
+        setIsRegisterModalOpen(true);
+    }
 }
 
 export default App;
