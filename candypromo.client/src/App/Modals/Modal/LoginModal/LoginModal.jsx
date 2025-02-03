@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { useState, useRef } from "react";
 import "./LoginModal.css";
 import { Dialog } from "primereact/dialog";
@@ -5,6 +6,7 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
+import { InputMask } from 'primereact/inputmask';
 import { TabMenu } from "primereact/tabmenu";
 import axios from "axios";
 
@@ -17,10 +19,16 @@ import axios from "axios";
 function LoginModal({ openState, navigateToRegisterPage }) {
     const [selectedTabId, setSelectedTabId] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const [userLogin, setUserLogin] = useState("");
+    const [userPhone, setUserPhone] = useState("");
+    const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
     const toast = useRef(null);
+
+    const handleKeyDown = async (event) => {
+        if (event.key === "Enter")
+            await login();
+    };
 
     return (
         <div>
@@ -39,23 +47,42 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                 <TabMenu
                     className="TabMenu mb-3"
                     model={[{ label: "Телефон" }, { label: "Электронная почта" }]}
-                    disabled={loading}
+                    disabled={isLoading}
                     activeIndex={selectedTabId}
-                    onTabChange={(e) => setSelectedTabId(e.index)} />
+                    onTabChange={(e) => {
+                        setSelectedTabId(e.index);
+                        setUserEmail("");
+                        setUserPhone("");
+                    }} />
                 <div className="flex flex-column gap-2">
-                    <label htmlFor="username">Логин</label>
-                    <InputText
-                        id="username"
-                        aria-describedby="email-help"
-                        value={userLogin}
-                        onChange={(e) => {
-                            setUserLogin(e.target.value);
-                            document.getElementById("email-help").innerText = "";
-                        }}
-                        disabled={isLoading} />
-                    <div className="error-help">
-                        <label id="email-help" />
-                    </div>
+                    <label>Логин</label>
+                    {selectedTabId === 0 ? ([
+                        <InputMask
+                            value={userPhone}
+                            disabled={isLoading}
+                            onChange={(e) => {
+                                setUserPhone(e.target.value);
+                                document.getElementById('phone-help').innerText = '';
+                            }}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Введите телефон"
+                            mask="+7-(999)-999-99-99" />,
+                        <div className="error-help">
+                            <label id="phone-help" />
+                        </div>
+                    ]) : ([
+                        <InputText
+                            placeholder="Введите email"
+                            disabled={isLoading}
+                            type="email"
+                            value={userEmail}
+                            onKeyDown={handleKeyDown}
+                            onChange={(e) => setUserEmail(e.target.value)}
+                            id="email" />,
+                        <div className="error-help">
+                            <label id="email-help" />
+                        </div>
+                    ])}
                 </div>
                 <div className="flex flex-column gap-2">
                     <label htmlFor="password">Пароль</label>
@@ -63,6 +90,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                         id="password"
                         aria-describedby="password-help"
                         value={userPassword}
+                        onKeyDown={handleKeyDown}
                         onChange={(e) => {
                             setUserPassword(e.target.value);
                             document.getElementById("password-help").innerText = "";
@@ -89,9 +117,14 @@ function LoginModal({ openState, navigateToRegisterPage }) {
 
     async function login() {
         setIsLoading(true);
-        document.getElementById("email-help").innerText = document.getElementById("password-help").innerText = "";
+        if (selectedTabId === 0) {
+            document.getElementById('phone-help').innerText = '';
+        } else if (selectedTabId === 1) {
+            document.getElementById('email-help').innerText = '';
+        }
+        document.getElementById('password-help').innerText = '';
         await axios
-            .post(`/api/auth/login`, { email: userLogin, password: userPassword })
+            .post(`/api/auth/login`, { email: userEmail, phone: userPhone, password: userPassword })
             .then((response) => {
                 const token = response.data;
                 localStorage.setItem("token", token);
@@ -101,12 +134,17 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                     summary: "Добро пожаловать",
                     detail: "Вход выполнен успешно!"
                 });
-                openState(false);
+                openState.set(false);
             }).catch((response) => {
                 if (response.status === 400) {
                     console.log(response.response.data.errors[0]);
-                    response.response.data.errors.forEach(function (error) {
-                        document.getElementById(`${error.propertyNames[0].toLowerCase()}-help`).innerText = error.reason;
+                    response.response.data.errors.forEach(e => {
+                        e.propertyNames.forEach(pn => {
+                            const element = document.getElementById(`${pn.toLowerCase()}-help`);
+                            if (element) {
+                                element.innerText = e.reason;
+                            }
+                        });
                     });
                 } else {
                     console.log(response.response.data);
