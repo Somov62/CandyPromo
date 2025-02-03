@@ -7,9 +7,9 @@ import 'primeflex/primeflex.css';
 import { PrimeReactProvider } from 'primereact/api';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-      <PrimeReactProvider>
-          <App />
-     </PrimeReactProvider>
-</StrictMode>,
+    <StrictMode>
+        <PrimeReactProvider>
+            <App />
+        </PrimeReactProvider>
+    </StrictMode>,
 )

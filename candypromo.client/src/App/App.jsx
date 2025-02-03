@@ -1,7 +1,7 @@
-import {useState} from 'react';
-import './App.css';
-import RegisterModal from './Modals/Modal/RegisterModal/RegisterModal';
-import LoginModal from './Modals/Modal/LoginModal/LoginModal';
+import {useState} from "react";
+import "./App.css";
+import RegisterModal from "./Modals/Modal/RegisterModal/RegisterModal";
+import LoginModal from "./Modals/Modal/LoginModal/LoginModal";
 import {Button} from "primereact/button";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
             <div>
                 <Button onClick={() => setIsRegisterModalOpen(true)}>Открыть модалку регистрации</Button>
                 <RegisterModal
-                    openState={{value: isRegisterModalOpen, set: setIsRegisterModalOpen }}
+                    openState={{ value: isRegisterModalOpen, set: setIsRegisterModalOpen }}
                     navigateToLoginPage={navigateToLoginPage}
                 />
             </div>
