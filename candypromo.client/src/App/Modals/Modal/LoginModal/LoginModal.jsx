@@ -54,8 +54,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                         setUserEmail("");
                         setUserPhone("");
                     }} />
-                <div className="flex flex-column gap-2">
-                    <label>Логин</label>
+                <div className="flex flex-column">
                     {selectedTabId === 0 ? ([
                         <InputMask
                             value={userPhone}
@@ -84,8 +83,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                         </div>
                     ])}
                 </div>
-                <div className="flex flex-column gap-2">
-                    <label htmlFor="password">Пароль</label>
+                <div className="flex flex-column">
                     <Password
                         id="password"
                         aria-describedby="password-help"
@@ -96,6 +94,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                             document.getElementById("password-help").innerText = "";
                         }}
                         feedback={false}
+                        placeholder="Введите пароль"
                         disabled={isLoading} />
                     <div className="error-help">
                         <label id="password-help" />
