@@ -8,7 +8,6 @@ import { InputMask } from 'primereact/inputmask';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import axios from "axios";
-import { GetCookie } from '../../../../../Helpers/CookieHelper';
 
 /*
     Компонент - модальное окно регистрации
