@@ -1,13 +1,14 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import './RegisterModal.css';
-import {Dialog} from "primereact/dialog";
-import {InputText} from "primereact/inputtext";
-import {TabMenu} from 'primereact/tabmenu';
-import {Password} from 'primereact/password';
-import {InputMask} from 'primereact/inputmask';
-import {Button} from 'primereact/button';
-import {Toast} from 'primereact/toast';
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { TabMenu } from 'primereact/tabmenu';
+import { Password } from 'primereact/password';
+import { InputMask } from 'primereact/inputmask';
+import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 import axios from "axios";
+import { GetCookie } from '../../../../../Helpers/CookieHelper';
 
 /*
     Компонент - модальное окно регистрации
@@ -15,7 +16,7 @@ import axios from "axios";
     - openState - хук useState(true | false) на отображение модалки.
 */
 
-function RegisterModal({openState, navigateToLoginPage}) {
+function RegisterModal({ openState, navigateToLoginPage }) {
 
     const [selectedTabId, setSelectedTabId] = useState(0);
     const [name, setName] = useState('');
@@ -29,11 +30,11 @@ function RegisterModal({openState, navigateToLoginPage}) {
         <div>
             <Toast
                 ref={toast}
-                position="top-center"/>
+                position="top-center" />
             <Dialog
                 header="Регистрация"
                 visible={openState.value}
-                style={{width: '50vw'}}
+                style={{ width: '50vw' }}
                 onHide={() => {
                     if (!openState.value) return;
                     openState.set(false)
@@ -42,10 +43,10 @@ function RegisterModal({openState, navigateToLoginPage}) {
                 <div className="inputs">
                     <TabMenu
                         className="TabMenu mb-3"
-                        model={[{label: 'Телефон'}, {label: 'Электронная почта'}]}
+                        model={[{ label: 'Телефон' }, { label: 'Электронная почта' }]}
                         disabled={loading}
                         activeIndex={selectedTabId}
-                        onTabChange={(e) => setSelectedTabId(e.index)}/>
+                        onTabChange={(e) => setSelectedTabId(e.index)} />
 
                     <InputText
                         type="name"
@@ -56,9 +57,9 @@ function RegisterModal({openState, navigateToLoginPage}) {
                             setName(e.target.value);
                             document.getElementById('name-help').innerText = '';
                         }}
-                        placeholder="Введите ФИО полностью"/>
+                        placeholder="Введите ФИО полностью" />
                     <div className="error-help">
-                        <label id="name-help"/>
+                        <label id="name-help" />
                     </div>
 
                     {selectedTabId === 0 ? ([
@@ -70,9 +71,9 @@ function RegisterModal({openState, navigateToLoginPage}) {
                                 document.getElementById('phone-help').innerText = '';
                             }}
                             placeholder="Введите телефон"
-                            mask="+7-(999)-999-99-99"/>,
+                            mask="+7-(999)-999-99-99" />,
                         <div className="error-help">
-                            <label id="phone-help"/>
+                            <label id="phone-help" />
                         </div>
 
                     ]) : ([
@@ -82,9 +83,9 @@ function RegisterModal({openState, navigateToLoginPage}) {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            id="email"/>,
+                            id="email" />,
                         <div className="error-help">
-                            <label id="email-help"/>
+                            <label id="email-help" />
                         </div>
                     ])}
 
@@ -96,22 +97,22 @@ function RegisterModal({openState, navigateToLoginPage}) {
                         feedback={false}
                         placeholder="Придумайте пароль"
                         className="password-input"
-                        toggleMask/>
+                        toggleMask />
                     <div className="error-help">
-                        <label id="password-help"/>
+                        <label id="password-help" />
                     </div>
 
                     <Button
                         label="Создать аккаунт"
                         loading={loading}
-                        onClick={register}/>
+                        onClick={register} />
 
                     <Button
                         label="У меня уже есть аккаунт"
                         disabled={loading}
                         link
                         onClick={navigateToLoginPage}
-                        className="link-btn mt-3"/>
+                        className="link-btn mt-3" />
                 </div>
 
             </Dialog>
@@ -129,7 +130,7 @@ function RegisterModal({openState, navigateToLoginPage}) {
         }
         document.getElementById('password-help').innerText = '';
 
-        await axios.post('api/auth/register', {name, email, phone, password})
+        await axios.post('api/auth/register', { name, email, phone, password })
             .then((response) => {
                 const token = response.data;
                 localStorage.setItem("token", token);
@@ -159,7 +160,7 @@ function RegisterModal({openState, navigateToLoginPage}) {
                 } else {
                     detail = error.message;
                 }
-                toast.current.show({severity: 'error', summary: 'Ошибка регистрации', detail: detail});
+                toast.current.show({ severity: 'error', summary: 'Ошибка регистрации', detail: detail });
             });
         setLoading(false);
     }
