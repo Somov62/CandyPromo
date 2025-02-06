@@ -16,7 +16,7 @@ public class AuthController(AuthService service) : BaseController
     /// </summary>
     private readonly CookieOptions _cookieOptions = new()
     {
-        Expires = DateTime.UtcNow.AddMonths(1)
+        Expires = DateTime.UtcNow.AddHours(12)
     };
 
     [HttpPost("register"), AllowAnonymous]
