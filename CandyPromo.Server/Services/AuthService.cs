@@ -1,5 +1,6 @@
 ﻿using CandyPromo.Server.Auth;
 using CandyPromo.Server.Helpers;
+using CandyPromo.Server.Models;
 using CandyPromo.Server.Requests;
 using CandyPromo.Server.Requests.Validation;
 
@@ -14,7 +15,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
     /// <summary>
     /// Зайти в аккаунт (получить токен).
     /// </summary>
-    public async Task<string> Login(LoginRequest request, CancellationToken cancel)
+    public async Task<TokenResult> Login(LoginRequest request, CancellationToken cancel)
     {
         User? user = null;
         if (!string.IsNullOrEmpty(request.Email))
@@ -38,14 +39,18 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         if (!PasswordHasher.Verify(request.Password, user.Password))
             throw new ValidationException("Неправильный пароль.", nameof(LoginRequest.Password));
 
-        return tokenGenerator.Generate(user.Id, user.IsAdmin);
+        return new()
+        {
+            Token = tokenGenerator.Generate(user.Id, user.IsAdmin),
+            IsAdmin = user.IsAdmin
+        };
     }
 
     /// <summary>
     /// Регистрация нового пользователя.
     /// </summary>
     /// <exception cref="ValidationException"></exception>
-    public async Task<string> Register(RegisterUserRequest request, CancellationToken cancel)
+    public async Task<TokenResult> Register(RegisterUserRequest request, CancellationToken cancel)
     {
         var hashedPassword = PasswordHasher.Generate(request.Password);
 
@@ -74,6 +79,9 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         await database.Users.AddAsync(user, cancel);
         await database.SaveChangesAsync(cancel);
 
-        return tokenGenerator.Generate(user.Id, user.IsAdmin);
+        return new()
+        {
+            Token = tokenGenerator.Generate(user.Id, user.IsAdmin)
+        };
     }
 }
