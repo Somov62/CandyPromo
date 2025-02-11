@@ -22,7 +22,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         {
             user = await database.Users.SingleOrDefaultAsync(u =>
             u.Email != null &&
-            u.Email.ToLower() == request.Email,
+            u.Email == request.Email.ToLower(),
             cancel);
         }
 
@@ -30,7 +30,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
         {
             user = await database.Users.SingleOrDefaultAsync(u => u.Phone == request.Phone, cancel);
             if (user == null)
-                throw new ValidationException("Пользователь не найден.", nameof(LoginRequest.Password));
+                throw new ValidationException("Пользователь не найден.", nameof(LoginRequest.Phone));
         }
 
         if (user == null)
