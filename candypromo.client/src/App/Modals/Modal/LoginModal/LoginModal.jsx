@@ -9,6 +9,8 @@ import { Toast } from "primereact/toast";
 import { InputMask } from 'primereact/inputmask';
 import { TabMenu } from "primereact/tabmenu";
 import axios from "axios";
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 /*
  Компонент - модальное окно входа
@@ -22,7 +24,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
     const [userPhone, setUserPhone] = useState("");
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
-
+    const navigate = useNavigate();
     const toast = useRef(null);
 
     const handleKeyDown = async (event) => {
@@ -123,21 +125,21 @@ function LoginModal({ openState, navigateToRegisterPage }) {
         }
         document.getElementById('password-help').innerText = '';
         await axios
-            .post(`/api/auth/login`, { email: userEmail, phone: userPhone, password: userPassword })
+            .post(`api/auth/login`, { email: userEmail, phone: userPhone, password: userPassword })
             .then((response) => {
                 const token = response.data;
                 localStorage.setItem("token", token);
-                console.log(token);
-                toast.current.show({
-                    severity: "success",
-                    summary: "Добро пожаловать",
-                    detail: "Вход выполнен успешно!"
-                });
+                console.log(response.data);
                 openState.set(false);
+
+                const role = Cookies.get("isAdmin").toLowerCase() === 'true';
+
+                navigate(role ? "/admin" : "/profile");
+
             }).catch((response) => {
                 if (response.status === 400) {
-                    console.log(response.response.data.errors[0]);
-                    response.response.data.errors.forEach(e => {
+                    console.log(response.errors[0]);
+                    response.errors.forEach(e => {
                         e.propertyNames.forEach(pn => {
                             const element = document.getElementById(`${pn.toLowerCase()}-help`);
                             if (element) {
@@ -146,7 +148,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                         });
                     });
                 } else {
-                    console.log(response.response.data);
+                    console.log(response);
                 }
                 toast.current.show({ severity: "error", summary: "Ошибка авторизации" });
             });

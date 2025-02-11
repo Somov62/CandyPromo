@@ -8,6 +8,8 @@ import { InputMask } from 'primereact/inputmask';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import axios from "axios";
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 /*
     Компонент - модальное окно регистрации
@@ -24,6 +26,7 @@ function RegisterModal({ openState, navigateToLoginPage }) {
     const [password, setPassword] = useState('');
     const toast = useRef(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -140,6 +143,12 @@ function RegisterModal({ openState, navigateToLoginPage }) {
                     detail: 'Регистрация завершена успешно!'
                 });
                 openState.set(false);
+
+
+                const role = Cookies.get("isAdmin").toLowerCase() === 'true'
+
+                navigate(role ? "/admin" : "/profile");
+
             })
             .catch((error) => {
                 console.log(error);
