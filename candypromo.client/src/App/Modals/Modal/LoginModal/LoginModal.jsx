@@ -125,25 +125,21 @@ function LoginModal({ openState, navigateToRegisterPage }) {
         }
         document.getElementById('password-help').innerText = '';
         await axios
-            .post(`/api/auth/login`, { email: userEmail, phone: userPhone, password: userPassword })
+            .post(`api/auth/login`, { email: userEmail, phone: userPhone, password: userPassword })
             .then((response) => {
                 const token = response.data;
                 localStorage.setItem("token", token);
                 console.log(response.data);
-                openState(false);
-
-                const role = Cookies.get("role");
-
-                if (role === "admin")
-                    navigate("/admin");
-
-                if (role === "user")
-                    navigate("/profile")
                 openState.set(false);
+
+                const role = Cookies.get("isAdmin").toLowerCase() === 'true';
+
+                navigate(role ? "/admin" : "/profile");
+
             }).catch((response) => {
                 if (response.status === 400) {
-                    console.log(response.response.data.errors[0]);
-                    response.response.data.errors.forEach(e => {
+                    console.log(response.errors[0]);
+                    response.errors.forEach(e => {
                         e.propertyNames.forEach(pn => {
                             const element = document.getElementById(`${pn.toLowerCase()}-help`);
                             if (element) {
@@ -152,7 +148,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                         });
                     });
                 } else {
-                    console.log(response.response.data);
+                    console.log(response);
                 }
                 toast.current.show({ severity: "error", summary: "Ошибка авторизации" });
             });

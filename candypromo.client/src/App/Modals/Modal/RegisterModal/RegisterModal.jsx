@@ -144,13 +144,11 @@ function RegisterModal({ openState, navigateToLoginPage }) {
                 });
                 openState.set(false);
 
-                const role = Cookies.get("role");
 
-                if (role === "admin")
-                    navigate("/admin");
+                const role = Cookies.get("isAdmin").toLowerCase() === 'true'
 
-                if (role === "user")
-                    navigate("/profile")
+                navigate(role ? "/admin" : "/profile");
+
             })
             .catch((error) => {
                 console.log(error);

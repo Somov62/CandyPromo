@@ -99,19 +99,17 @@ const Header = () => {
 
     function navigateToProfilePage()
     {
-        const role = Cookies.get("role");
+        let role = Cookies.get("isAdmin");
 
-        if (role === "admin") {
-            navigate("/admin");
+        if (role === undefined)
+        {
+            navigateToLoginPage();
             return;
         }
 
-        if (role === "user") {
-            navigate("/profile")
-            return;
-        }
+        role = role.toLowerCase() === 'true';
 
-        navigateToLoginPage();
+        navigate(role ? "/admin" : "/profile");
     }
 };
 
