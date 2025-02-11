@@ -81,7 +81,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
 
         return new()
         {
-            Token = tokenGenerator.Generate(user.Id, user.IsAdmin)
+            Token = tokenGenerator.Generate(user.Id, false)
         };
     }
 }

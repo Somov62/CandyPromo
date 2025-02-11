@@ -35,6 +35,10 @@ public class AuthController(AuthService service) : BaseController
         return Ok(response);
     }
 
+    /// <summary>
+    /// Установить cookie в ответе.
+    /// </summary>
+    /// <param name="tokenResult"></param>
     private void SetCookie(TokenResult tokenResult)
     {
         Response.Cookies.Append("token", tokenResult.Token, _cookieOptions);
