@@ -5,9 +5,22 @@
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  --dark-color: #1e1e1e;
-  --light-color: #fff;
-  --secondary-color: #ccc;
-  --primary-color: #009dff;
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  width: 100%;
+  height: 100%;
 }

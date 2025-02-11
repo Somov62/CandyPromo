@@ -5,6 +5,8 @@ import {InputText} from "primereact/inputtext";
 import {Password} from 'primereact/password';
 import {Button} from 'primereact/button';
 import axios from "axios";
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 /*
     Компонент - модальное окно входа
@@ -20,6 +22,7 @@ function LoginModal({openState, navigateToRegisterPage}) {
 
     const [userLoginError, setUserLoginError] = useState('');
     const [userPasswordError, setUserPasswordError] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isLoading) {
@@ -86,6 +89,14 @@ function LoginModal({openState, navigateToRegisterPage}) {
                 localStorage.setItem("token", token);
                 console.log(response.data);
                 openState(false);
+
+                const role = Cookies.get("role");
+
+                if (role === "admin")
+                    navigate("/admin");
+
+                if (role === "user")
+                    navigate("/profile")
             }).catch((response) => {
                 console.log(response.response.data.errors[0]);
                 response.response.data.errors.forEach(function (error) {
