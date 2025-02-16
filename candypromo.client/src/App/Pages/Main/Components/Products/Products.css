@@ -1,0 +1,11 @@
+﻿.products {
+    display: flex;
+}
+
+    .products > div {
+        margin: 10px;
+    }
+
+    .products img {
+        border-radius: 10px;
+    }
