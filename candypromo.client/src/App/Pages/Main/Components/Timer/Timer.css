@@ -1,0 +1,24 @@
+.Timer {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    gap: 3em;
+    font-family: sans-serif;
+    text-align: center;
+    width: 70%;
+}
+
+.TimerWrapper {
+}
+
+.time {
+    font-size: 32px;
+}
+
+.TimerWrapper h1 {
+    text-align: center;
+    color: deepskyblue;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 2.5em;
+}

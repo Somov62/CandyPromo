@@ -6,9 +6,7 @@ function App() {
     return (
         <div className="flex flex-column">
             <Header/>
-            <div className="page-content-wrapper">
-                <Outlet/>
-            </div>
+            <Outlet/>
         </div>
     );
 }

@@ -10,9 +10,7 @@ h1 {
     width: 100vw;
     background-color: var(--primary-color);
     padding: 1em 1em 2em;
-    position: absolute;
-    left: 0;
-    right: 0;
+
 }
 .ConditionsSection img {
     border-radius: 4px  4px 0 0;
