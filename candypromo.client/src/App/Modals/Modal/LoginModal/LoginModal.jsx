@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-key */
+﻿/* eslint-disable react/jsx-key */
 import { useState, useRef } from "react";
 import "./LoginModal.css";
 import { Dialog } from "primereact/dialog";
