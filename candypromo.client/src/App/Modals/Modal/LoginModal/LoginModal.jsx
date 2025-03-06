@@ -124,6 +124,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
             document.getElementById('email-help').innerText = '';
         }
         document.getElementById('password-help').innerText = '';
+
         await axios
             .post(`api/auth/login`, { email: userEmail, phone: userPhone, password: userPassword })
             .then((response) => {
