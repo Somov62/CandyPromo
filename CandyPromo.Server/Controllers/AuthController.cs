@@ -19,7 +19,14 @@ public class AuthController(AuthService service) : BaseController
         Expires = DateTime.UtcNow.AddHours(12)
     };
 
+    /// <summary>
+    /// Регистрация пользователя в системе.
+    /// </summary>
+    /// <param name="request"> Данные пользователя </param>
+    /// <param name="cancel"></param>
     [HttpPost("register"), AllowAnonymous]
+    [ProducesResponseType(200, Type = typeof(TokenResult))]
+    [ProducesResponseType(400, Type = typeof(Envelope))]
     public async Task<IActionResult> Register([FromBody] RegisterUserRequest request, CancellationToken cancel)
     {
         var response = await service.Register(request, cancel);
@@ -27,6 +34,12 @@ public class AuthController(AuthService service) : BaseController
         return Ok(response);
     }
 
+    /// <summary>
+    /// Вход в аккаунт.
+    /// </summary>
+    /// <param name="request"> Данные пользователя </param>
+    /// <param name="cancel"></param>
+    [ProducesResponseType(200, Type = typeof(TokenResult))]
     [HttpPost("login"), AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancel)
     {

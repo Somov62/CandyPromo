@@ -16,7 +16,7 @@ public class JwtTokenGenerator(IOptions<JwtOptions> options)
         // Информация, содержащаяся в токене.
         Claim[] claims =
         [
-            new ("userId", userId.ToString()),
+            new (ClaimTypes.NameIdentifier, userId.ToString()),
             new (ClaimTypes.Role, isAdmin ? "Admin" : "User")
         ];
 
