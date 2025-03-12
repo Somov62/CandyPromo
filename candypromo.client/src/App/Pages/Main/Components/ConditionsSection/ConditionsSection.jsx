@@ -1,12 +1,7 @@
-import React, {useRef} from 'react';
 import "./ConditionsSection.css"
 import {Card} from 'primereact/card';
-import {Button} from 'primereact/button';
 
 const ConditionsSection = () => {
-
-    const stepperRef = useRef(null);
-
     return (
             <div className="ConditionsSection">
                 <h1>Условия</h1>

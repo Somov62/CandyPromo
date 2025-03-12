@@ -1,5 +1,4 @@
-﻿import { useState, useRef } from "react";
-import { Card } from 'primereact/card';
+﻿import { Card } from 'primereact/card';
 import "./Products.css";
 
 function Products() {
