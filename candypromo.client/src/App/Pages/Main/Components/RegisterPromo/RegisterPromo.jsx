@@ -11,13 +11,22 @@ function RegisterPromo() {
     const [promocode, setPromocode] = useState("");
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-    const toast = useRef(null);
+    const toastPromo = useRef(null);
 
     return (
         <div>
             <Toast
-                ref={toast}
+                ref={toastPromo}
                 position="top-center" />
+
+            <LoginModal
+                openState={{ value: isLoginModalOpen, set: setIsLoginModalOpen }}
+                navigateToRegisterPage={navigateToRegisterPage} />
+
+            <RegisterModal
+                openState={{ value: isRegisterModalOpen, set: setIsRegisterModalOpen }}
+                navigateToLoginPage={navigateToLoginPage} />
+
             <div className="regpromo">
                 <div className="w-1/4">
                     <div>
@@ -28,13 +37,6 @@ function RegisterPromo() {
                         <Button className="w-1/1 mt-2"
                             label="Зарегистрировать"
                             onClick={() => RegisterPromocode()} />
-                        <LoginModal
-                            openState={{ value: isLoginModalOpen, set: setIsLoginModalOpen }}
-                            navigateToRegisterPage={navigateToRegisterPage} />
-
-                        <RegisterModal
-                            openState={{ value: isRegisterModalOpen, set: setIsRegisterModalOpen }}
-                            navigateToLoginPage={navigateToLoginPage} />
                     </div>
                 </div >
             </div>
@@ -69,9 +71,9 @@ function RegisterPromo() {
                 }
             })
             .then((response) => {
-                toast.current.show({ severity: "success", summary: "Ваш промокод был успешно зарегистрирован!" });
+                toastPromo.current.show({ severity: "success", summary: "Ваш промокод был успешно зарегистрирован!" });
             }).catch((response) => {
-                toast.current.show({ severity: "error", summary: "Ошибка регистрации промокода!" });
+                toastPromo.current.show({ severity: "error", summary: "Ошибка регистрации промокода!" });
             });
     }
 }
