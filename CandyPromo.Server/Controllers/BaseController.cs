@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Security.Claims;
 
 namespace CandyPromo.Server.Controllers;
 
@@ -29,5 +30,16 @@ public class BaseController : ControllerBase
     public BadRequestObjectResult BadRequest([ActionResultObjectValue] ValidationError error)
     {
         return base.BadRequest(Envelope.Error(error));
+    }
+
+    /// <summary>
+    /// Достает идентификатор пользователя из токена авторизации.
+    /// </summary>
+    protected Guid GetUserId()
+    {
+        string id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ??
+            throw new InvalidDataException("В валидном токене не оказалось userId");
+
+        return new Guid(id);
     }
 }
