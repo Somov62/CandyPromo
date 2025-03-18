@@ -14,28 +14,30 @@ function RegisterPromo() {
     const toast = useRef(null);
 
     return (
-        <div className="regpromo">
+        <div>
             <Toast
                 ref={toast}
                 position="top-center" />
-            <div className="w-1/4">
-                <div>
-                    <p className="text-center font-bold text-4xl">
-                        Регистрация промокода
-                    </p>
-                    <InputText placeholder="Промокод" value={promocode} onChange={(e) => setPromocode(e.target.value)} />
-                    <Button className="w-1/1 mt-2"
-                        label="Зарегистрировать"
-                        onClick={() => RegisterPromocode()} />
-                    <LoginModal
-                        openState={{ value: isLoginModalOpen, set: setIsLoginModalOpen }}
-                        navigateToRegisterPage={navigateToRegisterPage} />
+            <div className="regpromo">
+                <div className="w-1/4">
+                    <div>
+                        <p className="text-center font-bold text-4xl">
+                            Регистрация промокода
+                        </p>
+                        <InputText placeholder="Промокод" value={promocode} onChange={(e) => setPromocode(e.target.value)} />
+                        <Button className="w-1/1 mt-2"
+                            label="Зарегистрировать"
+                            onClick={() => RegisterPromocode()} />
+                        <LoginModal
+                            openState={{ value: isLoginModalOpen, set: setIsLoginModalOpen }}
+                            navigateToRegisterPage={navigateToRegisterPage} />
 
-                    <RegisterModal
-                        openState={{ value: isRegisterModalOpen, set: setIsRegisterModalOpen }}
-                        navigateToLoginPage={navigateToLoginPage} />
-                </div>
-            </div >
+                        <RegisterModal
+                            openState={{ value: isRegisterModalOpen, set: setIsRegisterModalOpen }}
+                            navigateToLoginPage={navigateToLoginPage} />
+                    </div>
+                </div >
+            </div>
         </div>
     );
 
