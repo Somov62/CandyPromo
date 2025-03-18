@@ -1,20 +1,21 @@
-﻿.products {
+.prizes {
     background-color: var(--primary-color);
+    margin: 20px 0px;
     padding: 10px;
     width: 100vw;
 }
 
-.products>div {
+.prizes>div {
     margin: 10px;
     width: 70%;
     justify-self: center;
 }
 
-.products img {
+.prizes img {
     border-radius: 10px;
 }
 
-.products h1 {
+.prizes h1 {
     text-align: center;
     color: white;
     text-transform: uppercase;

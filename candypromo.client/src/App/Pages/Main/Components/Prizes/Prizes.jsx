@@ -1,8 +1,9 @@
 ﻿import { Card } from 'primereact/card';
+import "./Prizes.css";
 
 function Prizes() {
     return (
-        <div className="products mt-10">
+        <div className="prizes">
             <h1>Призы</h1>
             <div className="flex gap-3">
                 <Card title="Планшет"
