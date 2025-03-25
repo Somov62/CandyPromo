@@ -1,4 +1,5 @@
 ﻿using CandyPromo.Server.Requests.Validation;
+using CandyPromo.Server.Responses;
 
 namespace CandyPromo.Server.Services;
 
@@ -25,5 +26,17 @@ public class PromocodeService(CandyPromoContext database)
         code.Owner = user;
 
         await database.SaveChangesAsync(cancel);
+    }
+
+    /// <summary>
+    /// Возвращает количество промокодов, участвующих в промоакции.
+    /// В том числе количество зарегистрированных промокодов.
+    /// </summary>
+    public async Task<PromocodesCountResponse> GetPromocodesCount(CancellationToken cancel)
+    {
+        var totalCount = await database.Promocodes.CountAsync(cancellationToken: cancel);
+        var registeredCount = await database.Promocodes.CountAsync(p => p.OwnerId != null, cancellationToken: cancel);
+
+        return new PromocodesCountResponse(totalCount, registeredCount);
     }
 }

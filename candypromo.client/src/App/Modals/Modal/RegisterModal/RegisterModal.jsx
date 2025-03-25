@@ -152,6 +152,7 @@ function RegisterModal({ openState, navigateToLoginPage }) {
             })
             .catch((error) => {
                 console.log(error);
+                error = error.response;
                 let detail
                 if (error.status === 400) {
                     error.response.data.errors.forEach(e => {

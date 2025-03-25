@@ -11,6 +11,9 @@ namespace CandyPromo.Server.Auth;
 /// </summary>
 public class JwtTokenGenerator(IOptions<JwtOptions> options)
 {
+    /// <summary>
+    /// Генерирует access токен.
+    /// </summary>
     public string Generate(Guid userId, bool isAdmin)
     {
         // Информация, содержащаяся в токене.

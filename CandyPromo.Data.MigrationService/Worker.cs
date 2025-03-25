@@ -84,6 +84,24 @@ public class Worker(IServiceProvider serviceProvider,
                     Password = "$2a$11$Q7u85hHw4xUny9TFtfSeeOF1fYbdvEuxc31992aniJ3omCc9DCl6a",
                     IsAdmin = true,
                     Phone = "79999999999"
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "user1",
+                    Email = "user1@mail.ru",
+                    Password = "$2a$11$/QAXLgsrRon4rcONXdQO8eT5ArYIQEZ3tePKfmcr4ERgQz1Ej5vaq",
+                    IsAdmin = false,
+                    Phone = "79999999999"
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "user2",
+                    Email = "user2@mail.ru",
+                    Password = "$2a$11$/QAXLgsrRon4rcONXdQO8eT5ArYIQEZ3tePKfmcr4ERgQz1Ej5vaq",
+                    IsAdmin = false,
+                    Phone = "79999999999"
                 }
             };
 

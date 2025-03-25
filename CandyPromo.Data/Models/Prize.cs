@@ -1,4 +1,6 @@
-﻿namespace CandyPromo.Data.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace CandyPromo.Data.Models;
 
 /// <summary>
 /// Приз.
@@ -44,30 +46,42 @@ public class Prize
 /// <summary>
 /// Статусы приза.
 /// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum PrizeDeliveryStatus
 {
     /// <summary>
     /// Промоакция не завершена.
     /// </summary>
+    [JsonStringEnumMemberName("Промоакция не завершена")]
     PromotionNotEnded,
+    
     /// <summary>
     /// Победитель найден.
     /// </summary>
-    WinnerFinding,
+    [JsonStringEnumMemberName("Победитель найден")]
+    WinnerFound,
+    
     /// <summary>
     /// Адрес победителя получен.
     /// </summary>
+    [JsonStringEnumMemberName("Адрес победителя получен")]
     WinnerAddressReceived,
+    
     /// <summary>
     /// Приз отправлен.
     /// </summary>
+    [JsonStringEnumMemberName("Приз отправлен")]
     Sent,
+    
     /// <summary>
     /// Получены данные победителя для доставки.
     /// </summary>
+    [JsonStringEnumMemberName("Получены данные победителя для доставки")]
     FailedContactWinner,
+   
     /// <summary>
     /// Приз доставлен.
     /// </summary>
+    [JsonStringEnumMemberName("Приз доставлен")]
     Delivered
 }

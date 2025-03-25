@@ -1,13 +1,16 @@
-﻿namespace CandyPromo.Server.HostedServices;
+﻿using Microsoft.Extensions.Options;
+
+namespace CandyPromo.Server.HostedServices;
 
 /// <summary>
 /// Сервис розыгрыша призов.
 /// </summary>
 public class PrizeDrawHostedService(
-    DateTime prizeDate,
+    IOptions<AppSettings> appSettings,
     IServiceProvider services) : IHostedService, IDisposable
 {
     private Timer? _timer = null;
+    private readonly DateTime _prizeDate = appSettings.Value.PromoEndingDate;
     private readonly ILogger<PrizeDrawHostedService> _logger = services.GetRequiredService<ILogger<PrizeDrawHostedService>>();
 
     /// <summary>
@@ -17,13 +20,13 @@ public class PrizeDrawHostedService(
     {
         _logger.LogInformation("Service is starting. Wait Time.");
 
-        if (prizeDate - DateTime.Now < TimeSpan.Zero || (uint)(prizeDate - DateTime.Now).TotalMilliseconds > 4294967293)
+        if (_prizeDate - DateTime.Now < TimeSpan.Zero || (uint)(_prizeDate - DateTime.Now).TotalDays > 45)
         {
             _logger.LogError("Error date");
             return Task.CompletedTask;
         }
 
-        _timer = new Timer(DrawPrizes, null, prizeDate - DateTime.Now, TimeSpan.FromDays(0));
+        _timer = new Timer(DrawPrizes, null, _prizeDate - DateTime.Now, TimeSpan.FromDays(0));
 
         return Task.CompletedTask;
     }
@@ -72,7 +75,7 @@ public class PrizeDrawHostedService(
             _logger.LogInformation($"{promo.Owner!.Name} winner {prize.Name}");
 
             // Установка свойств приза.
-            prize.Status = PrizeDeliveryStatus.WinnerFinding;
+            prize.Status = PrizeDeliveryStatus.WinnerFound;
             prize.PromocodeId = promo.Code;
             prizesWin.Add(prize);
 
@@ -101,6 +104,9 @@ public class PrizeDrawHostedService(
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Высвобождает ресурсы.
+    /// </summary>
     public void Dispose()
     {
         _timer?.Dispose();
