@@ -3,10 +3,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.AddNpgsqlDbContext<CandyPromoContext>("postgres-data");
 builder.Services
+    .Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"))
     .AddSwagger()
+    .AddOpenApi()
     .AddApiAuthentication(builder.Configuration)
     .AddServicesLayer()
-    .AddHostedService<PrizeDrawHostedService>(services => new PrizeDrawHostedService(new DateTime(2025,8,5), services))
+    .AddHostedService<PrizeDrawHostedService>()
     .AddCors(options =>
     {
         options.AddPolicy(name: "Test",
@@ -20,6 +22,7 @@ app.UseCors(x =>
     .WithOrigins("https://localhost:7237"));
 if (app.Environment.IsDevelopment())
 {
+    app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
