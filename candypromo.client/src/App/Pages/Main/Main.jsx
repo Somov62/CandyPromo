@@ -1,17 +1,18 @@
-import React from 'react';
 import "./Main.css"
 import ConditionsSection from "@/App/Pages/Main/Components/ConditionsSection/ConditionsSection.jsx";
 import Products from './Components/Products/Products';
 import Timer from "@/App/Pages/Main/Components/Timer/Timer.jsx";
-import RegisterPromocode from "@/App/Pages/Main/Components/RegisterPromocode/RegisterPromocode.jsx";
+import Prizes from './Components/Prizes/Prizes';
+import RegisterPromo from "./Components/RegisterPromo/RegisterPromo";
 
 const Main = () => {
     return (
         <div className="Main">
-            <ConditionsSection/>
-            <Products/>
-            <Timer/>
-            <RegisterPromocode/>
+            <ConditionsSection />
+            <RegisterPromo />
+            <Products />
+            <Timer />
+            <Prizes />
         </div>
     );
 };

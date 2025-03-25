@@ -1,10 +1,9 @@
-﻿import { useState, useRef } from "react";
-import { Card } from 'primereact/card';
+﻿import { Card } from 'primereact/card';
 import "./Products.css";
 
 function Products() {
     return (
-        <div className="products">
+        <div className="products p-10">
             <h1>Продукты</h1>
             <div className="flex gap-3">
                 <Card title="Шоколадный"

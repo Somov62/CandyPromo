@@ -1,4 +1,3 @@
-import React from "react";
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./Timer.css";
 
@@ -35,7 +34,7 @@ export default function Timer() {
     const daysDuration = days * daySeconds;
 
     return (
-        <div className="TimerWrapper flex flex-column">
+        <div className="TimerWrapper flex flex-column mt-10">
             <h1>Отсчет до<br></br>
                 розыгрыша</h1>
             <div className="Timer">
