@@ -137,10 +137,12 @@ function LoginModal({ openState, navigateToRegisterPage }) {
 
                 navigate(role ? "/admin" : "/profile");
 
-            }).catch((response) => {
+            }).catch((error) => {
+                const response = error.response;
+
                 if (response.status === 400) {
-                    console.log(response.errors[0]);
-                    response.errors.forEach(e => {
+                    console.log(response.data.errors[0]);
+                    response.data.errors.forEach(e => {
                         e.propertyNames.forEach(pn => {
                             const element = document.getElementById(`${pn.toLowerCase()}-help`);
                             if (element) {
@@ -149,7 +151,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                         });
                     });
                 } else {
-                    console.log(response);
+                    console.log(response.data);
                 }
                 toast.current.show({ severity: "error", summary: "Ошибка авторизации" });
             });
