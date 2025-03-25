@@ -22,12 +22,14 @@
     "react-countdown-circle-timer": "^3.2.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.1.5",
-    "tailwindcss": "^4.0.13"
+    "tailwindcss": "^4.0.13",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/js-cookie": "^3.0.6",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.15.0",
     "eslint-plugin-react": "^7.37.2",
