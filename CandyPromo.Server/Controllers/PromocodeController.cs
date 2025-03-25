@@ -1,4 +1,5 @@
-﻿using CandyPromo.Server.Services;
+﻿using CandyPromo.Server.Responses;
+using CandyPromo.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,6 @@ public class PromocodeController(PromocodeService service) : BaseController
     /// Регистрация промокода за пользователем.
     /// </summary>
     /// <param name="promocode">Код с упаковки.</param>
-    /// <param name="cancel"></param>
     [HttpPost("register")]
     [Authorize(Roles = "User")]
     [ProducesResponseType(200)]
@@ -27,5 +27,20 @@ public class PromocodeController(PromocodeService service) : BaseController
         await service.RegisterByUser(userId, promocode, cancel);
 
         return Ok();
+    }
+
+    /// <summary>
+    /// Возвращает количество промокодов, участвующих в промоакции.
+    /// В том числе количество зарегистрированных промокодов.
+    /// </summary>
+    [HttpGet("count")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(200, Type = typeof(PromocodesCountResponse))]
+    [ProducesResponseType(403)]
+    public async Task<IActionResult> GetPromocodesCount(CancellationToken cancel)
+    {
+        var count = await service.GetPromocodesCount(cancel);
+
+        return Ok(count);
     }
 }
