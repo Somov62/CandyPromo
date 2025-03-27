@@ -1,12 +1,13 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
 import { useState, useRef } from "react";
 import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx";
 import RegisterModal from "@/App/Modals/Modal/RegisterModal/RegisterModal.jsx";
 import { Toast } from "primereact/toast";
 import Cookies from "js-cookie";
 import "./RegisterPromo.css";
+import promocodeService from "../../../../../API/Services/promocodeService";
 
 function RegisterPromo() {
     const [promocode, setPromocode] = useState("");
@@ -60,16 +61,15 @@ function RegisterPromo() {
             navigateToLoginPage();
             return null;
         }
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        axios.defaults.headers.post["Content-Type"] = "application/json";
-        await axios.post("api/promocode/register",
-            promocode).then((response) => {
-                toastPromo.current.show({ severity: "success", summary: "Ваш промокод был успешно зарегистрирован!" });
-            }
-            ).catch((response) => {
-                toastPromo.current.show({ severity: "error", summary: "Ошибка регистрации промокода!", detail: response.response.data.errors[0].reason });
-            });
-    };
+
+        try {
+            await promocodeService.register(promocode);
+            toastPromo.current.show({ severity: "success", summary: "Ваш промокод был успешно зарегистрирован!" });
+        }
+        catch (error) {
+            toastPromo.current.show({ severity: "error", summary: "Ошибка регистрации промокода!", detail: error.data.errors[0].reason });
+        }
+    }
 }
 
 export default RegisterPromo;
