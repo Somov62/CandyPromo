@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios from "axios";
 import { useState, useRef } from "react";
 import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx";
 import RegisterModal from "@/App/Modals/Modal/RegisterModal/RegisterModal.jsx";
