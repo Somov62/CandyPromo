@@ -11,6 +11,9 @@ import { TabMenu } from "primereact/tabmenu";
 import axios from "axios";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import authService from "@/API/Services/authService.js";
+import showErrorInFields from "@/API/Helpers/showErrorInFieldsHelper.js";
+import getErrorMessage from "@/API/Helpers/getErrorMessageHelper.js";
 
 /*
  Компонент - модальное окно входа
@@ -125,37 +128,26 @@ function LoginModal({ openState, navigateToRegisterPage }) {
         }
         document.getElementById('password-help').innerText = '';
 
-        await axios
-            .post(`api/auth/login`, { email: userEmail, phone: userPhone, password: userPassword })
-            .then((response) => {
-                const token = response.data;
-                localStorage.setItem("token", token);
-                console.log(response.data);
-                openState.set(false);
+        try {
+            const response = await authService.login(userEmail, userPhone, userPassword)
 
-                const role = Cookies.get("isAdmin").toLowerCase() === 'true';
+            const token = response.data.result.token;
+            localStorage.setItem("token", token);
+            console.log(response.data);
+            openState.set(false);
 
-                navigate(role ? "/admin" : "/profile");
+            const role = Cookies.get("isAdmin").toLowerCase() === 'true';
 
-            }).catch((error) => {
-                const response = error.response;
-
-                if (response.status === 400) {
-                    console.log(response.data.errors[0]);
-                    response.data.errors.forEach(e => {
-                        e.propertyNames.forEach(pn => {
-                            const element = document.getElementById(`${pn.toLowerCase()}-help`);
-                            if (element) {
-                                element.innerText = e.reason;
-                            }
-                        });
-                    });
-                } else {
-                    console.log(response.data);
-                }
-                toast.current.show({ severity: "error", summary: "Ошибка авторизации" });
-            });
-        setIsLoading(false);
+            navigate(role ? "/admin" : "/profile");
+        }
+        catch (error) {
+            showErrorInFields(error);
+            const message = getErrorMessage(error);
+            toast.current.show({ severity: "error", summary: "Ошибка авторизации", detail: message });
+        }
+        finally {
+            setIsLoading(false);
+        }
     }
 }
 

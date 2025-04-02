@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import './RegisterModal.css';
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -7,9 +7,11 @@ import { Password } from 'primereact/password';
 import { InputMask } from 'primereact/inputmask';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import axios from "axios";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import authService from "@/API/Services/authService.js";
+import showErrorInFields from "@/API/Helpers/showErrorInFieldsHelper.js";
+import getErrorMessage from "@/API/Helpers/getErrorMessageHelper.js";
 
 /*
     Компонент - модальное окно регистрации
@@ -66,6 +68,7 @@ function RegisterModal({ openState, navigateToLoginPage }) {
 
                     {selectedTabId === 0 ? ([
                         <InputMask
+                            key="1"
                             value={phone}
                             disabled={loading}
                             onChange={(e) => {
@@ -74,12 +77,13 @@ function RegisterModal({ openState, navigateToLoginPage }) {
                             }}
                             placeholder="Введите телефон"
                             mask="+7-(999)-999-99-99" />,
-                        <div className="error-help">
+                        <div key="3" className="error-help">
                             <label id="phone-help" />
                         </div>
 
                     ]) : ([
                         <InputText
+                            key="2"
                             placeholder="Введите email"
                             disabled={loading}
                             type="email"
@@ -132,46 +136,31 @@ function RegisterModal({ openState, navigateToLoginPage }) {
         }
         document.getElementById('password-help').innerText = '';
 
-        await axios.post('api/auth/register', { name, email, phone, password })
-            .then((response) => {
-                const token = response.data;
-                localStorage.setItem("token", token);
-                console.log(token);
-                toast.current.show({
-                    severity: 'success',
-                    summary: 'Добро пожаловать',
-                    detail: 'Регистрация завершена успешно!'
-                });
-                openState.set(false);
+        try {
+            const response = await authService.register(name, email, phone, password)
 
-
-                const role = Cookies.get("isAdmin").toLowerCase() === 'true'
-
-                navigate(role ? "/admin" : "/profile");
-
-            })
-            .catch((error) => {
-                console.log(error);
-                error = error.response;
-                let detail
-                if (error.status === 400) {
-                    error.response.data.errors.forEach(e => {
-                        e.propertyNames.forEach(pn => {
-                            const element = document.getElementById(`${pn.toLowerCase()}-help`);
-                            if (element) {
-                                element.innerText = e.reason;
-                            }
-                        });
-                    });
-                    detail = 'Неверные данные';
-                } else if (error.status === 500) {
-                    detail = error.Error;
-                } else {
-                    detail = error.message;
-                }
-                toast.current.show({ severity: 'error', summary: 'Ошибка регистрации', detail: detail });
+            const token = response.data.result.token;
+            localStorage.setItem("token", token);
+            console.log(token);
+            toast.current.show({
+                severity: 'success',
+                summary: 'Добро пожаловать',
+                detail: 'Регистрация завершена успешно!'
             });
-        setLoading(false);
+            openState.set(false);
+
+            const role = Cookies.get("isAdmin").toLowerCase() === 'true'
+
+            navigate(role ? "/admin" : "/profile");
+        }
+        catch (error) {
+            showErrorInFields(error)
+            const message = getErrorMessage(error)
+            toast.current.show({ severity: 'error', summary: 'Ошибка регистрации', detail: message });
+        }
+        finally {
+            setLoading(false);
+        }
     }
 }
 
