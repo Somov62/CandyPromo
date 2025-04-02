@@ -18,28 +18,28 @@ instance .interceptors.response.use(
 
         originalRequest._isRetry = true
         console.log(error.response)
-        if(
-            error.response.status === 401 &&
-            error.config &&
-            !error.config._isRetry
-        ){
-            try{
-                const accessToken = localStorage.getItem('token')
-                const refreshToken = localStorage.getItem('refresh-token')
-
-                const response = await instance .post('/api/refresh-token',{accessToken,refreshToken})
-                console.log(response)
-
-                localStorage.setItem('token', response.data.data.accessToken)
-                localStorage.setItem('refresh-token', response.data.data.refreshToken)
-
-
-                return instance .request(originalRequest)
-            }catch (error) {
-                console.log('Auth Error')
-                window.location.href = APP_URL
-            }
-        }
+        // if(
+        //     error.response.status === 401 &&
+        //     error.config &&
+        //     !error.config._isRetry
+        // ){
+        //     try{
+        //         const accessToken = localStorage.getItem('token')
+        //         const refreshToken = localStorage.getItem('refresh-token')
+        //
+        //         const response = await instance .post('/api/refresh-token',{accessToken,refreshToken})
+        //         console.log(response)
+        //
+        //         localStorage.setItem('token', response.data.data.accessToken)
+        //         localStorage.setItem('refresh-token', response.data.data.refreshToken)
+        //
+        //
+        //         return instance .request(originalRequest)
+        //     }catch (error) {
+        //         console.log('Auth Error')
+        //         window.location.href = APP_URL
+        //     }
+        // }
 
         throw error.response;
     }
