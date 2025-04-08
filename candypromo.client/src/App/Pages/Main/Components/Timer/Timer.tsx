@@ -4,12 +4,6 @@ import "./Timer.css";
 
 // #region Classes
 
-class TimerProps {
-    isPlaying: boolean = true;
-    size: number = 120;
-    strokeWidth: number = 6;
-}
-
 interface DatePrizeResult {
     result: Date;
     errors: any;
@@ -20,10 +14,18 @@ interface DatePrizeResult {
 
 // #region Consts
 
-const minuteSeconds: number = 60;
-const hourSeconds: number = 3600;
-const daySeconds: number = 86400000;
-const timerProps = new TimerProps();
+const datePrize = await GetDatePrize();
+
+const minuteSeconds = 60;
+const hourSeconds = 3600;
+const daySeconds = 86400;
+
+const timerProps = {
+    isPlaying: true,
+    size: 120,
+    strokeWidth: 6
+};
+
 const renderTime = (dimension: string, time: number) => {
     return (
         <div className="time-wrapper">
@@ -32,82 +34,94 @@ const renderTime = (dimension: string, time: number) => {
         </div>
     );
 };
-const datePrize = await GetDatePrize();
-const getTimeSeconds = () => GetRemainingTime().getSeconds() | 0;
-const getTimeMinutes = () => GetRemainingTime().getMinutes() | 0;
-const getTimeHours = () => GetRemainingTime().getHours() | 0;
-const getTimeDays = () => GetRemainingTime().getDay() | 0;
 
-const days: number = Math.ceil(GetRemainingTime().getTime() / daySeconds);
-const daysDuration: number = days * daySeconds;
+const getTimeSeconds = (time: number) => (minuteSeconds - time) | 0;
+const getTimeMinutes = (time: number) => ((time % hourSeconds) / minuteSeconds) | 0;
+const getTimeHours = (time: number): number => ((time % daySeconds) / hourSeconds) | 0;
+const getTimeDays = (time: number) => (time / daySeconds) | 0;
+
+const startTime = Date.now() / 1000; // use UNIX timestamp in seconds
+const endTime: number = await GetDatePrize() / 1000; // use UNIX timestamp in seconds
+
+const remainingTime = endTime - startTime;
+const days = Math.ceil(remainingTime / daySeconds);
+const daysDuration = days * daySeconds;
 
 // #endregion
 
 // #region Methods
 
-async function GetDatePrize(): Promise<Date> {
-    var result: AxiosResponse<DatePrizeResult> = await axios.get<DatePrizeResult>("/api/Promo/date");
-    return new Date(result.data.result);
-}
-
-function GetRemainingTime(): Date {
-    return new Date(datePrize.getTime() - Date.now());
+async function GetDatePrize(): Promise<number> {
+    try {
+        var result: AxiosResponse<DatePrizeResult> = await axios.get<DatePrizeResult>("/api/Promo/date");
+        return new Date(result.data.result).getTime();
+    }
+    catch {
+        return Date.now();
+    }
 }
 
 // #endregion
 
 export default function Timer() {
     return (
-        <div className="TimerWrapper flex flex-column mt-10">
-            <h1>Отсчет до<br></br>
-                розыгрыша</h1>
+        <div className="TimerWrapper flex flex-column mt-5">
+            <h1>Отсчет до розыгрыша</h1>
             <div className="Timer">
                 <CountdownCircleTimer
-                    {...timerProps} colors="#444444"
+                    {...timerProps}
+                    colors="#7E2E84"
                     duration={daysDuration}
-                    initialRemainingTime={GetRemainingTime().getTime()}>
+                    initialRemainingTime={remainingTime}
+                >
                     {({ elapsedTime, color }) => (
                         <span style={{ color }}>
-                            {renderTime("дней", getTimeDays())}
+                            {renderTime("дн", getTimeDays(daysDuration - elapsedTime))}
                         </span>
                     )}
                 </CountdownCircleTimer>
                 <CountdownCircleTimer
-                    {...timerProps} colors="#444444"
+                    {...timerProps}
+                    colors="#D14081"
                     duration={daySeconds}
-                    initialRemainingTime={GetRemainingTime().getTime() % daySeconds}
+                    initialRemainingTime={remainingTime % daySeconds}
                     onComplete={(totalElapsedTime) => ({
-                        shouldRepeat: GetRemainingTime().getTime() - totalElapsedTime > hourSeconds
-                    })}>
+                        shouldRepeat: remainingTime - totalElapsedTime > hourSeconds
+                    })}
+                >
                     {({ elapsedTime, color }) => (
                         <span style={{ color }}>
-                            {renderTime("часов", getTimeHours())}
+                            {renderTime("час", getTimeHours(daySeconds - elapsedTime))}
                         </span>
                     )}
                 </CountdownCircleTimer>
                 <CountdownCircleTimer
-                    {...timerProps} colors="#444444"
+                    {...timerProps}
+                    colors="#EF798A"
                     duration={hourSeconds}
-                    initialRemainingTime={GetRemainingTime().getTime() % hourSeconds}
+                    initialRemainingTime={remainingTime % hourSeconds}
                     onComplete={(totalElapsedTime) => ({
-                        shouldRepeat: GetRemainingTime().getTime() - totalElapsedTime > minuteSeconds
-                    })}>
+                        shouldRepeat: remainingTime - totalElapsedTime > minuteSeconds
+                    })}
+                >
                     {({ elapsedTime, color }) => (
                         <span style={{ color }}>
-                            {renderTime("минут", getTimeMinutes())}
+                            {renderTime("мин", getTimeMinutes(hourSeconds - elapsedTime))}
                         </span>
                     )}
                 </CountdownCircleTimer>
                 <CountdownCircleTimer
-                    {...timerProps} colors="#444444"
+                    {...timerProps}
+                    colors="#218380"
                     duration={minuteSeconds}
-                    initialRemainingTime={GetRemainingTime().getTime() % minuteSeconds}
+                    initialRemainingTime={remainingTime % minuteSeconds}
                     onComplete={(totalElapsedTime) => ({
-                        shouldRepeat: GetRemainingTime().getTime() - totalElapsedTime > 0
-                    })}>
+                        shouldRepeat: remainingTime - totalElapsedTime > 0
+                    })}
+                >
                     {({ elapsedTime, color }) => (
                         <span style={{ color }}>
-                            {renderTime("секунд", getTimeSeconds())}
+                            {renderTime("сек", getTimeSeconds(elapsedTime))}
                         </span>
                     )}
                 </CountdownCircleTimer>
