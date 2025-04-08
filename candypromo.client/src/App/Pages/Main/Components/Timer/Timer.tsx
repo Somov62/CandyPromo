@@ -14,8 +14,6 @@ interface DatePrizeResult {
 
 // #region Consts
 
-const datePrize = await GetDatePrize();
-
 const minuteSeconds = 60;
 const hourSeconds = 3600;
 const daySeconds = 86400;
@@ -40,8 +38,8 @@ const getTimeMinutes = (time: number) => ((time % hourSeconds) / minuteSeconds) 
 const getTimeHours = (time: number): number => ((time % daySeconds) / hourSeconds) | 0;
 const getTimeDays = (time: number) => (time / daySeconds) | 0;
 
-const startTime = Date.now() / 1000; // use UNIX timestamp in seconds
-const endTime: number = await GetDatePrize() / 1000; // use UNIX timestamp in seconds
+const startTime = Date.now() / 1000;
+const endTime: number = await GetDatePrize() / 1000;
 
 const remainingTime = endTime - startTime;
 const days = Math.ceil(remainingTime / daySeconds);
