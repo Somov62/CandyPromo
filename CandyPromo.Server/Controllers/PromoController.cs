@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace CandyPromo.Server.Controllers;
@@ -12,6 +13,7 @@ public class PromoController : BaseController
     /// Возвращает дату розыгрыша.
     /// </summary>
     [HttpGet("date")]
+    [AllowAnonymous]
     [ProducesResponseType(200, Type=typeof(DateTime))]
     public IActionResult GetEndingDate([FromServices]IOptions<AppSettings> appSettings)
     {
