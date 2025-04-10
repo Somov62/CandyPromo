@@ -1,10 +1,13 @@
-import React from 'react';
 import './Admin.css'
+import PrizesTable from "@/App/Pages/Admin/Components/PrizesTable/PrizesTable.jsx";
 
 const Admin = () => {
+
+
+
     return (
-        <div>
-            Админка
+        <div style={{marginInline: '30px'}}>
+            <PrizesTable/>
         </div>
     );
 };

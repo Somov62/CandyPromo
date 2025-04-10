@@ -8,7 +8,6 @@ import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { InputMask } from 'primereact/inputmask';
 import { TabMenu } from "primereact/tabmenu";
-import axios from "axios";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 import authService from "@/API/Services/authService.js";
