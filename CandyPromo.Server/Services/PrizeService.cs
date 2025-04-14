@@ -1,7 +1,4 @@
-﻿using CandyPromo.Server.Requests.Validation;
-using CandyPromo.Server.Responses;
-
-namespace CandyPromo.Server.Services;
+﻿namespace CandyPromo.Server.Services;
 
 /// <summary>
 /// Сервис для работы с призами.

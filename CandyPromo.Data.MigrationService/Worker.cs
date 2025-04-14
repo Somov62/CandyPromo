@@ -1,4 +1,4 @@
-namespace CandyPromo.Data.MigrationService;
+﻿namespace CandyPromo.Data.MigrationService;
 
 /// <summary>
 /// Сервис миграции базы данных.
@@ -22,7 +22,7 @@ public class Worker(IServiceProvider serviceProvider,
             // Создание области видимости для сервис-провайдера.
             using var scope = serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<CandyPromoContext>();
-            
+
             // Применение миграций к базе данных.
             await dbContext.Database.EnsureCreatedAsync(cancellationToken);
 

@@ -1,6 +1,4 @@
-﻿using CandyPromo.Server.Controllers;
-using System.Net;
-using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
+﻿using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
 
 namespace CandyPromo.Server.Middlewares;
 
@@ -10,6 +8,9 @@ namespace CandyPromo.Server.Middlewares;
 /// </summary>
 public class GlobalExceptionHandler(RequestDelegate next)
 {
+    /// <summary>
+    /// Метод обработки исключений.
+    /// </summary>
     public async Task InvokeAsync(HttpContext context)
     {
         try

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -14,7 +13,7 @@ public class JwtTokenGenerator(IOptions<JwtOptions> options)
     /// <summary>
     /// Генерирует access токен.
     /// </summary>
-    public string Generate(Guid userId, bool isAdmin)
+    public string Generate(Guid userId, bool isAdmin, string userName = "")
     {
         // Информация, содержащаяся в токене.
         Claim[] claims =
@@ -22,6 +21,9 @@ public class JwtTokenGenerator(IOptions<JwtOptions> options)
             new (ClaimTypes.NameIdentifier, userId.ToString()),
             new (ClaimTypes.Role, isAdmin ? "Admin" : "User")
         ];
+
+        if (!string.IsNullOrEmpty(userName))
+            claims?.Append(new Claim(ClaimTypes.Name, userName));
 
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Value.SecretKey)),

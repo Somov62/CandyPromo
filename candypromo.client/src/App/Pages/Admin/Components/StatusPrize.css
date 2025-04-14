@@ -1,0 +1,18 @@
+﻿.status-prize-block {
+    margin: 0 auto;
+    height: 100%;
+    margin-top: 400px;
+}
+
+    .status-prize-block > h2, h3 {
+        text-align: center;
+    }
+
+    .status-prize-block > h2 {
+        font-size: 1.5rem;
+    }
+
+    .status-prize-block > h3 {
+        font-size: 1.2rem;
+        margin-top: 7px;
+    }

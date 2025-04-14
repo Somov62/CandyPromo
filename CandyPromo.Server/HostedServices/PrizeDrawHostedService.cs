@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace CandyPromo.Server.HostedServices;
+﻿namespace CandyPromo.Server.HostedServices;
 
 /// <summary>
 /// Сервис розыгрыша призов.

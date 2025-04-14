@@ -1,5 +1,4 @@
-﻿using CandyPromo.Server.Requests.Validation;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Security.Claims;
@@ -7,7 +6,7 @@ using System.Security.Claims;
 namespace CandyPromo.Server.Controllers;
 
 /// <summary>
-/// Базовая реализация контроллера, 
+/// Базовая реализация контроллера,
 /// все контроллеры должны наследоваться от этого.
 /// </summary>
 [Authorize]

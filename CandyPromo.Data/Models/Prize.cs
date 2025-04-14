@@ -54,31 +54,31 @@ public enum PrizeDeliveryStatus
     /// </summary>
     [JsonStringEnumMemberName("Промоакция не завершена")]
     PromotionNotEnded,
-    
+
     /// <summary>
     /// Победитель найден.
     /// </summary>
     [JsonStringEnumMemberName("Победитель найден")]
     WinnerFound,
-    
+
     /// <summary>
     /// Адрес победителя получен.
     /// </summary>
     [JsonStringEnumMemberName("Адрес победителя получен")]
     WinnerAddressReceived,
-    
+
     /// <summary>
     /// Приз отправлен.
     /// </summary>
     [JsonStringEnumMemberName("Приз отправлен")]
     Sent,
-    
+
     /// <summary>
     /// Получены данные победителя для доставки.
     /// </summary>
     [JsonStringEnumMemberName("Получены данные победителя для доставки")]
     FailedContactWinner,
-   
+
     /// <summary>
     /// Приз доставлен.
     /// </summary>

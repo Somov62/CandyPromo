@@ -1,6 +1,4 @@
-﻿using CandyPromo.Server.Responses;
-using CandyPromo.Server.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandyPromo.Server.Controllers;

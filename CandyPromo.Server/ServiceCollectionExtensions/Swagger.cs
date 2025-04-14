@@ -1,7 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-using System.Reflection;
-
-namespace CandyPromo.Server.ServiceCollectionExtensions;
+﻿namespace CandyPromo.Server.ServiceCollectionExtensions;
 
 /// <summary>
 /// Расширения для <see cref="IServiceCollection"/>
@@ -9,6 +6,11 @@ namespace CandyPromo.Server.ServiceCollectionExtensions;
 /// </summary>
 public static class Swagger
 {
+    /// <summary>
+    /// Добавляет swagger в проект.
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
@@ -31,8 +33,8 @@ public static class Swagger
                     {
                         Reference = new OpenApiReference
                         {
-                        Type=ReferenceType.SecurityScheme,
-                        Id="Bearer"
+                            Type=ReferenceType.SecurityScheme,
+                            Id="Bearer"
                         }
                     },
                     Array.Empty<string>()

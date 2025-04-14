@@ -15,7 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\Products\" />
-    <Folder Include="src\App\Pages\Admin\Components\" />
   </ItemGroup>
   <PropertyGroup>
     <StartupCommand>npm run dev</StartupCommand>
