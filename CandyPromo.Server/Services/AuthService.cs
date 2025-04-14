@@ -1,4 +1,6 @@
-﻿namespace CandyPromo.Server.Services;
+﻿using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
+
+namespace CandyPromo.Server.Services;
 
 /// <summary>
 /// Сервис аутентификации и регистрации/

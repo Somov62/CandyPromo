@@ -1,4 +1,6 @@
 ﻿import axios, { AxiosResponse } from "axios";
+import { jwtDecode } from 'jwt-decode';
+import Cookies from "js-cookie";
 import './Header.css'
 
 // #region Classes
@@ -23,7 +25,13 @@ async function GetDatePrize(): Promise<number> {
         });
 }
 
-const accountName = await GetDatePrize();
+function GetAccountName(): string {
+    var token = Cookies.get("token");
+    if (token === undefined)
+        return "";
+    var test = jwtDecode(token);
+    return jwtDecode(token).name;
+}
 
 // #endregion
 
@@ -31,7 +39,7 @@ export default function Header() {
     return (
         <div className="header-block flex">
             <div className="header-border flex w-1/4 flex-col">
-                <h2>Имя аккаунта</h2>
+                <h2>{GetAccountName()}</h2>
             </div>
             <div className="header-border header-promo flex w-full flex-col">
                 <h2>Зарегано промо: 10000 из 15000</h2>
