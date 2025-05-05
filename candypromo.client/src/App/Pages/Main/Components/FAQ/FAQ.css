@@ -1,16 +1,11 @@
-.prizes {
-    background-color: var(--primary-color);
+.faq {
     margin: 20px 0px;
     padding: 10px;
     width: 100vw;
 }
 
-.prizes>div {
+.faq>div {
     margin: 10px;
     width: 70%;
     justify-self: center;
-}
-
-.prizes img {
-    border-radius: 10px;
 }

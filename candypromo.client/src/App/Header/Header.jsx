@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import './Header.css';
 import { useNavigate } from "react-router-dom";
 import {Menubar} from 'primereact/menubar';
@@ -13,9 +13,9 @@ const Header = () => {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="headerWrapper">
             <Menubar
-                className="m-2"
+                className="header"
                 start={(
                     <div className="flex align-items-center gap-2 mr-2">
                         <img
