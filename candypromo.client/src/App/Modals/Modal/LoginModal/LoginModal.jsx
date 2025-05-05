@@ -5,11 +5,11 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import { InputMask } from 'primereact/inputmask';
+import { InputMask } from "primereact/inputmask";
 import { TabMenu } from "primereact/tabmenu";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import authService from "@/API/Services/authService.js";
 import showErrorInFields from "@/API/Helpers/showErrorInFieldsHelper.js";
 import getErrorMessage from "@/API/Helpers/getErrorMessageHelper.js";
@@ -65,7 +65,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                             disabled={isLoading}
                             onChange={(e) => {
                                 setUserPhone(e.target.value);
-                                document.getElementById('phone-help').innerText = '';
+                                document.getElementById("phone-help").innerText = "";
                             }}
                             onKeyDown={handleKeyDown}
                             placeholder="Введите телефон"
@@ -121,11 +121,11 @@ function LoginModal({ openState, navigateToRegisterPage }) {
     async function login() {
         setIsLoading(true);
         if (selectedTabId === 0) {
-            document.getElementById('phone-help').innerText = '';
+            document.getElementById("phone-help").innerText = "";
         } else if (selectedTabId === 1) {
-            document.getElementById('email-help').innerText = '';
+            document.getElementById("email-help").innerText = "";
         }
-        document.getElementById('password-help').innerText = '';
+        document.getElementById("password-help").innerText = "";
 
         try {
             const response = await authService.login(userEmail, userPhone, userPassword)
@@ -135,7 +135,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
             console.log(response.data);
             openState.set(false);
 
-            const role = Cookies.get("isAdmin").toLowerCase() === 'true';
+            const role = Cookies.get("isAdmin").toLowerCase() === "true";
 
             navigate(role ? "/admin" : "/profile");
         }
