@@ -1,7 +1,7 @@
 ﻿import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import "./Timer.css";
 
-export default function Timer({ endTime }: { endTime: number }) {
+export default function timer({ endTime }: { endTime: number }) {
     const minuteSeconds = 60;
     const hourSeconds = 3600;
     const daySeconds = 86400;

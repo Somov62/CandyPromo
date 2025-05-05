@@ -4,7 +4,7 @@ import './StatusPrize.css'
 
 // #region Classes
 
-interface DatePrizeResult {
+interface IDatePrizeResult {
     result: Date;
     errors: any;
     timeGenerated: Date;
@@ -14,8 +14,8 @@ interface DatePrizeResult {
 
 // #region Methods
 
-async function GetDatePrize(): Promise<number> {
-    return await axios.get<DatePrizeResult>("/api/Promo/date")
+async function getDatePrize(): Promise<number> {
+    return await axios.get<IDatePrizeResult>("/api/Promo/date")
         .then((response) => {
             return new Date(response.data.result).getTime();
         })
@@ -24,10 +24,10 @@ async function GetDatePrize(): Promise<number> {
         });
 }
 
-const date = await GetDatePrize();
+const date = await getDatePrize();
 
 // #endregion
-export default function StatusPrize() {
+export default function statusPrize() {
     return (
         <div className="status-prize-block items-center">
             <h2 className="">Победители пока не определен</h2>

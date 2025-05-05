@@ -1,5 +1,4 @@
-﻿/* eslint-disable react/jsx-key */
-import { useState, useRef } from "react";
+﻿import { useState, useRef } from "react";
 import "./LoginModal.css";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -59,7 +58,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                         setUserEmail("");
                         setUserPhone("");
                     }} />
-                <div className="flex flex-column">
+                <div className="flex-column flex">
                     {selectedTabId === 0 ? ([
                         <InputMask
                             value={userPhone}
@@ -88,7 +87,7 @@ function LoginModal({ openState, navigateToRegisterPage }) {
                         </div>
                     ])}
                 </div>
-                <div className="flex flex-column">
+                <div className="flex-column flex">
                     <Password
                         id="password"
                         aria-describedby="password-help"

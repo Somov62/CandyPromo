@@ -4,7 +4,7 @@ import "./TimerBlock.css";
 
 // #region Classes
 
-interface DatePrizeResult {
+interface IDatePrizeResult {
     result: Date;
     errors: any;
     timeGenerated: Date;
@@ -14,25 +14,24 @@ interface DatePrizeResult {
 
 // #region Methods
 
-async function GetDatePrize(): Promise<number> {
+
+async function getDatePrize(): Promise<number> {
     try {
-        var result: AxiosResponse<DatePrizeResult> = await axios.get<DatePrizeResult>("/api/Promo/date");
+        const result = await axios.get<IDatePrizeResult>("/api/Promo/date");
         return new Date(result.data.result).getTime();
-    }
-    catch {
-        return Date.now();
+    } catch (error) {
+        return new Date();
     }
 }
 
-const date = await GetDatePrize();
-
+const datePrize = await getDatePrize();
 // #endregion
 
-export default function TimerBlock() {
+export default function timerBlock() {
     return (
         <div className="TimerWrapper flex-column mt-5 flex">
             <h1>Отсчет до розыгрыша</h1>
-            <Timer endTime={date} />
+            <Timer endTime={datePrize} />
         </div>
     );
 }

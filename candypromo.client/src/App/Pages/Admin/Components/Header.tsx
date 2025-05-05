@@ -1,11 +1,11 @@
 ﻿import axios, { AxiosResponse } from "axios";
-import { jwtDecode } from 'jwt-decode';
 import Cookies from "js-cookie";
-import './Header.css'
+import { getClaimsFromJwt, JwtClaims } from "../../../../API/Helpers/jwt"
+import "./Header.css"
 
 // #region Classes
 
-interface DatePrizeResult {
+interface IDatePrizeResult {
     result: Date;
     errors: any;
     timeGenerated: Date;
@@ -15,31 +15,21 @@ interface DatePrizeResult {
 
 // #region Methods
 
-async function GetDatePrize(): Promise<number> {
-    return await axios.get<DatePrizeResult>("/api/Promo/date")
-        .then((response) => {
-            return new Date(response.data.result).getTime();
-        })
-        .catch(() => {
-            return Date.now();
-        });
-}
-
-function GetAccountName(): string {
-    var token = Cookies.get("token");
+function getAccountName(): string {
+    const token = Cookies.get("token");
     if (token === undefined)
         return "";
-    var test = jwtDecode(token);
-    return jwtDecode(token).name;
+    const claims = getClaimsFromJwt(token);
+    return claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
 }
 
 // #endregion
 
-export default function Header() {
+export default function header() {
     return (
-        <div className="header-block flex">
+        <div className="flex">
             <div className="header-border flex w-1/4 flex-col">
-                <h2>{GetAccountName()}</h2>
+                <h2>{getAccountName()}</h2>
             </div>
             <div className="header-border header-promo flex w-full flex-col">
                 <h2>Зарегано промо: 10000 из 15000</h2>
@@ -51,5 +41,5 @@ export default function Header() {
                 <h2>Выйти</h2>
             </a>
         </div>
-    )
+    );
 }
