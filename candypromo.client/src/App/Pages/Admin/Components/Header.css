@@ -1,7 +1,7 @@
 ﻿.header-border {
     margin: 5px;
     border-radius: 5px;
-    border-color: darkorange;
+    border-color: var(--primary-color);
     border-width: 2px;
     padding: 5px;
 }
@@ -10,7 +10,6 @@
         text-align: center;
     }
 
-
-.header-promo {
-    background: linear-gradient(to right, #7eb97e 50%, white 50%);
+.header-admin {
+    padding-top: 70px;
 }

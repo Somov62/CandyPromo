@@ -7,11 +7,6 @@
     margin-right: 8px;
 }
 
-.header-label {
-    font-weight: 600;
-    color: var(--primary-color);
-}
-
 .header {
     position: fixed;
     top: 0;
@@ -19,10 +14,4 @@
     width: 100%;
     z-index: 1000;
     border-radius: 0;
-}
-
-
-.headerWrapper {
-    background-color: var(--primary-color);
-    padding-bottom: 70px
 }

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { getClaimsFromJwt, JwtClaims } from "../../../../API/Helpers/jwt"
 import promocodeServie from "../../../../API/Services/promocodeService"
-/*import { useNavigate } from "react-router-dom";*/
 import "./Header.css"
 
 export default function header() {
@@ -13,6 +12,8 @@ export default function header() {
             await getCountPromocode();
         }
         fetchData();
+        document.getElementById("footer").style.position = "absolute";
+        document.getElementById("footer").style.bottom = "0px";
     });
 
     // #region Classes
@@ -28,6 +29,7 @@ export default function header() {
     // #region Variables
 
     const [countPromoText, setCountPromoText] = useState("");
+    const [styleCountPromoBlock, setStyleCountPromoBlock] = useState(null);
 
     // #endregion
 
@@ -45,6 +47,11 @@ export default function header() {
         try {
             const result = await promocodeServie.getPromocodesCount();
             setCountPromoText(`Зарегано промо: ${result.data.result.registersCount} из ${result.data.result.totalCount}`);
+            if (result.data.result.registersCount !== 0) {
+                const percent = Math.round((result.data.result.registersCount / result.data.result.totalCount) * 100);
+                const style = { background: `linear-gradient(to right, #7eb97e ${percent}%, white ${100 - percent}%)` };
+                setStyleCountPromoBlock(style);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -62,11 +69,11 @@ export default function header() {
     // #endregion
 
     return (
-        <div className="flex">
+        <div className="header-admin flex">
             <div className="header-border flex w-1/4 flex-col">
                 <h2>{getAccountName()}</h2>
             </div>
-            <div className="header-border header-promo flex w-full flex-col">
+            <div className="header-border header-promo flex w-full flex-col" style={styleCountPromoBlock}>
                 <h2>{countPromoText}</h2>
             </div>
             <a className="header-border flex w-1/6 cursor-pointer flex-col bg-red-100" onClick={exit} href="/">
