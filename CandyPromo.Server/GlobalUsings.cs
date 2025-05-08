@@ -11,6 +11,8 @@ global using CandyPromo.Server.Requests.Validation;
 global using CandyPromo.Server.Responses;
 global using CandyPromo.Server.ServiceCollectionExtensions;
 global using CandyPromo.Server.Services;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Options;
 global using Microsoft.IdentityModel.Tokens;

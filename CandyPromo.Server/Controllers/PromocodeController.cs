@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace CandyPromo.Server.Controllers;
+﻿namespace CandyPromo.Server.Controllers;
 
 /// <summary>
 /// Контроллер промокодов.
@@ -32,7 +29,8 @@ public class PromocodeController(PromocodeService service) : BaseController
     /// В том числе количество зарегистрированных промокодов.
     /// </summary>
     [HttpGet("count")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     [ProducesResponseType(200, Type = typeof(PromocodesCountResponse))]
     [ProducesResponseType(403)]
     public async Task<IActionResult> GetPromocodesCount(CancellationToken cancel)

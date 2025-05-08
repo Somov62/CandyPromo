@@ -3,7 +3,7 @@ import { InputText } from "primereact/inputtext";
 import axios from "axios";
 import { useState, useRef } from "react";
 /*import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx";*/
-import { LoginModal } from "../../../../../App/Modals/Modal/LoginModal/LoginModal.jsx"
+import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx"
 import RegisterModal from "@/App/Modals/Modal/RegisterModal/RegisterModal.jsx";
 import { Toast } from "primereact/toast";
 import Cookies from "js-cookie";

@@ -7,8 +7,7 @@ import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { InputMask } from "primereact/inputmask";
 import { TabMenu } from "primereact/tabmenu";
-import axios from "axios";
-import Cookies from "js-cookie";
+import cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import authService from "@/API/Services/authService.js";
 import showErrorInFields from "@/API/Helpers/showErrorInFieldsHelper.js";
@@ -20,7 +19,7 @@ import getErrorMessage from "@/API/Helpers/getErrorMessageHelper.js";
  - openState - хук useState(true | false) на отображение модалки.
  */
 
-function LoginModal({ openState, navigateToRegisterPage }) {
+function loginModal({ openState, navigateToRegisterPage }) {
     const [selectedTabId, setSelectedTabId] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [userPhone, setUserPhone] = useState("");
@@ -128,14 +127,14 @@ function LoginModal({ openState, navigateToRegisterPage }) {
         document.getElementById("password-help").innerText = "";
 
         try {
-            const response = await authService.login(userEmail, userPhone, userPassword)
+            const response = await authService.login(userEmail, userPhone, userPassword);
 
             const token = response.data.result.token;
             localStorage.setItem("token", token);
             console.log(response.data);
             openState.set(false);
 
-            const role = Cookies.get("isAdmin").toLowerCase() === "true";
+            const role = cookies.get("isAdmin").toLowerCase() === "true";
 
             navigate(role ? "/admin" : "/profile");
         }
@@ -150,4 +149,4 @@ function LoginModal({ openState, navigateToRegisterPage }) {
     }
 }
 
-export default LoginModal;
+export default loginModal;
