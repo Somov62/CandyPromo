@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Controllers;
-using System.Text;
 using System.Text.Json;
 
 namespace CandyPromo.Server.Middlewares;

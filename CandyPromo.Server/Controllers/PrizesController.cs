@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace CandyPromo.Server.Controllers;
+﻿namespace CandyPromo.Server.Controllers;
 
 /// <summary>
 /// Контроллер для призов.

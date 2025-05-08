@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace CandyPromo.Server.Controllers;
+﻿namespace CandyPromo.Server.Controllers;
 
 /// <summary>
 /// Контроллер промоакции.
@@ -13,9 +10,17 @@ public class PromoController : BaseController
     /// </summary>
     [HttpGet("date")]
     [AllowAnonymous]
-    [ProducesResponseType(200, Type=typeof(DateTime))]
-    public IActionResult GetEndingDate([FromServices]IOptions<AppSettings> appSettings)
+    [ProducesResponseType(200, Type = typeof(DateTime))]
+    public IActionResult GetEndingDate([FromServices] IOptions<AppSettings> appSettings)
     {
         return Ok(appSettings.Value.PromoEndingDate);
+    }
+
+    [HttpGet("active")]
+    [AllowAnonymous]
+    [ProducesResponseType(200, Type = typeof(bool))]
+    public IActionResult Active([FromServices] IOptions<AppSettings> appSettings)
+    {
+        return Ok(appSettings.Value.PromoEndingDate > DateTime.Now);
     }
 }

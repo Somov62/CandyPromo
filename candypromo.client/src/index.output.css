@@ -169,9 +169,6 @@
   .m-0 {
     margin: calc(var(--spacing) * 0);
   }
-  .m-2 {
-    margin: calc(var(--spacing) * 2);
-  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -228,9 +225,6 @@
   }
   .gap-4 {
     gap: calc(var(--spacing) * 4);
-  }
-  .bg-green-100 {
-    background-color: var(--color-green-100);
   }
   .bg-red-100 {
     background-color: var(--color-red-100);
