@@ -3,8 +3,8 @@ import "./Prizes.css";
 
 function Prizes() {
     return (
-        <div className="prizes">
-            <h1>Призы</h1>
+        <div id="prizes" className="prizes">
+            <h1 className="white" >Призы</h1>
             <div className="flex gap-3">
                 <Card title="Планшет"
                     header={() => <img src="./prizes/prize1.jpg" />}

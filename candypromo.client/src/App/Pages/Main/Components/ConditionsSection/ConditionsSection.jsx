@@ -4,7 +4,7 @@ import {Card} from 'primereact/card';
 const ConditionsSection = () => {
     return (
             <div className="ConditionsSection">
-                <h1>Условия</h1>
+                <h1 className="white">Условия</h1>
                 <div className="flex gap-4 flex-row justify-content-center">
                     <Card
                         title="1. Покупайте"

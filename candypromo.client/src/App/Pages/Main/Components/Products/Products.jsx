@@ -4,7 +4,7 @@ import "./Products.css";
 function Products() {
     return (
         <div className="products p-10">
-            <h1>Продукты</h1>
+            <h1 className="white">В акции участвуют <br />батончики candy в промоупаковке</h1>
             <div className="flex gap-3">
                 <Card title="Шоколадный"
                     header={() => <img src="./product1.jpg" />}

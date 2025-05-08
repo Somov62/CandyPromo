@@ -20,7 +20,7 @@ const prizesService = {
     },
 
     updatePrizeStatus (prizeId: string, status: string) {
-        return instance.put(`api/prizes/${prizeId}/status`, {status});
+        return instance.put(`api/prizes/${prizeId}/status`, status)
     },
 
     getPrizeStatuses() {
