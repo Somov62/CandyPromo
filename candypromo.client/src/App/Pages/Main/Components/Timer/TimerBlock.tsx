@@ -18,8 +18,7 @@ interface IDatePrizeResult {
 
 async function getDatePrize(): Promise<number> {
     try {
-        const result = await promoService.getEndingDate();
-        return new Date(result.data.result).getTime();
+        return await promoService.getEndingDate();
     } catch (error) {
         return new Date();
     }

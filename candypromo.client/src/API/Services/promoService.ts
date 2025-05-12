@@ -2,12 +2,13 @@
 
 const promoService = {
 
-    getEndingDate() {
-        return instance.get('api/promo/date');
+    async getEndingDate() {
+        const response = await instance.get("api/promo/date");
+        return new Date(response.data.result).getTime();
     },
 
     active() {
-        return instance.get('api/promo/active');
+        return instance.get("api/promo/active");
     }
 };
 

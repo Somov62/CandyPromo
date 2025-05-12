@@ -16,9 +16,9 @@ interface IDatePrizeResult {
 // #region Methods
 
 async function getDatePrize(): Promise<number> {
-    const result = await promoService.getEndingDate();
+
     try {
-        return new Date(result.data.result).getTime();
+        return await promoService.getEndingDate();
     }
     catch (error) {
         return Date.now();
