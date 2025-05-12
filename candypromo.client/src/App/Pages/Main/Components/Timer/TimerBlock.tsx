@@ -1,4 +1,5 @@
 ﻿import axios, { AxiosResponse } from "axios";
+import promoService from "../../../../../API/Services/promoService";
 import Timer from "../../../../Components/Timer/Timer";
 import "./TimerBlock.css";
 
@@ -17,7 +18,7 @@ interface IDatePrizeResult {
 
 async function getDatePrize(): Promise<number> {
     try {
-        const result = await axios.get<IDatePrizeResult>("/api/Promo/date");
+        const result = await promoService.getEndingDate();
         return new Date(result.data.result).getTime();
     } catch (error) {
         return new Date();

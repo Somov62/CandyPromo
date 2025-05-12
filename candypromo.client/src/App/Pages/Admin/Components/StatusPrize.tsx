@@ -1,6 +1,7 @@
 ﻿import axios, { AxiosResponse } from "axios";
+import promoService from "../../../../API/Services/promoService";
 import Timer from "../../../Components/Timer/Timer";
-import './StatusPrize.css'
+import "./StatusPrize.css"
 
 // #region Classes
 
@@ -15,13 +16,13 @@ interface IDatePrizeResult {
 // #region Methods
 
 async function getDatePrize(): Promise<number> {
-    return await axios.get<IDatePrizeResult>("/api/Promo/date")
-        .then((response) => {
-            return new Date(response.data.result).getTime();
-        })
-        .catch(() => {
-            return Date.now();
-        });
+    const result = await promoService.getEndingDate();
+    try {
+        return new Date(result.data.result).getTime();
+    }
+    catch (error) {
+        return Date.now();
+    }
 }
 
 const date = await getDatePrize();
