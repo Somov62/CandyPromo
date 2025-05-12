@@ -43,4 +43,20 @@ public class PromocodeController(PromocodeService service) : BaseController
 
         return Ok(count);
     }
+
+
+    /// <summary>
+    /// Возвращает промокоды, зарегистрированные пользователем.
+    /// </summary>
+    [HttpGet]
+    [Authorize]
+    [ProducesResponseType(200, Type = typeof(List<MyPromocodeResponse>))]
+    public async Task<IActionResult> GetMyPromocodes(CancellationToken cancel)
+    {
+        var userId = GetUserId();
+
+        var response = await service.GetMyPromocodes(userId, cancel);
+
+        return Ok(response);
+    }
 }
