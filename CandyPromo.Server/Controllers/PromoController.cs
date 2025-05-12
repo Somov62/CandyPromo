@@ -16,10 +16,13 @@ public class PromoController : BaseController
         return Ok(appSettings.Value.PromoEndingDate);
     }
 
+    /// <summary>
+    /// Возвращает состояние розыгрыша. Активный или нет.
+    /// </summary>
     [HttpGet("active")]
     [AllowAnonymous]
     [ProducesResponseType(200, Type = typeof(bool))]
-    public IActionResult Active([FromServices] IOptions<AppSettings> appSettings)
+    public IActionResult CheckPrizesActive([FromServices] IOptions<AppSettings> appSettings)
     {
         return Ok(appSettings.Value.PromoEndingDate > DateTime.Now);
     }
