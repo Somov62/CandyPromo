@@ -1,15 +1,16 @@
-import { Button } from "primereact/button";
+﻿import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import axios from "axios";
 import { useState, useRef } from "react";
-import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx";
+/*import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx";*/
+import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx"
 import RegisterModal from "@/App/Modals/Modal/RegisterModal/RegisterModal.jsx";
 import { Toast } from "primereact/toast";
 import Cookies from "js-cookie";
 import "./RegisterPromo.css";
 import promocodeService from "../../../../../API/Services/promocodeService";
 
-function RegisterPromo() {
+function registerPromo() {
     const [promocode, setPromocode] = useState("");
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -32,13 +33,13 @@ function RegisterPromo() {
             <div className="regpromo">
                 <div className="w-1/4">
                     <div>
-                        <p className="text-center font-bold text-4xl">
+                        <p className="text-center text-4xl font-bold">
                             Регистрация промокода
                         </p>
                         <InputText placeholder="Промокод" value={promocode} onChange={(e) => setPromocode(e.target.value)} />
-                        <Button className="w-1/1 mt-2"
+                        <Button className="mt-2 w-1/1"
                             label="Зарегистрировать"
-                            onClick={() => RegisterPromocode()} />
+                            onClick={() => registerPromocode()} />
                     </div>
                 </div >
             </div>
@@ -55,8 +56,8 @@ function RegisterPromo() {
         setIsRegisterModalOpen(true);
     }
 
-    async function RegisterPromocode() {
-        var token = Cookies.get("token");
+    async function registerPromocode() {
+        const token = Cookies.get("token");
         if (token === undefined) {
             navigateToLoginPage();
             return null;
@@ -72,4 +73,4 @@ function RegisterPromo() {
     }
 }
 
-export default RegisterPromo;
+export default registerPromo;

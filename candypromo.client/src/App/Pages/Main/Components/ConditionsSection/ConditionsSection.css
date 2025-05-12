@@ -1,7 +1,16 @@
+﻿h1 {
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    font-size: 3em;
+}
+
 .ConditionsSection {
     width: 100vw;
     background-color: var(--primary-color);
     padding: 1em 1em 2em;
+    padding-top: 70px;
 }
 
 .ConditionsSection img {

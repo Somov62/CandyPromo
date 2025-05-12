@@ -1,7 +1,7 @@
-import {useState} from 'react';
+﻿import {useState} from 'react';
 import './Header.css';
 import { useNavigate } from "react-router-dom";
-import {Menubar} from 'primereact/menubar';
+import {Menubar} from "primereact/menubar";
 import {Button} from "primereact/button";
 import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx";
 import RegisterModal from "@/App/Modals/Modal/RegisterModal/RegisterModal.jsx";
@@ -17,59 +17,59 @@ const Header = () => {
             <Menubar
                 className="header"
                 start={(
-                    <div className="flex align-items-center gap-2 mr-2">
+                    <div className="align-items-center mr-2 flex gap-2">
                         <img
                             alt="logo"
                             src="./vite.svg"
                             height="40"
-                            className="ml-2 mr-2"/>
+                            className="mr-2 ml-2"/>
 
-                        <label className="header-label" onClick={() => navigate('/')}>Candy Promo</label>
+                        <label className="header-label" onClick={() => navigate("/")}>Candy Promo</label>
                     </div>
                 )}
                 model={
                     [
                         {
-                            label: 'Условия',
+                            label: "Условия",
                             command: () => {
-                                navigate('/#conditions');
+                                navigate("/#conditions");
                             }
                         },
                         {
-                            label: 'Призы',
+                            label: "Призы",
                             command: () => {
-                                navigate('/#prizes');
+                                navigate("/#prizes");
                             }
                         },
                         {
-                            label: 'Продукты',
+                            label: "Продукты",
                             command: () => {
-                                navigate('/#products');
+                                navigate("/#products");
                             }
                         },
                         {
-                            label: 'Победители',
+                            label: "Победители",
                             command: () => {
-                                navigate('/#winners');
+                                navigate("/#winners");
                             }
                         },
                         {
-                            label: 'Вопрос-ответ',
+                            label: "Вопрос-ответ",
                             command: () => {
-                                navigate('/#questions');
+                                navigate("/#questions");
                             }
                         },
                         {
-                            label: 'Правила',
+                            label: "Правила",
                             command: () => {
-                                navigate('/#rules');
+                                navigate("/#rules");
                             }
                         }
                     ]
                 }
 
                 end={(
-                    <div className="flex  profile-buttons">
+                    <div className="profile-buttons flex">
                             <Button
                                 size="small"
                                 icon="pi pi-user"
@@ -107,7 +107,7 @@ const Header = () => {
             return;
         }
 
-        role = role.toLowerCase() === 'true';
+        role = role.toLowerCase() === "true";
 
         navigate(role ? "/admin" : "/profile");
     }

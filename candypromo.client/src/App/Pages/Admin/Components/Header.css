@@ -1,0 +1,15 @@
+﻿.header-border {
+    margin: 5px;
+    border-radius: 5px;
+    border-color: var(--primary-color);
+    border-width: 2px;
+    padding: 5px;
+}
+
+    .header-border > h2 {
+        text-align: center;
+    }
+
+.header-admin {
+    padding-top: 70px;
+}

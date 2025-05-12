@@ -1,10 +1,4 @@
-﻿using CandyPromo.Server.Responses;
-using CandyPromo.Server.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-
-namespace CandyPromo.Server.Controllers;
+﻿namespace CandyPromo.Server.Controllers;
 
 /// <summary>
 /// Контроллер для призов.

@@ -1,8 +1,4 @@
-﻿using CandyPromo.Server.Auth;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Text;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CandyPromo.Server.ServiceCollectionExtensions;
 

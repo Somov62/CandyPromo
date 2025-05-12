@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-
-namespace CandyPromo.Server.Auth;
+﻿namespace CandyPromo.Server.Auth;
 
 /// <summary>
 /// Генератор токенов.
@@ -14,13 +8,14 @@ public class JwtTokenGenerator(IOptions<JwtOptions> options)
     /// <summary>
     /// Генерирует access токен.
     /// </summary>
-    public string Generate(Guid userId, bool isAdmin)
+    public string Generate(Guid userId, bool isAdmin, string userName = "")
     {
         // Информация, содержащаяся в токене.
         Claim[] claims =
         [
             new (ClaimTypes.NameIdentifier, userId.ToString()),
-            new (ClaimTypes.Role, isAdmin ? "Admin" : "User")
+            new (ClaimTypes.Role, isAdmin ? "Admin" : "User"),
+            new (ClaimTypes.Name, userName)
         ];
 
         var signingCredentials = new SigningCredentials(

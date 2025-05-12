@@ -1,6 +1,4 @@
-﻿using CandyPromo.Server.Requests.Validation;
-
-namespace CandyPromo.Server.Requests;
+﻿namespace CandyPromo.Server.Requests;
 
 /// <summary>
 /// Контракт для dto запроса, открывающий

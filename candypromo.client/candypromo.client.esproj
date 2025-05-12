@@ -1,4 +1,8 @@
 ﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.1738743">
+  <ItemGroup>
+    <None Remove="public\Products\**" />
+    <TypeScriptConfiguration Remove="public\Products\**" />
+  </ItemGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Backend|AnyCPU">
       <Configuration>Backend</Configuration>
@@ -12,9 +16,6 @@
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="public\Products\" />
   </ItemGroup>
   <PropertyGroup>
     <StartupCommand>npm run dev</StartupCommand>

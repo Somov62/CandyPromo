@@ -1,5 +1,4 @@
-﻿using CandyPromo.Data.Models;
-using System.Text;
+﻿using System.Text;
 
 namespace CandyPromo.Data.MigrationService.SeedData;
 
@@ -10,8 +9,8 @@ namespace CandyPromo.Data.MigrationService.SeedData;
 public static class PromocodeGenerator
 {
     /// <summary>
-    /// Алфавит промокода. 
-    /// Содержит только неконфликтующие буквы и цифры для того, 
+    /// Алфавит промокода.
+    /// Содержит только неконфликтующие буквы и цифры для того,
     /// чтобы покупатель не перепутал символы при чтении с упаковки.
     /// </summary>
     private const string ALPHABET = "ACEFGHKLMNPRSTWXY345679";
@@ -47,8 +46,8 @@ public static class PromocodeGenerator
                     builder.Append(ALPHABET[random.Next(0, ALPHABET.Length)]);
                 }
 
-                var promocode = new Promocode() 
-                { 
+                var promocode = new Promocode()
+                {
                     Code = builder.ToString()
                 };
 

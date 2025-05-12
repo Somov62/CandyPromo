@@ -1,6 +1,4 @@
-﻿using CandyPromo.Server.Requests.Validation;
-
-namespace CandyPromo.Server.Controllers;
+﻿namespace CandyPromo.Server.Controllers;
 
 /// <summary>
 /// Класс конверт, в котором сервер возвращает ответы на запросы.
