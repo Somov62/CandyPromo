@@ -1,6 +1,7 @@
 ﻿using CandyPromo.Server.Requests.Validation;
 using CandyPromo.Server.Responses;
 using Microsoft.Extensions.Options;
+using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
 
 namespace CandyPromo.Server.Services;
 

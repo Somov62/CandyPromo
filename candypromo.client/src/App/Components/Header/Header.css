@@ -1,0 +1,17 @@
+﻿.profile-buttons .p-button {
+    font-size: 16px;
+    padding: 8px 14px;
+}
+
+.profile-buttons .p-button-icon {
+    margin-right: 8px;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    border-radius: 0;
+}

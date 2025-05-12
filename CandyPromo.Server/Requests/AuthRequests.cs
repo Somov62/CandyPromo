@@ -1,7 +1,4 @@
-﻿using CandyPromo.Server.Requests.Validation;
-using System.ComponentModel.DataAnnotations;
-
-namespace CandyPromo.Server.Requests;
+﻿namespace CandyPromo.Server.Requests;
 
 /// <summary>
 /// Запрос на логин (получение токена).

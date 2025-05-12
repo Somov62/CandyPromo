@@ -1,4 +1,4 @@
-.prizes {
+﻿.prizes {
     background-color: var(--primary-color);
     margin: 20px 0px;
     padding: 10px;
@@ -13,4 +13,21 @@
 
 .prizes img {
     border-radius: 10px;
+}
+
+.p-carousel-prev {
+    background-color: white;
+}
+.p-carousel-next {
+    background-color: white;
+}
+
+
+
+.p-carousel-indicator > button {
+    background-color: gray;
+}
+
+.p-highlight > button {
+    background-color: white;
 }

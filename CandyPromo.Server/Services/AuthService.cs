@@ -1,8 +1,4 @@
-﻿using CandyPromo.Server.Auth;
-using CandyPromo.Server.Helpers;
-using CandyPromo.Server.Models;
-using CandyPromo.Server.Requests;
-using CandyPromo.Server.Requests.Validation;
+﻿using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
 
 namespace CandyPromo.Server.Services;
 
@@ -41,7 +37,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
 
         return new()
         {
-            Token = tokenGenerator.Generate(user.Id, user.IsAdmin),
+            Token = tokenGenerator.Generate(user.Id, user.IsAdmin, user.Name),
             IsAdmin = user.IsAdmin
         };
     }
@@ -81,7 +77,7 @@ public class AuthService(CandyPromoContext database, JwtTokenGenerator tokenGene
 
         return new()
         {
-            Token = tokenGenerator.Generate(user.Id, false)
+            Token = tokenGenerator.Generate(user.Id, false, user.Name)
         };
     }
 }

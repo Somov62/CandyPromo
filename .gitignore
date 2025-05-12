@@ -392,3 +392,4 @@ FodyWeavers.xsd
 .DS_Store
 /candypromo.client/obj\Debug
 candypromo.client/obj/Debug//package.g.props
+/candypromo.client/src/index.output.css

@@ -1,23 +1,23 @@
-import axios, {AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from "axios";
+﻿import axios, {AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 
 export const instance : AxiosInstance  = axios.create();
 
 instance .interceptors.request.use((config : InternalAxiosRequestConfig<any>) : InternalAxiosRequestConfig<any> => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem("token") || ''}`
-    config.headers["Content-Type"] = "application/json"
-    return config
-})
+    config.headers.Authorization = `Bearer ${localStorage.getItem("token") || ''}`;
+    config.headers["Content-Type"] = "application/json";
+    return config;
+});
 
 instance .interceptors.response.use(
     (config : AxiosResponse<any, any>): AxiosResponse<any, any> => {
-        return config
+        return config;
     },
 
     async (error) => {
-        const originalRequest = {...error.config}
+        const originalRequest = {...error.config};
 
-        originalRequest._isRetry = true
-        console.log(error.response)
+        originalRequest._isRetry = true;
+        console.log(error.response);
         // if(
         //     error.response.status === 401 &&
         //     error.config &&
@@ -43,4 +43,4 @@ instance .interceptors.response.use(
 
         throw error.response;
     }
-)
+);

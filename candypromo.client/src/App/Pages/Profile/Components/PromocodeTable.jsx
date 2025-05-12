@@ -23,7 +23,7 @@ const PromocodeTable = () => {
                 position="top-center"/>
 
             <div className="promocode-table">
-                <div className="reg-promo-panel mb-4">
+                <div className="reg-promo-panel">
                     <InputText
                         placeholder="Введите новый промокод"
                         value={promocode}
@@ -34,19 +34,27 @@ const PromocodeTable = () => {
                         onClick={() => RegisterPromocode()}/>
                 </div>
 
-                <h3>Ваши промокоды</h3>
+                {
+                    promocodes.length > 0 ?
+                        (
+                            <div className="mt-4">
 
-                <table>
-                    <tbody>
-                    {promocodes.map(function (row, i) {
-                        return <tr key={i}>
-                            <td>{row.code}</td>
-                            <td>{row.status + ' ' + (row.prizeName ?? '')}</td>
-                        </tr>
-                    })}
-                    </tbody>
-                </table>
+                                <h3>Ваши промокоды</h3>
 
+                                <table>
+                                    <tbody>
+                                    {promocodes.map(function (row, i) {
+                                        return <tr key={i}>
+                                            <td>{row.code}</td>
+                                            <td>{row.status + ' ' + (row.prizeName ?? '')}</td>
+                                        </tr>
+                                    })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )
+                        : null
+                }
             </div>
 
         </div>
@@ -58,7 +66,8 @@ const PromocodeTable = () => {
             toastPromo.current.show({severity: "success", summary: "Ваш промокод был успешно зарегистрирован!"});
 
             promocodeService.getMyPromocodes().then((data) => {
-                setPromocodes(data.data.result)});
+                setPromocodes(data.data.result)
+            });
         } catch (error) {
             toastPromo.current.show({
                 severity: "error",

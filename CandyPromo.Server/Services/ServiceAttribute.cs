@@ -1,6 +1,4 @@
-﻿using CandyPromo.Server.ServiceCollectionExtensions;
-
-namespace CandyPromo.Server.Services;
+﻿namespace CandyPromo.Server.Services;
 
 /// <summary>
 /// Атрибут для класса, который назначают на сервисы.

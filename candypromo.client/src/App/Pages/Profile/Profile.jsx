@@ -1,18 +1,17 @@
 import React from 'react';
-import Timer from "@/App/Pages/Main/Components/Timer/Timer.js";
+import TimerBlock from "@/App/Pages/Main/Components/Timer/TimerBlock.tsx";
 import Faq from "@/App/Pages/Main/Components/FAQ/FAQ.jsx";
 import PromocodeTable from "@/App/Pages/Profile/Components/PromocodeTable.jsx";
-import Footer from "@/App/Pages/Main/Components/Footer/Footer.jsx";
+import Footer from "@/App/Components/Footer/Footer.jsx";
+import Header from "@/App/Pages/Profile/Components/Header.jsx";
 
 const Profile = () => {
     return (
         <div>
-            Профиль
-
-            <Timer/>
+            <Header/>
+            <TimerBlock/>
             <PromocodeTable/>
             <Faq/>
-            <Footer/>
         </div>
     );
 };

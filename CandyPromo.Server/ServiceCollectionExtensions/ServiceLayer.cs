@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using CandyPromo.Server.Services;
-
-namespace CandyPromo.Server.ServiceCollectionExtensions;
+﻿namespace CandyPromo.Server.ServiceCollectionExtensions;
 
 /// <summary>
 /// Расширение для <see cref="IServiceCollection"/>

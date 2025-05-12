@@ -1,10 +1,4 @@
-﻿using CandyPromo.Server.Models;
-using CandyPromo.Server.Requests;
-using CandyPromo.Server.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace CandyPromo.Server.Controllers;
+﻿namespace CandyPromo.Server.Controllers;
 
 /// <summary>
 /// Контроллер для аккаунта.

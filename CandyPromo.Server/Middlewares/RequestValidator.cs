@@ -1,10 +1,4 @@
-﻿using CandyPromo.Server.Controllers;
-using CandyPromo.Server.Requests;
-using CandyPromo.Server.Requests.Validation;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using System.Net;
-using System.Reflection;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Text.Json;
 
 namespace CandyPromo.Server.Middlewares;

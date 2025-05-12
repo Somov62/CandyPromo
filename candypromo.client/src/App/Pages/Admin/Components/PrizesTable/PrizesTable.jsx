@@ -3,11 +3,11 @@ import prizesService from "@/API/Services/prizesService.js";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {Button} from "primereact/button";
-import { Dialog } from 'primereact/dialog';
-import { Dropdown } from 'primereact/dropdown';
-import { Toast } from "primereact/toast";
+import {Dialog} from 'primereact/dialog';
+import {Dropdown} from 'primereact/dropdown';
+import {Toast} from "primereact/toast";
 
-const PrizesTable = () => {
+const PrizesTable = ({isEnded}) => {
 
     const [prizesInfo, setPrizesInfo] = useState([]);
 
@@ -26,13 +26,13 @@ const PrizesTable = () => {
     const [editedPrize, setEditedPrize] = useState(null);
 
     const toast = useRef(null);
-
+    console.log(isEnded)
     return (
-        <div>
+        <div className="ml-4 mr-4 mb-4">
             <Toast
                 ref={toast}
-                position="top-center" />
-            <h1 style={{color: 'black', marginBottom: '30px', textAlign: 'left'}}>Призы</h1>
+                position="top-center"/>
+            <h1>Призы</h1>
 
             <DataTable
                 showGridlines
@@ -49,8 +49,7 @@ const PrizesTable = () => {
                     header="Промокод"
                     body={(prize) =>
                         <label>{(prize.winnerCode ?? "Не разыгран")}</label>
-                    }
-                    />
+                    }/>
                 <Column
                     header="Победитель"
                     body={(prize) => <Button
@@ -60,6 +59,7 @@ const PrizesTable = () => {
                     header=""
                     body={(prize) => <Button
                         icon="pi pi-pencil"
+                        disabled={!isEnded}
                         onClick={() => EditStatus(prize)}
                         size="small"/>}
                     style={{width: '50px'}}/>
@@ -87,7 +87,7 @@ const PrizesTable = () => {
                     if (!isContactsModalVisible) return;
                     setIsContactsModalVisible(false);
                 }}>
-                <p style={{marginBlock: '10px'}} ><b>Телефон:</b> {(contacts.phone ?? 'не указан')} </p>
+                <p style={{marginBlock: '10px'}}><b>Телефон:</b> {(contacts.phone ?? 'не указан')} </p>
                 <p><b>Электронная почта:</b> {(contacts.email ?? 'не указана')} </p>
             </Dialog>
 
@@ -107,8 +107,13 @@ const PrizesTable = () => {
                     if (!isEditStatusModalVisible) return;
                     setIsEditStatusModalVisible(false);
                 }}>
-                <Dropdown value={selectedStatus} onChange={(e) => setSelectedStatus(e.value)} options={statuses}
-                    placeholder="Выберите статус" className="w-full" style={{marginBlock: '10px'}} />
+                <Dropdown
+                    value={selectedStatus}
+                    onChange={(e) => setSelectedStatus(e.value)}
+                    options={statuses}
+                    placeholder="Выберите статус"
+                    className="w-full"
+                    style={{marginBlock: '10px'}}/>
             </Dialog>
         </div>
     );
@@ -118,21 +123,19 @@ const PrizesTable = () => {
         setContactsName(prize.winnerName)
 
         try {
-            const response =  await prizesService.getWinnerContacts(prize.id);
+            const response = await prizesService.getWinnerContacts(prize.id);
 
             setContactsName(response.data.result.name);
             setContacts({phone: response.data.result.phone, email: response.data.result.email});
             setIsContactsModalVisible(true);
-        }
-        catch (error) {
+        } catch (error) {
             let message = "Ошибка сервера";
 
-            if (error.status === 400)
-            {
+            if (error.status === 400) {
                 message = error.data.errors[0].reason;
             }
 
-            toast.current.show({ severity: "error", summary: "Не удалось посмотреть контакты", detail: message });
+            toast.current.show({severity: "error", summary: "Не удалось посмотреть контакты", detail: message});
         }
     }
 
@@ -145,21 +148,18 @@ const PrizesTable = () => {
     // Закрывает модалку редактирования статуса приза
     async function SaveNewStatus() {
 
-        if (selectedStatus)
-        {
+        if (selectedStatus) {
             try {
                 await prizesService.updatePrizeStatus(editedPrize.id, selectedStatus);
                 editedPrize.status = selectedStatus;
-            }
-            catch (error) {
+            } catch (error) {
                 let message = "Ошибка сервера";
 
-                if (error.status === 400)
-                {
+                if (error.status === 400) {
                     message = error.data.errors[0].reason;
                 }
 
-                toast.current.show({ severity: "error", summary: "Ошибка смены статуса", detail: message });
+                toast.current.show({severity: "error", summary: "Ошибка смены статуса", detail: message});
                 return;
             }
         }

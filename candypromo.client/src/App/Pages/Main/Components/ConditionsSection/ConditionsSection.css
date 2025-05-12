@@ -1,7 +1,9 @@
+﻿
 .ConditionsSection {
     width: 100vw;
     background-color: var(--primary-color);
     padding: 1em 1em 2em;
+    padding-top: 70px;
 }
 
 .ConditionsSection img {
