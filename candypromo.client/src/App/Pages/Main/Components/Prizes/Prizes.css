@@ -13,3 +13,20 @@
 .prizes img {
     border-radius: 10px;
 }
+
+.p-carousel-prev {
+    background-color: white;
+}
+.p-carousel-next {
+    background-color: white;
+}
+
+
+
+.p-carousel-indicator > button {
+    background-color: gray;
+}
+
+.p-highlight > button {
+    background-color: white;
+}

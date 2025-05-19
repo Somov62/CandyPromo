@@ -9,6 +9,10 @@ const promocodeService = {
     register(promocode: string) {
         return instance.post('api/promocode/register', promocode);
     },
-};
+
+    getMyPromocodes() {
+        return instance.get('api/promocode')
+    }
+}
 
 export default promocodeService

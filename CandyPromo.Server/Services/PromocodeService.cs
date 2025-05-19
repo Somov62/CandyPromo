@@ -1,4 +1,7 @@
-﻿using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
+﻿using CandyPromo.Server.Requests.Validation;
+using CandyPromo.Server.Responses;
+using Microsoft.Extensions.Options;
+using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
 
 namespace CandyPromo.Server.Services;
 
@@ -6,7 +9,7 @@ namespace CandyPromo.Server.Services;
 /// Сервис для работы с промокодами.
 /// </summary>
 [Service]
-public class PromocodeService(CandyPromoContext database)
+public class PromocodeService(CandyPromoContext database, IOptions<AppSettings> appSettings)
 {
     /// <summary>
     /// Метод регистрации промокода за указанным пользователем.
@@ -37,5 +40,34 @@ public class PromocodeService(CandyPromoContext database)
         var registeredCount = await database.Promocodes.CountAsync(p => p.OwnerId != null, cancellationToken: cancel);
 
         return new PromocodesCountResponse(totalCount, registeredCount);
+    }
+
+    /// <summary>
+    /// Возвращает список промокодов указанного пользователя.
+    /// </summary>
+    public async Task<List<MyPromocodeResponse>> GetMyPromocodes(Guid userId, CancellationToken cancel)
+    {
+        var myPromocodes = await database.Promocodes.Include(p => p.Prize).Where(p => p.OwnerId == userId).ToListAsync(cancel);
+
+        var promoEndDate = appSettings.Value.PromoEndingDate;
+
+        var promoIsDone = DateTime.Now > promoEndDate;
+
+        return myPromocodes.ConvertAll(p => new MyPromocodeResponse(p.Code, p.Prize?.Name, GetStatus(p)));
+
+        string GetStatus(Promocode promocode)
+        {
+            if (!promoIsDone)
+            {
+                return "участвует в розыгрыше";
+            }
+
+            if (promocode.Prize == null)
+            {
+                return "Без выигрыша";
+            }
+
+            return "Победитель!";
+        }
     }
 }

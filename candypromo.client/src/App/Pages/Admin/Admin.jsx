@@ -1,8 +1,8 @@
-﻿import { React, useEffect, useState } from "react";
+﻿import {React, useEffect, useState} from "react";
 import Header from "./Components/Header"
 import StatusPrize from "./Components/StatusPrize"
 import promoService from "../../../API/Services/promoService"
-import Footer from "@/App/Pages/Main/Components/Footer/Footer.jsx";
+import Footer from "@/App/Components/Footer/Footer.jsx";
 import "./Admin.css"
 import PrizesTable from "@/App/Pages/Admin/Components/PrizesTable/PrizesTable.jsx";
 
@@ -22,11 +22,10 @@ const Admin = () => {
 
     return (
         <div>
-            <div style={{ marginInline: "30px" }}>
-                <Header />
-                {active ? <StatusPrize /> : <PrizesTable />}
-            </div>
-            <Footer />
+            <Header/>
+            {active ? <StatusPrize/> : null}
+
+            <PrizesTable isEnded={!active}/>
         </div>
     );
 };

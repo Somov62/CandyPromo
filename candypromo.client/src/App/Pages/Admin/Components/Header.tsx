@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { getClaimsFromJwt, JwtClaims } from "../../../../API/Helpers/jwt"
-import promocodeServie from "../../../../API/Services/promocodeService"
+import promocodeService from "../../../../API/Services/promocodeService"
 import "./Header.css"
 
 export default function header() {
@@ -12,8 +12,6 @@ export default function header() {
             await getCountPromocode();
         }
         fetchData();
-        document.getElementById("footer").style.position = "absolute";
-        document.getElementById("footer").style.bottom = "0px";
     });
 
     // #region Classes
@@ -45,7 +43,7 @@ export default function header() {
 
     async function getCountPromocode() {
         try {
-            const result = await promocodeServie.getPromocodesCount();
+            const result = await promocodeService.getPromocodesCount();
             setCountPromoText(`Зарегано промо: ${result.data.result.registersCount} из ${result.data.result.totalCount}`);
             if (result.data.result.registersCount !== 0) {
                 const percent = Math.round((result.data.result.registersCount / result.data.result.totalCount) * 100);
