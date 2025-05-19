@@ -30,8 +30,8 @@ const date = await getDatePrize();
 // #endregion
 export default function statusPrize() {
     return (
-        <div className="status-prize-block items-center">
-            <h2 className="">Победители пока не определен</h2>
+        <div className="status-prize-block items-center mb-6 mt-6">
+            <h2 className="">Победители пока не определены</h2>
             <h3 className="">Розыгрыш состоится {new Date(date).toLocaleDateString()}</h3>
             <Timer endTime={date} />
         </div>

@@ -27,7 +27,7 @@ async function getDatePrize(): Promise<number> {
 const datePrize = await getDatePrize();
 // #endregion
 
-export default function timerBlock() {
+export default function TimerBlock() {
     return (
         <div className="TimerWrapper flex-column mt-5 flex">
             <h1>Отсчет до розыгрыша</h1>

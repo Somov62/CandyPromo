@@ -1,11 +1,4 @@
-﻿h1 {
-    text-align: center;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.5em;
-    font-size: 3em;
-}
-
+﻿
 .ConditionsSection {
     width: 100vw;
     background-color: var(--primary-color);
