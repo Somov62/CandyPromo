@@ -1,14 +1,14 @@
-import "./ConditionsSection.css"
+﻿import "./ConditionsSection.css"
 import {Card} from 'primereact/card';
 
 const ConditionsSection = () => {
     return (
-            <div className="ConditionsSection">
+        <div className="ConditionsSection" id="conditions">
                 <h1 className="white">Условия</h1>
-                <div className="flex gap-4 flex-row justify-content-center">
+                <div className="justify-content-center flex flex-row gap-4">
                     <Card
                         title="1. Покупайте"
-                        className="md:w-25rem card"
+                        className="card md:w-25rem"
                         header={
                             (
                                 <img
@@ -20,7 +20,7 @@ const ConditionsSection = () => {
                     </Card>
                     <Card
                         title="2. Регистрируйте"
-                        className="md:w-25rem card"
+                        className="card md:w-25rem"
                         header={
                             (
                                 <img
@@ -33,7 +33,7 @@ const ConditionsSection = () => {
                     </Card>
                     <Card
                         title="3. Участвуйте"
-                        className="md:w-25rem card"
+                        className="card md:w-25rem"
                         header={
                             (
                                 <img

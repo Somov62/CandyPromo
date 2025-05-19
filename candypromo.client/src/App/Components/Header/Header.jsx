@@ -1,8 +1,8 @@
-﻿import {useState} from 'react';
+﻿import { useState } from 'react';
 import './Header.css';
 import { useNavigate } from "react-router-dom";
-import {Menubar} from "primereact/menubar";
-import {Button} from "primereact/button";
+import { Menubar } from "primereact/menubar";
+import { Button } from "primereact/button";
 import LoginModal from "@/App/Modals/Modal/LoginModal/LoginModal.jsx";
 import RegisterModal from "@/App/Modals/Modal/RegisterModal/RegisterModal.jsx";
 import Cookies from "js-cookie";
@@ -11,6 +11,10 @@ const Header = () => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const navigate = useNavigate();
+    const jumpToReleventDiv = (id) => {
+        const releventDiv = document.getElementById(id);
+        releventDiv.scrollIntoView({ behavior: "smooth" });
+    }
 
     return (
         <div className="headerWrapper">
@@ -22,7 +26,7 @@ const Header = () => {
                             alt="logo"
                             src="./vite.svg"
                             height="40"
-                            className="mr-2 ml-2"/>
+                            className="mr-2 ml-2" />
 
                         <label className="header-label" onClick={() => navigate("/")}>Candy Promo</label>
                     </div>
@@ -32,37 +36,31 @@ const Header = () => {
                         {
                             label: "Условия",
                             command: () => {
-                                navigate("/#conditions");
+                                jumpToReleventDiv("conditions");
                             }
                         },
                         {
                             label: "Призы",
                             command: () => {
-                                navigate("/#prizes");
+                                jumpToReleventDiv("prizes");
                             }
                         },
                         {
                             label: "Продукты",
                             command: () => {
-                                navigate("/#products");
-                            }
-                        },
-                        {
-                            label: "Победители",
-                            command: () => {
-                                navigate("/#winners");
+                                jumpToReleventDiv("products");
                             }
                         },
                         {
                             label: "Вопрос-ответ",
                             command: () => {
-                                navigate("/#questions");
+                                jumpToReleventDiv("questions");
                             }
                         },
                         {
                             label: "Правила",
                             command: () => {
-                                navigate("/#rules");
+                                jumpToReleventDiv("footer");
                             }
                         }
                     ]
@@ -70,20 +68,20 @@ const Header = () => {
 
                 end={(
                     <div className="profile-buttons flex">
-                            <Button
-                                size="small"
-                                icon="pi pi-user"
-                                onClick={navigateToProfilePage}>Личный кабинет</Button>
+                        <Button
+                            size="small"
+                            icon="pi pi-user"
+                            onClick={navigateToProfilePage}>Личный кабинет</Button>
 
-                            <LoginModal
-                                openState={{value: isLoginModalOpen, set: setIsLoginModalOpen}}
-                                navigateToRegisterPage={navigateToRegisterPage}/>
+                        <LoginModal
+                            openState={{ value: isLoginModalOpen, set: setIsLoginModalOpen }}
+                            navigateToRegisterPage={navigateToRegisterPage} />
 
-                            <RegisterModal
-                                openState={{value: isRegisterModalOpen, set: setIsRegisterModalOpen}}
-                                navigateToLoginPage={navigateToLoginPage}/>
+                        <RegisterModal
+                            openState={{ value: isRegisterModalOpen, set: setIsRegisterModalOpen }}
+                            navigateToLoginPage={navigateToLoginPage} />
                     </div>
-                )}/>
+                )} />
         </div>
     );
 
@@ -97,12 +95,10 @@ const Header = () => {
         setIsRegisterModalOpen(true);
     }
 
-    function navigateToProfilePage()
-    {
+    function navigateToProfilePage() {
         let role = Cookies.get("isAdmin");
 
-        if (role === undefined)
-        {
+        if (role === undefined) {
             navigateToLoginPage();
             return;
         }
