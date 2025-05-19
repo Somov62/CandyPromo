@@ -1,11 +1,11 @@
-import { Accordion, AccordionTab } from 'primereact/accordion';
+﻿import { Accordion, AccordionTab } from 'primereact/accordion';
 
 import './FAQ.css'
 import {questions} from "@/App/Pages/Main/Components/FAQ/questions.js";
 
 const Faq = () => {
     return (
-        <div className="faq">
+        <div className="faq" id="questions">
             <div>
                 <h1>вопрос-ответ</h1>
                 <Accordion>{getQuestions()}</Accordion>

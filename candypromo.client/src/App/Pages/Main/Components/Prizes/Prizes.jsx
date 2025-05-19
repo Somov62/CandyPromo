@@ -30,7 +30,7 @@ function Prizes() {
     const prizeTemplate = (prize) => {
         return (
             <Card title={prize.title}
-                header={() => <img src={prize.img} style={{width: '100%'}} />}
+                header={() => <img src={prize.img} style={{ width: '100%' }} />}
                 className="ml-4 mr-4">
                 <p className="m-0">
                     {prize.description}
@@ -42,7 +42,7 @@ function Prizes() {
     return (
         <div id="prizes" className="prizes">
             <h1 className="white" >Призы</h1>
-            <div className=" flex justify-content-center">
+            <div className="justify-content-center flex">
                 <Carousel value={prizes} numVisible={3} numScroll={3} responsiveOptions={responsiveOptions} itemTemplate={prizeTemplate} />
             </div>
         </div >

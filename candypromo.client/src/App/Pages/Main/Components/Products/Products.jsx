@@ -3,7 +3,7 @@ import "./Products.css";
 
 function Products() {
     return (
-        <div className="products p-10">
+        <div className="products p-10" id="products">
             <h1 className="white">В акции участвуют <br />батончики candy в промоупаковке</h1>
             <div className="flex gap-3">
                 <Card title="Шоколадный"
