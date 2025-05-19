@@ -34,6 +34,7 @@ bld/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+.idea/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -376,14 +377,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# VS Code files for those working on multiple tools
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
-
 # Local History for Visual Studio Code
 .history/
 
@@ -396,3 +389,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.DS_Store
+/candypromo.client/obj\Debug
+candypromo.client/obj/Debug//package.g.props
+/candypromo.client/src/index.output.css

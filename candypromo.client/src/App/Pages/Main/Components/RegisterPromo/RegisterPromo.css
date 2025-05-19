@@ -1,0 +1,26 @@
+﻿.regpromo {
+    background: url('./prize_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 20px;
+    height: 700px;
+}
+
+.regpromo>div {
+    padding: 5px 20px;
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    height: 50%;
+    margin-top: 7%;
+    margin-left: auto;
+    margin-right: 5%;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 20px, rgba(255, 255, 255, 0.09) 0px -3px 5px;
+}
+
+.regpromo>div>div {
+    margin-top: 12%;
+}
+
+.regpromo>div>div>p {
+    margin: 18px 0px;
+}

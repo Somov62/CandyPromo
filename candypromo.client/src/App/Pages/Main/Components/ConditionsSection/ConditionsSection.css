@@ -1,0 +1,23 @@
+﻿
+.ConditionsSection {
+    
+    background-color: var(--primary-color);
+    padding: 1em 1em 2em;
+    padding-top: 70px;
+}
+
+    .ConditionsSection img {
+        border-radius: 4px 4px 0 0;
+    }
+
+.card {
+    border: 7px solid white;
+}
+
+.inputGradient {
+    height: 3em;
+    background-color: red;
+    position: absolute;
+    left: 0;
+    right: 0;
+}

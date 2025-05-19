@@ -1,0 +1,18 @@
+﻿.products {
+    background-color: var(--primary-color);
+    padding: 10px;
+}
+
+.products>div {
+    margin: 10px;
+    width: 70%;
+    justify-self: center;
+}
+
+.products img {
+    border-radius: 10px;
+}
+
+.products h1 {
+    letter-spacing: 0.2em;
+}

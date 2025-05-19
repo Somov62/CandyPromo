@@ -1,0 +1,10 @@
+﻿.faq {
+    margin: 20px 0px;
+    padding: 10px;
+}
+
+.faq>div {
+    margin: 10px;
+    width: 70%;
+    justify-self: center;
+}
