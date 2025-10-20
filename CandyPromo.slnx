@@ -1,0 +1,29 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Backend" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Aspire/">
+    <Project Path="CandyPromo.AppHost/CandyPromo.AppHost.csproj" />
+    <Project Path="CandyPromo.ServiceDefaults/CandyPromo.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/Database/">
+    <Project Path="CandyPromo.Data.MigrationService/CandyPromo.Data.MigrationService.csproj" />
+    <Project Path="CandyPromo.Data/CandyPromo.Data.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/images/" />
+  <Project Path="candypromo.client/candypromo.client.esproj">
+    <Build Solution="Debug|*" />
+    <Build Solution="Release|*" />
+    <Deploy Solution="Debug|*" />
+    <Deploy Solution="Release|*" />
+  </Project>
+  <Project Path="CandyPromo.Server/CandyPromo.Server.csproj" />
+</Solution>
