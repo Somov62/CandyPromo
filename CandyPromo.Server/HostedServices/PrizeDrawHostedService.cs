@@ -7,7 +7,7 @@ public class PrizeDrawHostedService(
     IOptions<AppSettings> appSettings,
     IServiceProvider services) : IHostedService, IDisposable
 {
-    private Timer? _timer = null;
+    private Timer? _timer;
     private readonly DateTime _prizeDate = appSettings.Value.PromoEndingDate;
     private readonly ILogger<PrizeDrawHostedService> _logger = services.GetRequiredService<ILogger<PrizeDrawHostedService>>();
 

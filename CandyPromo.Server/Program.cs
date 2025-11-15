@@ -18,12 +18,15 @@ builder.Services
 var app = builder.Build();
 app.UseCors(x =>
     x.AllowAnyHeader()
-    .AllowAnyMethod()
-    .WithOrigins("https://localhost:7237"));
+        .AllowAnyMethod()
+        .WithOrigins("https://localhost:7237"));
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.UseSwagger();
+    app.UseSwagger(options =>
+    {
+        options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+    });
     app.UseSwaggerUI();
 }
 

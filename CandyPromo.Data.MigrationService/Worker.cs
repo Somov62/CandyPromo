@@ -51,12 +51,10 @@ public class Worker(IServiceProvider serviceProvider,
         {
             #region Заполнение промокодов
 
-            IEnumerable<Promocode> promocodes = Enumerable.Empty<Promocode>();
-
             if (!dbContext.Promocodes.Any())
             {
                 // Генерация промокодов.
-                promocodes = PromocodeGenerator.Generate(200);
+                IEnumerable<Promocode> promocodes = PromocodeGenerator.Generate(200);
 
                 // Добавление промокодов в базу данных.
                 await dbContext.Promocodes.AddRangeAsync(promocodes, cancellationToken);

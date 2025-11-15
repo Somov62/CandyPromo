@@ -1,3 +1,5 @@
+using CandyPromo.ServiceDefaults;
+
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.AddServiceDefaults();

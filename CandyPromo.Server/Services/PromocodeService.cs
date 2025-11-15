@@ -1,7 +1,4 @@
-﻿using CandyPromo.Server.Requests.Validation;
-using CandyPromo.Server.Responses;
-using Microsoft.Extensions.Options;
-using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
+﻿using ValidationException = CandyPromo.Server.Requests.Validation.ValidationException;
 
 namespace CandyPromo.Server.Services;
 
@@ -62,12 +59,7 @@ public class PromocodeService(CandyPromoContext database, IOptions<AppSettings> 
                 return "участвует в розыгрыше";
             }
 
-            if (promocode.Prize == null)
-            {
-                return "Без выигрыша";
-            }
-
-            return "Победитель!";
+            return promocode.Prize == null ? "Без выигрыша" : "Победитель!";
         }
     }
 }

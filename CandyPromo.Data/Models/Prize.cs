@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CandyPromo.Data.Models;
+﻿namespace CandyPromo.Data.Models;
 
 /// <summary>
 /// Приз.
