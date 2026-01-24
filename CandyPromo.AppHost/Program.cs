@@ -1,4 +1,4 @@
-var builder = DistributedApplication.CreateBuilder(args);
+﻿var builder = DistributedApplication.CreateBuilder(args);
 
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ ÐÐ Postgres SQL Ð¸ Ð²Ð¼ÐµÑÑÐµ Ñ Ð½ÐµÐ¹ PgAdmin
 var postgresData = builder.AddPostgres("postgres")
@@ -19,8 +19,7 @@ var api = builder
 #if !BACKEND
 
 // ÐÐ¾Ð´Ð½Ð¸Ð¼Ð°ÐµÐ¼ web ÐºÐ»Ð¸ÐµÐ½ÑÐ°
-builder.
-    AddNpmApp("react", "../candypromo.client", scriptName: "dev")
+builder.AddJavaScriptApp("react", "../candypromo.client")
     .WithReference(api)
     .WaitFor(api)
     .WithEnvironment("BROWSER", "none") // Disable opening browser on npm start
